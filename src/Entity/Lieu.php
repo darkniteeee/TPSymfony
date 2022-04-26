@@ -4,32 +4,45 @@ namespace App\Entity;
 
 use App\Repository\LieuRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=LieuRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\LieuRepository", repositoryClass=LieuRepository::class)
+ * @ORM\Table(name="Users")
+ * @UniqueEntity(fields={"nom_lieu"}, message="Ce nom de lieu existe déjà")
  */
 class Lieu
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="id_lieu", type="integer", options={"unsigned": true})
      */
-    private $id;
+    private ?int $id_lieu;
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @Assert\NotBlank(message="Le nom du lieu est requis !")
+     * @ORM\Column(name="nom_lieu", type="string", length=30)
+     * @Assert\Length(
+     *     min = 1,
+     *     max = 30)
      */
-    private $nom_lieu;
+    private ?string $nom_lieu = null;
 
     /**
      * @ORM\Column(type="string", length=30, nullable=true)
+     * @Assert\Length(
+     *     min = 1,
+     *     max = 30)
      */
-    private $rue;
+    private ?string $rue = null;
 
+
+#Mise en place des getters setters
     public function getId(): ?int
     {
-        return $this->id;
+        return $this->id_lieu;
     }
 
     public function getNomLieu(): ?string
@@ -37,22 +50,20 @@ class Lieu
         return $this->nom_lieu;
     }
 
-    public function setNomLieu(string $nom_lieu): self
+    public function setNomLieu(string $nom_lieu): void
     {
-        $this->nom_lieu = $nom_lieu;
-
-        return $this;
+        $this->nom_lieu= $nom_lieu;
     }
+
 
     public function getRue(): ?string
     {
         return $this->rue;
     }
 
-    public function setRue(?string $rue): self
+    public function setRue(?string $rue): void
     {
         $this->rue = $rue;
 
-        return $this;
     }
 }
