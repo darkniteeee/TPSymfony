@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\EtatRepository;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\Types\Integer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=EtatRepository::class)
@@ -21,8 +22,10 @@ class Etat
 
     /**
      * @ORM\Column(name="libelle", type="string", length=30, unique=true)
+     * @Assert\NotBlank(message="Le libelle est requis")
+     *
      */
-    private ?Integer $libelle=null;
+    private ?string $libelle=null;
 
     /**
      * @return int|null
