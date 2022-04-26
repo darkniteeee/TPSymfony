@@ -8,7 +8,7 @@ use phpDocumentor\Reflection\Types\Integer;
 
 /**
  * @ORM\Entity(repositoryClass=EtatRepository::class)
- * @ORM\Table(name="Etats")
+ * @ORM\Table(name="etats")
  */
 class Etat
 {
