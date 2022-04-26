@@ -3,158 +3,223 @@
 namespace App\Entity;
 
 use App\Repository\SortieRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=SortieRepository::class)
+ * @ORM\Table(name="sorties")
  */
 class Sortie
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue (strategy="AUTO")
+     * @ORM\Column(name="id", type="integer", options={"unsigned": true})
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @Assert\NotBlank(message="Le nom de la sortie est requis !")
+     * @Assert\Lenght(
+     *     min = 3,
+     *     max = 30,
+     *     minMessage = "Le nom de la sortie doit contenir au minimum {{ limit }} caractères !",
+     *     maxMessage = "Le nom de la sortie doit contenir au maximum {{ limit }} caractères !")
+     *
+     * @ORM\Column(name="nom_sortie", type="string", length=30)
+     *
      */
-    private $nom_sortie;
+    private ?string $nom_sortie = null;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @Assert\NotBlank(message="La date est requise !")
+     *
+     * @ORM\Column(name="date_debut", type="datetime")
      */
-    private $dateDebut;
+    private Datetime $date_debut;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(name="duree", type="integer", nullable=true, options={"unsigned": true})
      */
-    private $duree;
+    private int $duree;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @Assert\NotBlank(message="La date limite d'inscription est requise !")
+     *
+     * @ORM\Column(name="date_limite_inscription", type="datetime")
      */
-    private $dateLimiteInscription;
+    private Datetime $date_limite_inscription;
 
     /**
-     * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="Le nombre limite de participants est requis !")
+     *
+     * @ORM\Column(name="nb_inscription_max", type="integer")
      */
-    private $nbInscriptionMax;
+    private ?int $nb_inscription_max = null;
 
     /**
-     * @ORM\Column(type="string", length=500, nullable=true)
+     * @ORM\Column(name="description_sortie", type="string", length=500, nullable=true)
      */
-    private $description_sortie;
+    private string $description_sortie;
 
     /**
-     * @ORM\Column(type="string", length=100, nullable=true)
+     * @Assert\NotBlank(message="Le motif d'annulation est requis !")
+     * @Assert\Length(
+     *     min = 10,
+     *     max = 500,
+     *     minMessage = "Le motif d'annulation doit contenir au minimum {{ limit }} caractères !",
+     *     maxMessage = "Le motif d'annulation doit contenir au maximum {{ limit }} caractères !")
+     *
+     * @ORM\Column(name="motif_annulation", type="string", length=500)
      */
-    private $motif_Annulation;
+    private string $motif_annulation;
 
     /**
-     * @ORM\Column(type="string", length=250, nullable=true)
+     *@Assert\Length(
+     *     max = 250,
+     *     maxMessage = "L'URL doit contenir au maximum {{ limit }} caractères !")
+     *
+     * @ORM\Column(name="photo_sortie", type="string", length=250, nullable=true)
      */
-    private $photo_sortie;
+    private string $photo_sortie;
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getNomSortie(): ?string
     {
         return $this->nom_sortie;
     }
 
-    public function setNomSortie(string $nom_sortie): self
+    /**
+     * @param string|null $nom_sortie
+     */
+    public function setNomSortie(?string $nom_sortie): void
     {
         $this->nom_sortie = $nom_sortie;
-
-        return $this;
     }
 
-    public function getDateDebut(): ?\DateTimeInterface
+    /**
+     * @return DateTime
+     */
+    public function getDateDebut(): DateTime
     {
-        return $this->dateDebut;
+        return $this->date_debut;
     }
 
-    public function setDateDebut(\DateTimeInterface $dateDebut): self
+    /**
+     * @param DateTime $date_debut
+     */
+    public function setDateDebut(DateTime $date_debut): void
     {
-        $this->dateDebut = $dateDebut;
-
-        return $this;
+        $this->date_debut = $date_debut;
     }
 
-    public function getDuree(): ?int
+    /**
+     * @return int
+     */
+    public function getDuree(): int
     {
         return $this->duree;
     }
 
-    public function setDuree(?int $duree): self
+    /**
+     * @param int $duree
+     */
+    public function setDuree(int $duree): void
     {
         $this->duree = $duree;
-
-        return $this;
     }
 
-    public function getDateLimiteInscription(): ?\DateTimeInterface
+    /**
+     * @return DateTime
+     */
+    public function getDateLimiteInscription(): DateTime
     {
-        return $this->dateLimiteInscription;
+        return $this->date_limite_inscription;
     }
 
-    public function setDateLimiteInscription(\DateTimeInterface $dateLimiteInscription): self
+    /**
+     * @param DateTime $date_limite_inscription
+     */
+    public function setDateLimiteInscription(DateTime $date_limite_inscription): void
     {
-        $this->dateLimiteInscription = $dateLimiteInscription;
-
-        return $this;
+        $this->date_limite_inscription = $date_limite_inscription;
     }
 
+    /**
+     * @return int|null
+     */
     public function getNbInscriptionMax(): ?int
     {
-        return $this->nbInscriptionMax;
+        return $this->nb_inscription_max;
     }
 
-    public function setNbInscriptionMax(int $nbInscriptionMax): self
+    /**
+     * @param int|null $nb_inscription_max
+     */
+    public function setNbInscriptionMax(?int $nb_inscription_max): void
     {
-        $this->nbInscriptionMax = $nbInscriptionMax;
-
-        return $this;
+        $this->nb_inscription_max = $nb_inscription_max;
     }
 
-    public function getDescriptionSortie(): ?string
+    /**
+     * @return string
+     */
+    public function getDescriptionSortie(): string
     {
         return $this->description_sortie;
     }
 
-    public function setDescriptionSortie(?string $description_sortie): self
+    /**
+     * @param string $description_sortie
+     */
+    public function setDescriptionSortie(string $description_sortie): void
     {
         $this->description_sortie = $description_sortie;
-
-        return $this;
     }
 
-    public function getMotifAnnulation(): ?string
+    /**
+     * @return string
+     */
+    public function getMotifAnnulation(): string
     {
-        return $this->motif_Annulation;
+        return $this->motif_annulation;
     }
 
-    public function setMotifAnnulation(?string $motif_Annulation): self
+    /**
+     * @param string $motif_annulation
+     */
+    public function setMotifAnnulation(string $motif_annulation): void
     {
-        $this->motif_Annulation = $motif_Annulation;
-
-        return $this;
+        $this->motif_annulation = $motif_annulation;
     }
 
-    public function getPhotoSortie(): ?string
+    /**
+     * @return string
+     */
+    public function getPhotoSortie(): string
     {
         return $this->photo_sortie;
     }
 
-    public function setPhotoSortie(?string $photo_sortie): self
+    /**
+     * @param string $photo_sortie
+     */
+    public function setPhotoSortie(string $photo_sortie): void
     {
         $this->photo_sortie = $photo_sortie;
-
-        return $this;
     }
+
+
 }
