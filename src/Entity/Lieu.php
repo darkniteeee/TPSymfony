@@ -26,7 +26,10 @@ class Lieu
      * @ORM\Column(name="nom_lieu", type="string", length=30)
      * @Assert\Length(
      *     min = 1,
-     *     max = 30)
+     *     max = 30,
+     *     minMessage = "Le nom du lieu doit contenir au minimum {{ limit }} caractères !",
+     *     maxMessage = "Le nom du lieu doit contenir au maximum {{ limit }} caractères !"
+     * )
      */
     private ?string $nom_lieu = null;
 
@@ -34,7 +37,10 @@ class Lieu
      * @ORM\Column(type="string", length=30, nullable=true)
      * @Assert\Length(
      *     min = 1,
-     *     max = 30)
+     *     max = 30,
+     *     minMessage = "Le nom de la rue doit contenir au minimum {{ limit }} caractères !",
+     *     maxMessage = "Le nom de la rue doit contenir au maximum {{ limit }} caractères !"
+     * )
      */
     private ?string $rue = null;
 
