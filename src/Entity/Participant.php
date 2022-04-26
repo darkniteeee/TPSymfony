@@ -5,13 +5,14 @@ namespace App\Entity;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\Types\Boolean;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=ParticipantRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\ParticipantRepository", repositoryClass=ParticipantRepository::class)
  */
-class Participant implements UserInterface
+class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Id
@@ -29,8 +30,6 @@ class Participant implements UserInterface
      *     minMessage = "Le nom doit contenir au minimum {{ limit }} caractères !",
      *     maxMessage = "Le nom doit contenir au maximum {{ limit }} caractères !"
      * )
-     *
-     *
      */
     private ?string $nom;
 
@@ -57,7 +56,7 @@ class Participant implements UserInterface
     /**
      * @ORM\Column(type="string", length=180)
      */
-    private ?string $mdp;
+    private string $password;
 
     /**
      * @ORM\Column(type="string", length=250, nullable=true)
@@ -74,116 +73,36 @@ class Participant implements UserInterface
      */
     private ?Boolean $actif;
 
-    public function getId(): ?int
+    public function getRoles()
     {
-        return $this->id;
+        // TODO: Implement getRoles() method.
     }
 
-    public function getNom(): ?string
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
     {
-        return $this->nom;
+        return $this->password;
     }
 
-    public function setNom(string $nom): self
+    public function getSalt()
     {
-        $this->nom = $nom;
-
-        return $this;
+        // TODO: Implement getSalt() method.
     }
 
-    public function getPrenom(): ?string
+    public function eraseCredentials()
     {
-        return $this->prenom;
+        // TODO: Implement eraseCredentials() method.
     }
 
-    public function setPrenom(string $prenom): self
+    public function getUsername()
     {
-        $this->prenom = $prenom;
-
-        return $this;
+        // TODO: Implement getUsername() method.
     }
 
-    public function getTelephone(): ?string
+    public function __call($name, $arguments)
     {
-        return $this->telephone;
-    }
-
-    public function setTelephone(?string $telephone): self
-    {
-        $this->telephone = $telephone;
-
-        return $this;
-    }
-
-    public function getMail(): ?string
-    {
-        return $this->mail;
-    }
-
-    public function setMail(string $mail): self
-    {
-        $this->mail = $mail;
-
-        return $this;
-    }
-
-    public function getPseudo(): ?string
-    {
-        return $this->pseudo;
-    }
-
-    public function setPseudo(string $pseudo): self
-    {
-        $this->pseudo = $pseudo;
-
-        return $this;
-    }
-
-    public function getMdp(): ?string
-    {
-        return $this->mdp;
-    }
-
-    public function setMdp(string $mdp): self
-    {
-        $this->mdp = $mdp;
-
-        return $this;
-    }
-
-    public function getPhotoProfil(): ?string
-    {
-        return $this->photo_profil;
-    }
-
-    public function setPhotoProfil(?string $photo_profil): self
-    {
-        $this->photo_profil = $photo_profil;
-
-        return $this;
-    }
-
-    public function getAdministrateur(): ?bool
-    {
-        return $this->administrateur;
-    }
-
-    public function setAdministrateur(bool $administrateur): self
-    {
-        $this->administrateur = $administrateur;
-
-        return $this;
-    }
-
-    public function getActif(): ?bool
-    {
-        return $this->actif;
-    }
-
-    public function setActif(bool $actif): self
-    {
-        $this->actif = $actif;
-
-        return $this;
+        // TODO: Implement @method string getUserIdentifier()
     }
 }
