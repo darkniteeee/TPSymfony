@@ -18,7 +18,7 @@ Encore
      * ENTRY CONFIG
      *
      * Each entry will result in one JavaScript file (e.g. app.js)
-     * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
+     * and one css file (e.g. app.css) if your JavaScript imports css.
      */
     .addEntry('app', './assets/app.js')
 
