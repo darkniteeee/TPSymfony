@@ -4,63 +4,75 @@ namespace App\Entity;
 
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Boolean;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ParticipantRepository::class)
  */
-class Participant
+class Participant implements UserInterface
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
+
+    /**
+     * @ORM\Column(type="string", length=30)
+     * @Assert\NotBlank(message="Le nom est requis !")
+     * @Assert\Length(
+     *     min = 1,
+     *     max = 30,
+     *     minMessage = "Le nom doit contenir au minimum {{ limit }} caractères !",
+     *     maxMessage = "Le nom doit contenir au maximum {{ limit }} caractères !"
+     * )
+     *
+     *
+     */
+    private ?string $nom;
 
     /**
      * @ORM\Column(type="string", length=30)
      */
-    private $nom;
-
-    /**
-     * @ORM\Column(type="string", length=30)
-     */
-    private $prenom;
+    private ?string $prenom;
 
     /**
      * @ORM\Column(type="string", length=15, nullable=true)
      */
-    private $telephone;
+    private ?string $telephone;
 
     /**
      * @ORM\Column(type="string", length=80)
      */
-    private $mail;
+    private ?string $mail;
 
     /**
      * @ORM\Column(type="string", length=30)
      */
-    private $pseudo;
+    private ?string $pseudo;
 
     /**
      * @ORM\Column(type="string", length=180)
      */
-    private $mdp;
+    private ?string $mdp;
 
     /**
      * @ORM\Column(type="string", length=250, nullable=true)
      */
-    private $photo_profil;
+    private ?string $photo_profil;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $administrateur;
+    private ?Boolean $administrateur;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $actif;
+    private ?Boolean $actif;
 
     public function getId(): ?int
     {
