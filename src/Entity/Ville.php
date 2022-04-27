@@ -10,7 +10,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=VilleRepository::class)
  * @ORM\Table(name="villes")
- * @UniqueEntity(fields={"nom_ville"}, message="Ce nom de ville existe déjà !")
  */
 class Ville
 {
@@ -32,6 +31,7 @@ class Ville
      * )
      */
     private $nom_ville;
+    //TODO si 2 villes avec même nom faire recherche avec code postal
 
     /**
      * @ORM\Column(name="code_postal", type="string", length=10)

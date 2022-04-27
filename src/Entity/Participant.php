@@ -61,7 +61,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $telephone = null;
 
     /**
-     * @ORM\Column(name="mail", type="string", length=80)
+     * @ORM\Column(name="mail", type="string", length=80, unique=true)
      * @Assert\NotBlank(message="Le mail est requis !")
      * @Assert\Length(
      *     min = 5,
@@ -73,7 +73,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $mail = null;
 
     /**
-     * @ORM\Column(name="pseudo", type="string", length=30)
+     * @ORM\Column(name="pseudo", type="string", length=30, unique=true)
      * @Assert\NotBlank(message="Le pseudo est requis !")
      * @Assert\Length(
      *     min = 2,
@@ -115,6 +115,8 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(name="actif", type="boolean")
      */
     private ?Boolean $actif = null;
+
+    #Mise en place en des getters setters
 
     public function getRoles()
     {

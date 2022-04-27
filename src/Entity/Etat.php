@@ -35,6 +35,8 @@ class Etat
      */
     private ?string $libelle=null;
 
+
+    #Mise en place en des getters setters
     /**
      * @return int|null
      */

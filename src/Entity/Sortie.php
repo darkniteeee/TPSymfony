@@ -10,15 +10,16 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=SortieRepository::class)
  * @ORM\Table(name="sorties")
+ *
  */
 class Sortie
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue (strategy="AUTO")
-     * @ORM\Column(name="id", type="integer", options={"unsigned": true})
+     * @ORM\Column(name="id_sortie", type="integer", options={"unsigned": true})
      */
-    private ?int $id = null;
+    private ?int $id_sortie = null;
 
     /**
      * @Assert\NotBlank(message="Le nom de la sortie est requis !")
@@ -35,7 +36,6 @@ class Sortie
 
     /**
      * @Assert\NotBlank(message="La date est requise !")
-     *
      * @ORM\Column(name="date_debut", type="datetime")
      */
     private Datetime $date_debut;
@@ -47,50 +47,47 @@ class Sortie
 
     /**
      * @Assert\NotBlank(message="La date limite d'inscription est requise !")
-     *
      * @ORM\Column(name="date_limite_inscription", type="datetime")
      */
     private Datetime $date_limite_inscription;
 
     /**
      * @Assert\NotBlank(message="Le nombre limite de participants est requis !")
-     *
-     * @ORM\Column(name="nb_inscription_max", type="integer")
+     * @ORM\Column(name="nb_inscription_max", type="integer", options={"unsigned": true})
      */
     private ?int $nb_inscription_max = null;
 
     /**
      * @ORM\Column(name="description_sortie", type="string", length=500, nullable=true)
+     * @Assert\Lenght(
+     *     max = 30,
+     *     maxMessage = "La description de la sortie doit contenir au maximum {{ limit }} caractères !")
      */
     private string $description_sortie;
 
     /**
-     * @Assert\NotBlank(message="Le motif d'annulation est requis !")
      * @Assert\Length(
      *     min = 10,
      *     max = 500,
      *     minMessage = "Le motif d'annulation doit contenir au minimum {{ limit }} caractères !",
      *     maxMessage = "Le motif d'annulation doit contenir au maximum {{ limit }} caractères !")
-     *
-     * @ORM\Column(name="motif_annulation", type="string", length=500)
+     *    @ORM\Column(name="motif_annulation", type="string", length=500, nullable="true")
      */
-    private string $motif_annulation;
+    private ?string $motif_annulation = null;
 
     /**
-     *@Assert\Length(
-     *     max = 250,
-     *     maxMessage = "L'URL doit contenir au maximum {{ limit }} caractères !")
-     *
      * @ORM\Column(name="photo_sortie", type="string", length=250, nullable=true)
      */
     private string $photo_sortie;
 
+
+    #Mise en place en des getters setters
     /**
      * @return int|null
      */
-    public function getId(): ?int
+    public function getIdSortie(): ?int
     {
-        return $this->id;
+        return $this->id_sortie;
     }
 
     /**
