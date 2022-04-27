@@ -102,17 +102,17 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $plainPassword = null;
 
     /**
-     * @ORM\Column(name="", type="string", length=250, nullable=true)
+     * @ORM\Column(name="photo_profil", type="string", length=250, nullable=true)
      */
     private ?string $photo_profil = null;
 
     /**
-     * @ORM\Column(name="", type="boolean")
+     * @ORM\Column(name="administrateur", type="boolean")
      */
     private ?Boolean $administrateur = null;
 
     /**
-     * @ORM\Column(name="", type="boolean")
+     * @ORM\Column(name="actif", type="boolean")
      */
     private ?Boolean $actif = null;
 
