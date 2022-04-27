@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SiteRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -32,6 +34,16 @@ class Site
      */
     private ?string $nom_site;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="site_organisateur")
+     */
+    private $sorties;
+
+    public function __construct()
+    {
+        $this->sorties = new ArrayCollection();
+    }
+
     #Mise en place en des getters setters
 
     public function getIdSite(): ?int
@@ -47,5 +59,35 @@ class Site
     public function setNomSite(string $nom_site): void
     {
         $this->nom_site = $nom_site;
+    }
+
+    /**
+     * @return Collection<int, Sortie>
+     */
+    public function getSorties(): Collection
+    {
+        return $this->sorties;
+    }
+
+    public function addSorty(Sortie $sorty): self
+    {
+        if (!$this->sorties->contains($sorty)) {
+            $this->sorties[] = $sorty;
+            $sorty->setSiteOrganisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSorty(Sortie $sorty): self
+    {
+        if ($this->sorties->removeElement($sorty)) {
+            // set the owning side to null (unless already changed)
+            if ($sorty->getSiteOrganisateur() === $this) {
+                $sorty->setSiteOrganisateur(null);
+            }
+        }
+
+        return $this;
     }
 }

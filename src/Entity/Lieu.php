@@ -44,6 +44,12 @@ class Lieu
      */
     private ?string $rue = null;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Ville::class, inversedBy="lieus")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $ville;
+
 
 #Mise en place des getters setters
     public function getId(): ?int
@@ -71,5 +77,17 @@ class Lieu
     {
         $this->rue = $rue;
 
+    }
+
+    public function getVille(): ?Ville
+    {
+        return $this->ville;
+    }
+
+    public function setVille(?Ville $ville): self
+    {
+        $this->ville = $ville;
+
+        return $this;
     }
 }
