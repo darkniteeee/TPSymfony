@@ -86,17 +86,6 @@ class Sortie
     private string $photo_sortie;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Participant::class, mappedBy="inscriptions")
-     */
-    private $participants;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="organisateur")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $organisateur;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Site::class, inversedBy="sorties")
      * @ORM\JoinColumn(nullable=false)
      */

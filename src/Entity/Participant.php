@@ -3,349 +3,122 @@
 namespace App\Entity;
 
 use App\Repository\ParticipantRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\Boolean;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ParticipantRepository", repositoryClass=ParticipantRepository::class)
- * @ORM\Table(name="participants")
- * @UniqueEntity(fields={"pseudo"}, message="Le pseudo est déjà utilisé !")
- * @UniqueEntity(fields={"email"}, message="L'adresse e-mail est déjà utilisée !")
+ * @ORM\Entity(repositoryClass=ParticipantRepository::class)
  */
 class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(name="id", type="integer", options={"unsigned": true})
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
-    private ?int $id = null;
+    private $id;
 
     /**
-     * @ORM\Column(name="nom", type="string", length=30)
-     * @Assert\NotBlank(message="Le nom est requis !")
-     * @Assert\Length(
-     *     min = 1,
-     *     max = 30,
-     *     minMessage = "Le nom doit contenir au minimum {{ limit }} caractères !",
-     *     maxMessage = "Le nom doit contenir au maximum {{ limit }} caractères !"
-     * )
+     * @ORM\Column(type="string", length=180, unique=true)
      */
-    private ?string $nom = null;
+    private $email;
 
     /**
-     * @ORM\Column(name="prenom", type="string", length=30)
-     * @Assert\NotBlank(message="Le prénom est requis !")
-     * @Assert\Length(
-     *     min = 1,
-     *     max = 30,
-     *     minMessage = "Le prénom doit contenir au minimum {{ limit }} caractères !",
-     *     maxMessage = "Le prénom doit contenir au maximum {{ limit }} caractères !"
-     * )
+     * @ORM\Column(type="json")
      */
-    private ?string $prenom = null;
+    private $roles = [];
 
     /**
-     * @ORM\Column(name="telephone", type="string", length=15, nullable=true)
-     *  @Assert\Length(
-     *     min = 10,
-     *     max = 15,
-     *     minMessage = "Le telephone doit contenir au minimum {{ limit }} caractères !",
-     *     maxMessage = "Le telephone doit contenir au maximum {{ limit }} caractères !"
-     * )
+     * @var string The hashed password
+     * @ORM\Column(type="string")
      */
-    private ?string $telephone = null;
+    private $password;
 
     /**
-     * @ORM\Column(name="mail", type="string", length=80, unique=true)
-     * @Assert\NotBlank(message="Le mail est requis !")
-     * @Assert\Length(
-     *     min = 5,
-     *     max = 80,
-     *     minMessage = "Le mail doit contenir au minimum {{ limit }} caractères !",
-     *     maxMessage = "Le mail doit contenir au maximum {{ limit }} caractères !"
-     * )
+     * @ORM\Column(type="string", length=30)
      */
-    private ?string $mail = null;
+    private $nom;
 
     /**
-     * @ORM\Column(name="pseudo", type="string", length=30, unique=true)
-     * @Assert\NotBlank(message="Le pseudo est requis !")
-     * @Assert\Length(
-     *     min = 2,
-     *     max = 30,
-     *     minMessage = "Le pseudo doit contenir au minimum {{ limit }} caractères !",
-     *     maxMessage = "Le pseudo doit contenir au maximum {{ limit }} caractères !"
-     * )
+     * @ORM\Column(type="string", length=30)
      */
-    private ?string $pseudo = null;
+    private $prenom;
 
     /**
-     * @ORM\Column(name="password", type="string", length=100)
+     * @ORM\Column(type="string", length=15, nullable=true)
      */
-    private string $password;
+    private $telephone;
 
     /**
-     * @Assert\NotBlank(message="Le mot de passe est requis !", groups={"registration"})
-     * @Assert\Length(
-     *     min = 8,
-     *     max = 50,
-     *     minMessage = "Le mot de passe doit contenir au minimum {{ limit }} caractères !",
-     *     maxMessage = "Le mot de passe doit contenir au maximum {{ limit }} caractères !",
-     *     groups={"registration"})
-     * )
-     * @Assert\NotCompromisedPassword(message="Le mot de passe n'est pas assez complexe !", skipOnError=true, groups={"registration"})
+     * @ORM\Column(type="string", length=250, nullable=true)
      */
-    private ?string $plainPassword = null;
+    private $photo_profil;
 
     /**
-     * @ORM\Column(name="photo_profil", type="string", length=250, nullable=true)
+     * @ORM\Column(type="boolean")
      */
-    private ?string $photo_profil = null;
+    private $administrateur;
 
     /**
-     * @ORM\Column(name="administrateur", type="boolean")
+     * @ORM\Column(type="boolean")
      */
-    private ?Boolean $administrateur = null;
+    private $actif;
 
-    /**
-     * @ORM\Column(name="actif", type="boolean")
-     */
-    private ?Boolean $actif = null;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Sortie::class, inversedBy="participants")
-     */
-    private $inscriptions;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="organisateur")
-     */
-    private $organisateur;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Site::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $site;
-    /**
-     * @ORM\Column(name="roles", type="json")
-     */
-    private array $roles = [];
-
-    // ********************************* Déclaration des getters Setters **********
-   /*
-    * @see UserInterface
-    * return null car le hachage sera gérer indépendament par bcrypt ou sodium
-    */
-    public function getSalt() : ?string
-    {
-        return null;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function getUserIdentifier(): string
-    {
-        return $this->pseudo;
-    }
-    /*
-     * Méthode déprécié avec ce symfony du coup on utilise getUserIdentifier
-     */
-    public function getUsername() : string
-    {
-        //TODO ajouter l'email après
-        return $this-> getUserIdentifier();
-    }
-
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int|null $id
-     */
-    public function setId(?int $id): void
+    public function getEmail(): ?string
     {
-        $this->id = $id;
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
     }
 
     /**
-     * @return string|null
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
      */
-    public function getNom(): ?string
+    public function getUserIdentifier(): string
     {
-        return $this->nom;
+        return (string) $this->email;
     }
 
     /**
-     * @param string|null $nom
+     * @deprecated since Symfony 5.3, use getUserIdentifier instead
      */
-    public function setNom(?string $nom): void
+    public function getUsername(): string
     {
-        $this->nom = $nom;
+        return (string) $this->email;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getPrenom(): ?string
-    {
-        return $this->prenom;
-    }
-
-    /**
-     * @param string|null $prenom
-     */
-    public function setPrenom(?string $prenom): void
-    {
-        $this->prenom = $prenom;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getTelephone(): ?string
-    {
-        return $this->telephone;
-    }
-
-    /**
-     * @param string|null $telephone
-     */
-    public function setTelephone(?string $telephone): void
-    {
-        $this->telephone = $telephone;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getMail(): ?string
-    {
-        return $this->mail;
-    }
-
-    /**
-     * @param string|null $mail
-     */
-    public function setMail(?string $mail): void
-    {
-        $this->mail = $mail;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPseudo(): ?string
-    {
-        return $this->pseudo;
-    }
-
-    /**
-     * @param string|null $pseudo
-     */
-    public function setPseudo(?string $pseudo): void
-    {
-        $this->pseudo = $pseudo;
-    }
-
-
-    /**
-     * @return string|null
-     */
-    public function getPhotoProfil(): ?string
-    {
-        return $this->photo_profil;
-    }
-
-    /**
-     * @param string|null $photo_profil
-     */
-    public function setPhotoProfil(?string $photo_profil): void
-    {
-        $this->photo_profil = $photo_profil;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getAdministrateur(): ?bool
-    {
-        return $this->administrateur;
-    }
-
-    /**
-     * @param bool|null $administrateur
-     */
-    public function setAdministrateur(?bool $administrateur): void
-    {
-        $this->administrateur = $administrateur;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getActif(): ?bool
-    {
-        return $this->actif;
-    }
-
-    /**
-     * @param bool|null $actif
-     */
-    public function setActif(?bool $actif): void
-    {
-        $this->actif = $actif;
-    }
-
-
-
-    // ******************* Méthodes pour Role ****************
     /**
      * @see UserInterface
      */
-    public function getRoles()
+    public function getRoles(): array
     {
         $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
 
-    /**
-     * @param string $role
-     * @return void
-     */
-    public function addRole(string $role): void
+    public function setRoles(array $roles): self
     {
-        if (!in_array($role, $this->roles)) {
-            $this->roles[] = $role;
-        }
+        $this->roles = $roles;
+
+        return $this;
     }
 
-    /**
-     * @param string $role
-     * @return void
-     */
-    public function removeRole(string $role): void
-    {
-        $this->roles = array_filter($this->roles, function (string $currentRole) use ($role) {
-            return $currentRole !== $role;
-        });
-    }
-    // ******************* Méthodes pour password ****************
     /**
      * @see PasswordAuthenticatedUserInterface
      */
@@ -353,103 +126,102 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->password;
     }
-    /**
-     * @return string|null
-     */
-    public function getPlainPassword(): ?string
+
+    public function setPassword(string $password): self
     {
-        return $this->plainPassword;
+        $this->password = $password;
+
+        return $this;
     }
 
     /**
-     * @param string|null $plainPassword
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
      */
-    public function setPlainPassword(?string $plainPassword): void
+    public function getSalt(): ?string
     {
-        $this->plainPassword = $plainPassword;
+        return null;
     }
 
-    //**************************** Declaration des Méthodes ***********************
-    public function __construct()
-    {
-        $this->inscriptions = new ArrayCollection();
-        $this->organisateur = new ArrayCollection();
-    }
-
+    /**
+     * @see UserInterface
+     */
     public function eraseCredentials()
     {
-        $this->plainPassword = null;
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
-    public function __call($name, $arguments)
+    public function getNom(): ?string
     {
+        return $this->nom;
     }
 
-    // ************** Méthodes liées à inscription ****************
-    /**
-     * @return Collection<int, Sortie>
-     */
-    public function getInscriptions(): Collection
+    public function setNom(string $nom): self
     {
-        return $this->inscriptions;
-    }
-
-    public function addInscription(Sortie $inscription): self
-    {
-        if (!$this->inscriptions->contains($inscription)) {
-            $this->inscriptions[] = $inscription;
-        }
+        $this->nom = $nom;
 
         return $this;
     }
 
-    public function removeInscription(Sortie $inscription): self
+    public function getPrenom(): ?string
     {
-        $this->inscriptions->removeElement($inscription);
+        return $this->prenom;
+    }
+
+    public function setPrenom(string $prenom): self
+    {
+        $this->prenom = $prenom;
 
         return $this;
     }
 
-    // ************** Méthodes liées à Organisateur ****************
-    /**
-     * @return Collection<int, Sortie>
-     */
-    public function getOrganisateur(): Collection
+    public function getTelephone(): ?string
     {
-        return $this->organisateur;
+        return $this->telephone;
     }
 
-    public function addOrganisateur(Sortie $organisateur): self
+    public function setTelephone(?string $telephone): self
     {
-        if (!$this->organisateur->contains($organisateur)) {
-            $this->organisateur[] = $organisateur;
-            $organisateur->setOrganisateur($this);
-        }
+        $this->telephone = $telephone;
 
         return $this;
     }
 
-    public function removeOrganisateur(Sortie $organisateur): self
+    public function getPhotoProfil(): ?string
     {
-        if ($this->organisateur->removeElement($organisateur)) {
-            // set the owning side to null (unless already changed)
-            if ($organisateur->getOrganisateur() === $this) {
-                $organisateur->setOrganisateur(null);
-            }
-        }
+        return $this->photo_profil;
+    }
+
+    public function setPhotoProfil(?string $photo_profil): self
+    {
+        $this->photo_profil = $photo_profil;
 
         return $this;
     }
 
-    // ************** Méthodes liées à site ****************
-    public function getSite(): ?Site
+    public function getAdministrateur(): ?bool
     {
-        return $this->site;
+        return $this->administrateur;
     }
 
-    public function setSite(?Site $site): self
+    public function setAdministrateur(bool $administrateur): self
     {
-        $this->site = $site;
+        $this->administrateur = $administrateur;
+
+        return $this;
+    }
+
+    public function getActif(): ?bool
+    {
+        return $this->actif;
+    }
+
+    public function setActif(bool $actif): self
+    {
+        $this->actif = $actif;
 
         return $this;
     }
