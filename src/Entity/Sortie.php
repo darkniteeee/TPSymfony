@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+
 use App\Repository\SortieRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,8 +26,8 @@ class Sortie
     /**
      * @Assert\NotBlank(message="Le nom de la sortie est requis !")
      * @Assert\Length(
-     *     min=3
-     *     max=30
+     *     min=3,
+     *     max=30,
      *     minMessage = "Le nom de la sortie doit contenir au minimum {{ limit }} caractères !",
      *     maxMessage = "Le nom de la sortie doit contenir au maximum {{ limit }} caractères !"
      * )
@@ -61,7 +62,7 @@ class Sortie
 
     /**
      * @ORM\Column(name="description_sortie", type="string", length=500, nullable=true)
-     * @Assert\Lenght(
+     * @Assert\Length(
      *     max = 30,
      *     maxMessage = "La description de la sortie doit contenir au maximum {{ limit }} caractères !")
      */
@@ -73,7 +74,7 @@ class Sortie
      *     max = 500,
      *     minMessage = "Le motif d'annulation doit contenir au minimum {{ limit }} caractères !",
      *     maxMessage = "Le motif d'annulation doit contenir au maximum {{ limit }} caractères !")
-     *    @ORM\Column(name="motif_annulation", type="string", length=500, nullable="true")
+     * @ORM\Column(name="motif_annulation", type="string", length=500, nullable=true)
      */
     private ?string $motif_annulation = null;
 
