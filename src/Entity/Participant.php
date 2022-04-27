@@ -80,6 +80,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      *     max = 30,
      *     minMessage = "Le pseudo doit contenir au minimum {{ limit }} caractères !",
      *     maxMessage = "Le pseudo doit contenir au maximum {{ limit }} caractères !"
+     * )
      */
     private ?string $pseudo = null;
 
