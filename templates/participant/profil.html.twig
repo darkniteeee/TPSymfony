@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}: Page de profil{% endblock %}
+
+{% block informations %}
+    <h1 class="jumbotron-heading">Page de profil</h1><br/>
+{% endblock %}
+
+{% block main %}
+    {% form_theme form 'bootstrap_4_layout.html.twig' %}
+    {{ form(formProfil) }}
+{% endblock %}
