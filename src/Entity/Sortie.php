@@ -103,9 +103,21 @@ class Sortie
      */
     private $lieu;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="organise")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $organisateur;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Participant::class, mappedBy="inscriptions")
+     */
+    private $inscrits;
+
     public function __construct()
     {
         $this->participants = new ArrayCollection();
+        $this->inscrits = new ArrayCollection();
     }
 
 
@@ -317,6 +329,33 @@ class Sortie
     public function setLieu(?Lieu $lieu): self
     {
         $this->lieu = $lieu;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Participant>
+     */
+    public function getInscrits(): Collection
+    {
+        return $this->inscrits;
+    }
+
+    public function addInscrit(Participant $inscrit): self
+    {
+        if (!$this->inscrits->contains($inscrit)) {
+            $this->inscrits[] = $inscrit;
+            $inscrit->addInscription($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInscrit(Participant $inscrit): self
+    {
+        if ($this->inscrits->removeElement($inscrit)) {
+            $inscrit->removeInscription($this);
+        }
 
         return $this;
     }
