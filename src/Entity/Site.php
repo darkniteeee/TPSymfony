@@ -9,8 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=SiteRepository::class)
- * @ORM\Table(name="sites")
- *
+ * @ORM\Table(name="sites") *
  * @UniqueEntity(fields={"nom_site"}, message="Ce site existe déjà !")
  */
 class Site
@@ -18,9 +17,9 @@ class Site
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(name ="id", type="integer", options={"unsigned": true})
+     * @ORM\Column(name ="id_site", type="integer", options={"unsigned": true})
      */
-    private ?int $id;
+    private ?int $id_site;
 
     /**
      * @Assert\NotBlank(message="Le nom du site est requis !")
@@ -29,14 +28,15 @@ class Site
      *     max = 30,
      *     minMessage = "Le nom du site doit contenir au minimum {{ limit }} caractères !",
      *     maxMessage = "Le nom du site doit contenir au maximum {{ limit }} caractères !")
-     *
-     * @ORM\Column(name ="nom_site", type="string", length=30)
+     *     @ORM\Column(name ="nom_site", type="string", length=30, unique=true)
      */
     private ?string $nom_site;
 
-    public function getId(): ?int
+    #Mise en place en des getters setters
+
+    public function getIdSite(): ?int
     {
-        return $this->id;
+        return $this->id_site;
     }
 
     public function getNomSite(): ?string
