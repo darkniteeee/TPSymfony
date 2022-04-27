@@ -135,19 +135,208 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $site;
 
-    public function __construct()
+    private array $roles = [];
+
+    // ********************************* Déclaration des getters Setters **********
+    public function getSalt()
     {
-        $this->inscriptions = new ArrayCollection();
-        $this->organisateur = new ArrayCollection();
+        // TODO: Implement getSalt() method.
     }
 
-    #Mise en place en des getters setters
+    /**
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return $this->pseudo;
+    }
+    /*
+     * Méthode déprécié avec ce symfony du coup on utilise getUserIdentifier
+     */
+    public function getUsername() : string
+    {
+        //TODO ajouter l'email après
+        return $this-> getUserIdentifier();
+    }
 
+    /**
+     * @return int|null
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int|null $id
+     */
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    /**
+     * @param string|null $nom
+     */
+    public function setNom(?string $nom): void
+    {
+        $this->nom = $nom;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPrenom(): ?string
+    {
+        return $this->prenom;
+    }
+
+    /**
+     * @param string|null $prenom
+     */
+    public function setPrenom(?string $prenom): void
+    {
+        $this->prenom = $prenom;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTelephone(): ?string
+    {
+        return $this->telephone;
+    }
+
+    /**
+     * @param string|null $telephone
+     */
+    public function setTelephone(?string $telephone): void
+    {
+        $this->telephone = $telephone;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getMail(): ?string
+    {
+        return $this->mail;
+    }
+
+    /**
+     * @param string|null $mail
+     */
+    public function setMail(?string $mail): void
+    {
+        $this->mail = $mail;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    /**
+     * @param string|null $pseudo
+     */
+    public function setPseudo(?string $pseudo): void
+    {
+        $this->pseudo = $pseudo;
+    }
+
+
+    /**
+     * @return string|null
+     */
+    public function getPhotoProfil(): ?string
+    {
+        return $this->photo_profil;
+    }
+
+    /**
+     * @param string|null $photo_profil
+     */
+    public function setPhotoProfil(?string $photo_profil): void
+    {
+        $this->photo_profil = $photo_profil;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getAdministrateur(): ?bool
+    {
+        return $this->administrateur;
+    }
+
+    /**
+     * @param bool|null $administrateur
+     */
+    public function setAdministrateur(?bool $administrateur): void
+    {
+        $this->administrateur = $administrateur;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getActif(): ?bool
+    {
+        return $this->actif;
+    }
+
+    /**
+     * @param bool|null $actif
+     */
+    public function setActif(?bool $actif): void
+    {
+        $this->actif = $actif;
+    }
+
+
+
+    // ******************* Méthodes pour Role ****************
     public function getRoles()
     {
-        // TODO: Implement getRoles() method.
+        $roles = $this->roles;
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
     }
 
+    /**
+     * @param string $role
+     * @return void
+     */
+    public function addRole(string $role): void
+    {
+        if (!in_array($role, $this->roles)) {
+            $this->roles[] = $role;
+        }
+    }
+
+    /**
+     * @param string $role
+     * @return void
+     */
+    public function removeRole(string $role): void
+    {
+        $this->roles = array_filter($this->roles, function (string $currentRole) use ($role) {
+            return $currentRole !== $role;
+        });
+    }
+    // ******************* Méthodes pour password ****************
     /**
      * @see PasswordAuthenticatedUserInterface
      */
@@ -155,27 +344,40 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->password;
     }
-
-    public function getSalt()
+    /**
+     * @return string|null
+     */
+    public function getPlainPassword(): ?string
     {
-        // TODO: Implement getSalt() method.
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param string|null $plainPassword
+     */
+    public function setPlainPassword(?string $plainPassword): void
+    {
+        $this->plainPassword = $plainPassword;
+    }
+    //**************************** Declaration des Méthodes ***********************
+
+    public function __construct()
+    {
+        $this->inscriptions = new ArrayCollection();
+        $this->organisateur = new ArrayCollection();
     }
 
     public function eraseCredentials()
     {
-        // TODO: Implement eraseCredentials() method.
-    }
 
-    public function getUsername()
-    {
-        // TODO: Implement getUsername() method.
     }
 
     public function __call($name, $arguments)
     {
-        // TODO: Implement @method string getUserIdentifier()
+
     }
 
+    // ************** Méthodes liées à inscription ****************
     /**
      * @return Collection<int, Sortie>
      */
@@ -200,6 +402,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    // ************** Méthodes liées à Organisateur ****************
     /**
      * @return Collection<int, Sortie>
      */
@@ -230,6 +433,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    // ************** Méthodes liées à site ****************
     public function getSite(): ?Site
     {
         return $this->site;
