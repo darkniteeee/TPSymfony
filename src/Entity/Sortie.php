@@ -7,6 +7,7 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 /**
  * @ORM\Entity(repositoryClass=SortieRepository::class)
  * @ORM\Table(name="sorties")
@@ -23,11 +24,12 @@ class Sortie
 
     /**
      * @Assert\NotBlank(message="Le nom de la sortie est requis !")
-     * @Assert\Lenght(
-     *     min = 3,
-     *     max = 30,
+     * @Assert\Length(
+     *     min=3
+     *     max=30
      *     minMessage = "Le nom de la sortie doit contenir au minimum {{ limit }} caractères !",
-     *     maxMessage = "Le nom de la sortie doit contenir au maximum {{ limit }} caractères !")
+     *     maxMessage = "Le nom de la sortie doit contenir au maximum {{ limit }} caractères !"
+     * )
      *
      * @ORM\Column(name="nom_sortie", type="string", length=30)
      *
