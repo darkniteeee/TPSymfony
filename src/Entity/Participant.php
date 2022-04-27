@@ -140,6 +140,10 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     // ********************************* Déclaration des getters Setters **********
+   /*
+    * @see UserInterface
+    * return null car le hachage sera gérer indépendament par bcrypt ou sodium
+    */
     public function getSalt() : ?string
     {
         return null;
@@ -379,7 +383,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __call($name, $arguments)
     {
-
     }
 
     // ************** Méthodes liées à inscription ****************
