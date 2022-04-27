@@ -5,6 +5,8 @@ namespace App\Entity;
 
 use App\Repository\SortieRepository;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -82,6 +84,22 @@ class Sortie
      * @ORM\Column(name="photo_sortie", type="string", length=250, nullable=true)
      */
     private string $photo_sortie;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Participant::class, mappedBy="inscriptions")
+     */
+    private $participants;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="organisateur")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $organisateur;
+
+    public function __construct()
+    {
+        $this->participants = new ArrayCollection();
+    }
 
 
     #Mise en place en des getters setters
@@ -219,6 +237,45 @@ class Sortie
     public function setPhotoSortie(string $photo_sortie): void
     {
         $this->photo_sortie = $photo_sortie;
+    }
+
+    /**
+     * @return Collection<int, Participant>
+     */
+    public function getParticipants(): Collection
+    {
+        return $this->participants;
+    }
+
+    public function addParticipant(Participant $participant): self
+    {
+        if (!$this->participants->contains($participant)) {
+            $this->participants[] = $participant;
+            $participant->addInscription($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipant(Participant $participant): self
+    {
+        if ($this->participants->removeElement($participant)) {
+            $participant->removeInscription($this);
+        }
+
+        return $this;
+    }
+
+    public function getOrganisateur(): ?Participant
+    {
+        return $this->organisateur;
+    }
+
+    public function setOrganisateur(?Participant $organisateur): self
+    {
+        $this->organisateur = $organisateur;
+
+        return $this;
     }
 
 
