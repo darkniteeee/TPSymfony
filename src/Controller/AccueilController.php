@@ -13,9 +13,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class AccueilController extends AbstractController
 {
     /**
-     * @Route(name="", path="")
+     * @Route(name="accueil", path="/")
      */
-    public function Accueil()
+    public function accueil()
     {
         return $this->render('main/index.html.twig');
     }

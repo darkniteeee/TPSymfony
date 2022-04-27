@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <title>{% block title %}{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        <!--<link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">-->
+        <link href="{{asset('css/essai.css') }}" rel="stylesheet">
     </head>
      <body>
         <header>
@@ -17,7 +17,7 @@
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="d-flex flex-row-reverse bd-highlight">
                         <div class="navbar-nav">
-                            <a class="nav-item nav-link active" href="#">Acceuil <span class="sr-only">(current)</span></a>
+                            <a class="nav-item nav-link active" href="{{path("accueil_accueil")}}">Accueil <span class="sr-only">(current)</span></a>
                             <a class="nav-item nav-link active" href="#">Mon Profil</a>
                             <a class="nav-item nav-link active" href="#">"Se connecter"</a>
                             <a class="nav-item nav-link active" href="#">Se déconnecter</a>
