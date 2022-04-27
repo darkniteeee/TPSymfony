@@ -7,6 +7,11 @@
 {% endblock %}
 
 {% block main %}
-    {% form_theme form 'bootstrap_4_layout.html.twig' %}
+    {% form_theme formProfil 'bootstrap_4_layout.html.twig' %}
     {{ form(formProfil) }}
+
+    <a href="{{path('participant_modifier_password')}}">
+        <input type="button" value="Modifier le mot de passe">
+    </a>
+
 {% endblock %}

@@ -7,6 +7,8 @@ use App\Entity\Site;
 use App\Repository\SiteRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Button;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -59,15 +61,25 @@ class ProfilType extends AbstractType
                 'query_builder' => function (SiteRepository $sr) {
                     return $sr->createQueryBuilder('site')
                         ->orderBy('site.nom_site', 'ASC');},
-                'choice_label' => 'site']);
+                'choice_label' => 'nom_site']);
+
+//        $builder
+//            ->add('photo_profil', FileType::class, [
+//                'label' => 'Ma photo',
+//                'mapped' => false,
+//                'required' => false,
+//                'constraints' => [
+//                    new File([
+//                        'maxSize' => '1024k',
+//                        'mimeTypes' => ['image/jpeg', 'image/png'],
+//                        'mimeTypesMessage' => 'Merci de télécharger un fichier jpeg ou png valide',])
+//                    ]
+//            ]);
 
         $builder
-            ->add('photo_profil', TextType::class, [
-                'label' => 'Ma photo']);
+            ->add('submit', SubmitType::class, [
+            'label' => 'Enregistrer',]);
 
-        $builder->add('submit', SubmitType::class, [
-            'label' => 'Modifier',
-        ]);
 
     }
 
