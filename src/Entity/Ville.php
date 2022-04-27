@@ -18,9 +18,9 @@ class Ville
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(name="id_ville", type="integer", options={"unsigned": true})
+     * @ORM\Column(name="id", type="integer", options={"unsigned": true})
      */
-    private $id_ville;
+    private $id = null;
 
     /**
      * @ORM\Column(name="nom_ville", type="string", length=30)
@@ -51,16 +51,16 @@ class Ville
     /**
      * @ORM\OneToMany(targetEntity=Lieu::class, mappedBy="ville", orphanRemoval=true)
      */
-    private $lieus;
+    private $lieux;
 
     public function __construct()
     {
-        $this->lieus = new ArrayCollection();
+        $this->lieux = new ArrayCollection();
     }
 
-    public function getIdVille(): ?int
+    public function getId(): ?int
     {
-        return $this->id_ville;
+        return $this->id;
     }
 
     public function getNomVille(): ?string
@@ -90,13 +90,13 @@ class Ville
      */
     public function getLieus(): Collection
     {
-        return $this->lieus;
+        return $this->lieux;
     }
 
     public function addLieu(Lieu $lieu): self
     {
-        if (!$this->lieus->contains($lieu)) {
-            $this->lieus[] = $lieu;
+        if (!$this->lieux->contains($lieu)) {
+            $this->lieux[] = $lieu;
             $lieu->setVille($this);
         }
 
@@ -105,7 +105,7 @@ class Ville
 
     public function removeLieu(Lieu $lieu): self
     {
-        if ($this->lieus->removeElement($lieu)) {
+        if ($this->lieux->removeElement($lieu)) {
             // set the owning side to null (unless already changed)
             if ($lieu->getVille() === $this) {
                 $lieu->setVille(null);

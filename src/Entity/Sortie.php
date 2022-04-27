@@ -21,9 +21,9 @@ class Sortie
     /**
      * @ORM\Id
      * @ORM\GeneratedValue (strategy="AUTO")
-     * @ORM\Column(name="id_sortie", type="integer", options={"unsigned": true})
+     * @ORM\Column(name="id", type="integer", options={"unsigned": true})
      */
-    private ?int $id_sortie = null;
+    private ?int $id = null;
 
     /**
      * @Assert\NotBlank(message="Le nom de la sortie est requis !")
@@ -124,9 +124,9 @@ class Sortie
     /**
      * @return int|null
      */
-    public function getIdSortie(): ?int
+    public function getId(): ?int
     {
-        return $this->id_sortie;
+        return $this->id;
     }
 
     /**

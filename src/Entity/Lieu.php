@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\LieuRepository", repositoryClass=LieuRepository::class)
- * @ORM\Table(name="Users")
+ * @ORM\Table(name="Lieux")
  * @UniqueEntity(fields={"nom_lieu"}, message="Ce nom de lieu existe déjà")
  */
 class Lieu
@@ -17,9 +17,9 @@ class Lieu
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(name="id_lieu", type="integer", options={"unsigned": true})
+     * @ORM\Column(name="id", type="integer", options={"unsigned": true})
      */
-    private ?int $id_lieu;
+    private ?int $id = null;
 
     /**
      * @Assert\NotBlank(message="Le nom du lieu est requis !")
@@ -45,7 +45,7 @@ class Lieu
     private ?string $rue = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Ville::class, inversedBy="lieus")
+     * @ORM\ManyToOne(targetEntity=Ville::class, inversedBy="lieux")
      * @ORM\JoinColumn(nullable=false)
      */
     private $ville;
@@ -54,7 +54,7 @@ class Lieu
 #Mise en place des getters setters
     public function getId(): ?int
     {
-        return $this->id_lieu;
+        return $this->id;
     }
 
     public function getNomLieu(): ?string

@@ -17,9 +17,9 @@ class Etat
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(name="id_etat", type="integer", options={"unsigned": true})
+     * @ORM\Column(name="id", type="integer", options={"unsigned": true})
      */
-    private ?int  $id_etat=null;
+    private ?int  $id =null;
 
     /**
      * @ORM\Column(name="libelle", type="string", length=30, unique=true)
@@ -39,9 +39,9 @@ class Etat
     /**
      * @return int|null
      */
-    public function getIdEtat(): ?int
+    public function getId(): ?int
     {
-        return $this->id_etat;
+        return $this->id;
     }
 
     /**

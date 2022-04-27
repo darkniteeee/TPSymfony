@@ -23,9 +23,9 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(name="id_participant", type="integer", options={"unsigned": true})
+     * @ORM\Column(name="id", type="integer", options={"unsigned": true})
      */
-    private ?int $id_participant = null;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(name="nom", type="string", length=30)

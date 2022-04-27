@@ -19,9 +19,9 @@ class Site
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(name ="id_site", type="integer", options={"unsigned": true})
+     * @ORM\Column(name ="id", type="integer", options={"unsigned": true})
      */
-    private ?int $id_site;
+    private ?int $id;
 
     /**
      * @Assert\NotBlank(message="Le nom du site est requis !")
@@ -46,9 +46,9 @@ class Site
 
     #Mise en place en des getters setters
 
-    public function getIdSite(): ?int
+    public function getId(): ?int
     {
-        return $this->id_site;
+        return $this->id;
     }
 
     public function getNomSite(): ?string
