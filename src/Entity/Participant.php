@@ -134,13 +134,15 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\JoinColumn(nullable=false)
      */
     private $site;
-
+    /**
+     * @ORM\Column(name="roles", type="json")
+     */
     private array $roles = [];
 
     // ********************************* Déclaration des getters Setters **********
-    public function getSalt()
+    public function getSalt() : ?string
     {
-        // TODO: Implement getSalt() method.
+        return null;
     }
 
     /**
@@ -307,6 +309,9 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
 
     // ******************* Méthodes pour Role ****************
+    /**
+     * @see UserInterface
+     */
     public function getRoles()
     {
         $roles = $this->roles;
@@ -359,8 +364,8 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->plainPassword = $plainPassword;
     }
-    //**************************** Declaration des Méthodes ***********************
 
+    //**************************** Declaration des Méthodes ***********************
     public function __construct()
     {
         $this->inscriptions = new ArrayCollection();
@@ -369,7 +374,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function eraseCredentials()
     {
-
+        $this->plainPassword = null;
     }
 
     public function __call($name, $arguments)
