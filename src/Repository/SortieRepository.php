@@ -47,6 +47,18 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
+    public function recherche (int $int): ?Sortie{
+        $query =$this->createQueryBuilder('sortie')
+            ->where('sortie.lieu = :lieu')->setParameter('lieu', $int);
+
+        return $query->getQuery()->getOneOrNullResult();
+    }
+
+    public function findBytruck (int $id){
+
+
+    }
+
 
     // /**
     //  * @return Sortie[] Returns an array of Sortie objects

@@ -116,6 +116,7 @@ class Sortie
 
     public function __construct()
     {
+
         $this->participants = new ArrayCollection();
         $this->inscrits = new ArrayCollection();
     }
