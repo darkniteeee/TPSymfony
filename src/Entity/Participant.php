@@ -120,12 +120,12 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(name="administrateur", type="boolean")
      */
-    private ?Boolean $administrateur = false;
+    private ?Boolean $administrateur = null;
 
     /**
      * @ORM\Column(name="actif", type="boolean")
      */
-    private ?Boolean $actif = false;
+    private ?Boolean $actif = null;
 
     /**
      * @ORM\ManyToOne(targetEntity=Site::class)
