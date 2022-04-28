@@ -29,11 +29,11 @@ security:
                 path: security_logout
                 # where to redirect after logout
                 # target: app_any_route
-
-
+            remember_me :
+                secret : "$kernel.secret"
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
-
+                signature_properties: ['password', 'updatedAt']
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
 

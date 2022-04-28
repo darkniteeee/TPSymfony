@@ -84,7 +84,7 @@ class ParticipantController extends AbstractController
             $this->addFlash('success', 'Votre profil a bien été créé !');
 
             // Redirection de l'utilisateur sur l'accueil
-            return $this->redirectToRoute('main/index.html.twig');
+            return $this->redirectToRoute('accueil_home');
         }
 
         // Envoi du formulaire à la vue
