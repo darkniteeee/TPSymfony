@@ -54,10 +54,13 @@ class SortieRepository extends ServiceEntityRepository
         return $query->getQuery()->getOneOrNullResult();
     }
 
-    public function findBytruck (int $id){
-
-
-    }
+//    public function findBytruck (int $id){
+//        $query = $this->createQueryBuilder('sortie')
+//            ->innerJoin('sortie.inscrits', 'inscriptions')
+//            ->where('sortie.id = :id')->setParameter('id', $id);
+//        return $query->getQuery()->getResult();
+//
+//    }
 
 
     // /**

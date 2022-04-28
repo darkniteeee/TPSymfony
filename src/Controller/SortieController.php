@@ -36,7 +36,8 @@ class SortieController extends AbstractController
         $sorties = $entityManager->getRepository('App:Sortie')->findAll();
         $participants = $entityManager->getRepository('App:Participant')->findAll();
 
-//        dd($sorties);
+
+
 
         return $this->render('sortie/list.html.twig', [
             'sorties' => $sorties,
