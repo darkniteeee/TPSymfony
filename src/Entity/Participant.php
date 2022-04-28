@@ -6,8 +6,6 @@ use App\Repository\ParticipantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\Boolean;
-use phpDocumentor\Reflection\Types\False_;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -139,7 +137,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private $inscriptions;
 
     /**
-     * @ORM\ManyToOne(targetEntity=site::class, inversedBy="participants")
+     * @ORM\ManyToOne(targetEntity=Site::class, inversedBy="participants")
      */
     private $site_id;
 
