@@ -47,14 +47,12 @@ class InscriptionType extends AbstractType
             'second_options' => ['label' => 'Mot de passe (Confirmation)'],
         ]);
 
-//        $site_id=$builder->getData()->getId();
-
         $builder
             ->add('site', EntityType::class, [
                 'label' => 'Site de rattachement',
                 'mapped' =>false,
                 'class' => Site::class,
-                'query_builder' => function (SiteRepository $sr) //use ($site_id)
+                'query_builder' => function (SiteRepository $sr)
         {
                     return $sr->createQueryBuilder('site')
                         ->orderBy('site.nom_site', 'ASC');},

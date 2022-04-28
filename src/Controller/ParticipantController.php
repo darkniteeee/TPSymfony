@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -56,7 +57,7 @@ class ParticipantController extends AbstractController
     /**
      * @Route(name="inscrire", path="inscrire", methods={"GET", "POST"})
      */
-    public function inscrire(Request $request, EntityManagerInterface $entityManager){
+    public function inscrire(Request $request, UserPasswordHasherInterface $participantPasswordHasher, EntityManagerInterface $entityManager){
 
         //Création de l'entité
         $participant = new Participant();
@@ -68,6 +69,9 @@ class ParticipantController extends AbstractController
 
         //Vérification de la soumission du formulaire
         if ($formInscription->isSubmitted() && $formInscription->isValid()){
+
+            // Hashage du mot de passe
+            $participant->setPassword($participantPasswordHasher->hashPassword($participant, $participant->getPassword()));
 
             //Début photo de profil du formulaire
 //            $photo_profil_file = $formProfil->get('photo_profil')->getData();
