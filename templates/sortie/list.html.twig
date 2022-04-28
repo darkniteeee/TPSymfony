@@ -1,21 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block header%}
+{% block informations%}
 
-    <h4>Date du jour : {{ "now" }}</h4>
-    <h4>Participant: {{ app.participant.prenom }}.{{ ap.participant.nom }}</h4>
+    <h4>Date du jour : {{ "now"|date('d/m/Y') }}</h4>
+{#    <h4>Participant: {{ app.participant.prenom }}.{{ ap.participant.nom }}</h4>#}
 
 {% endblock %}
 
 {% block main %}
 
 <h1> Je suis le plus fort </h1>
-<label for="site">Site</label>
-<select name="site" id="site">
-    {% for lieu in sorties.lieu%}
-    <option value="dog">{{ lieu.nom_lieu }}</option>
-</select>
 
+{{ form(formRechercheSortie) }}
 
 
     <div class="row">
@@ -37,29 +33,36 @@
 
             {% for sortie in sorties %}
                 <tr>
-
-                    <td>{{ sortie.nom_sortie }}</td>
-                    <td>{{ sortie.date_debut|date('d/m/Y H:i:s') }}</td>
-                    <td>{{ sortie.$date_limite_inscription|date('d/m/Y') }}</td>
-                    <td>/{{ sortie.$nb_inscription_max }}</td>
+                    <td> </td>
+                    <td>{{ sortie.NomSortie }}</td>
+                    <td>{{ sortie.DateDebut|date('d/m/Y H:i:s') }}</td>
+                    <td>{{ sortie.DateLimiteInscription|date('d/m/Y H:i:s') }}</td>
+                    <td>/{{ sortie.NbInscriptionMax }}</td>
                     <td>{{ sortie.etat.libelle }}</td>
-                    <td>{{ sortie.participant.participants }}</td>
-                    <td>{{ sortie.participant.organisateur }}</td>
-                    {% if sortie.etat.libelle == "En cours" OR sortie.etat.libelle == "Fermé" AND sortie.participant.participants !=null %}
+{#                    <td>{{ sortie.Participants }}</td>#}
+                    {% for organisateur in sortie.organisateur.organise %}
+                    <td>{{ organisateur.id }}</td>
+                    {% endfor %}
+                    {% if (sortie.etat.libelle == "En cours") or (sortie.etat.libelle == "Fermé") %}
+{#                        AND sortie.participant.participants !=null#}
                         <td><a href="#">Afficher</a></td>
                     {% endif %}
-                    {% elseif sortie.etat.libelle == "Fermé" OR sortie.etat.libelle == "Ouvert" AND sortie.participant.participants !=null %}
+                    {% if sortie.etat.libelle == "Passée" or sortie.etat.libelle == "Ouverte"  %}
+{#                        AND sortie.participant.participants !=null#}
                         <td><a href="#">Afficher</a> - <a href="#">Se désinscrire</a></td>
                     {% endif%}
-                    {% elseif sortie.etat.libelle == "Ouvert" AND sortie.participant.participants ==null%}
-                        <td><a href="#">Afficher</a> - <a href="#">S'inscrire</a></td>
-                    {% endif %}
-                    {% elseif sortie.etat.libelle == "En création" AND sortie.participant.organisateur !=null %}
+{#                    {% if sortie.etat.libelle == "Ouvert" %}#}
+{#                        AND sortie.participant.participants ==null#}
+{#                        <td><a href="#">Afficher</a> - <a href="#">S'inscrire</a></td>#}
+{#                    {% endif %}#}
+                    {% if sortie.etat.libelle == "Créée" %}
+{#                        AND sortie.participant.organisateur !=null#}
                         <td><a href="#">Modifier</a> - <a href="#">Publier</a></td>
                     {% endif %}
-                    {% elseif sortie.etat.libelle == "Ouvert" AND sortie.participant.organisateur !=null %}
-                        <td><a href="#">Afficher</a> - <a href="#">Annuler</a></td>
-                    {% endif %}
+{#                    {% elseif sortie.etat.libelle == "Ouvert" %}#}
+{#                        AND sortie.participant.organisateur !=null#}
+{#                        <td><a href="#">Afficher</a> - <a href="#">Annuler</a></td>#}
+{#                    {% endif %}#}
                 </tr>
             {% endfor %}
             </tbody>
