@@ -53,7 +53,7 @@ class ProfilType extends AbstractType
         ]);
 
         $builder
-            ->add('nom_site', EntityType::class, [
+            ->add('site_id', EntityType::class, [
                 'label' => 'Site de rattachement',
                 'required' => true,
                 'class' => Site::class,

@@ -286,20 +286,16 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         $this->actif = $actif;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getSite()
+    public function getSiteId(): ?site
     {
-        return $this->site;
+        return $this->site_id;
     }
 
-    /**
-     * @param mixed $site
-     */
-    public function setSite($site): void
+    public function setSiteId(?site $site_id): self
     {
-        $this->site = $site;
+        $this->site_id = $site_id;
+
+        return $this;
     }
 
     /**
@@ -467,17 +463,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getSiteId(): ?site
-    {
-        return $this->site_id;
-    }
 
-    public function setSiteId(?site $site_id): self
-    {
-        $this->site_id = $site_id;
-
-        return $this;
-    }
 
 
 
