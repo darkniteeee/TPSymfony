@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AccueilController extends AbstractController
 {
     /**
-     * @Route(name="accueil", path="/")
+     * @Route(name="home", path="/")
      */
     public function accueil()
     {
