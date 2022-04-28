@@ -51,12 +51,12 @@
     </header>
     <main role="main">
         <section class="jumbotron text-center">
-            <div class="container">
+            <div class="container-fluid">
                 {% block informations %}{% endblock %}
             </div>
         </section>
 
-        <div class="container">
+        <div class="container-fluid">
 
             {% for message in app.flashes('success') %}
                 <div class="alert alert-success" role="alert">{{ message }}</div>
@@ -66,19 +66,34 @@
         </div>
     </main>
 
-    <footer class="text-muted">
 
-        <div class="container">
-            <p class="float-right">
-                <a href="#">Back to top</a>
-            </p>
-            <p>SORTIR.COM &copy; {{ "now" | date('Y') }} ** Pusher Puller **  </p>
+    <footer class="bg-light text-center text-lg-start">
+        <div class="container p-4 pb-0">
+            <section class="">
+                <form action="">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-auto">
+                            <p class="pt-2"><strong>S'incrire à la newsletter</strong></p>
+                        </div>
+                        <div class="col-md-5 col-12">
+                            <div class="form-outline mb-4">
+                                <input class="form-control form-control-sm" type="Email" placeholder="votre email" aria-label=".form-control-sm example">
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-secondary btn-sm">Souscrire</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
         </div>
-
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            © {{ "now" | date('Y') }} Copyright:
+            <a class="text-dark" href="#">SORTIR.COM</a>
+        </div>
+        <!-- Copyright -->
     </footer>
-
-    <script src=" {{asset ('js/jquery-3.2.1.slim.min.js')}}"></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 
     </body>
     </html>

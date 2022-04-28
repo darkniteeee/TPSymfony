@@ -3,40 +3,49 @@
 {% block title %}{{ parent() }}: Page de connexion{% endblock %}
 
 {% block informations %}
-    <h1 class="jumbotron-heading">Page de connexion</h1><br/>
+    <h1 class="jumbotron-heading">Se connecter</h1><br/>
 {% endblock %}
 
 {% block main %}
-    <form method="post">
+
+    <form method="post" class="row d-flex justify-content-center">
+
 
         {% if error %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
 
-        <div class="form-group">
-            <label for="inputEmail">Email</label>
-            <input type="text" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="username" required autofocus>
+        <div class="row d-flex justify-content-center">
+            <label for="inputEmail" class="col-sm-1 col-form-label">Identifiant</label>
+            <div class="col-sm-3">
+                <input type="text" value="{{ last_username }}" name="email" id="inputEmail" class="form-control form-control-sm" autocomplete="username" required autofocus>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label for="inputPassword">Password</label>
-            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+        <div class="row d-flex justify-content-center">
+            <label for="inputPassword" class="col-sm-1 col-form-label">Password</label>
+            <div class="col-sm-3">
+                <input type="password" name="password" id="inputPassword" class="form-control form-control-sm" autocomplete="current-password" required>
+            </div>
         </div>
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
         <br>
-        <div class="form-group">
-            <button type="submit" class="btn-primary btn">Se connecter</button>
-        </div>
+        <br>
     </form>
-
-    <!-- Formulaire pour la fonction remember me -->
-
-
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Se souvenir de moi
-            </label>
+        <div class="row d-flex justify-content-center">
+            <div class="d-grid gap-2 col-2">
+                <button type="submit" class="btn btn-outline-primary btn-rounded">Se connecter</button>
+            </div>
+            <br>
+            <div class="checkbox mb-6 d-grid gap-2 col-2">
+                <label>
+                    <input type="checkbox" name="_remember_me"> Se souvenir de moi
+                </label>
+            </div>
         </div>
+
+
+
 
 
 
