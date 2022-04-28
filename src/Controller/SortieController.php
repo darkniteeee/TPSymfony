@@ -27,17 +27,21 @@ class SortieController extends AbstractController
         $formRechercheSortie->handleRequest($request);
 
         if($formRechercheSortie->isSubmitted() && $formRechercheSortie->isValid()){
-            $entityManager->persist($sortie);
+            $entityManager->getRepository('App:Sortie')->re();
             $entityManager->flush();
 
             return $this->redirectToRoute('sortie_list');
         }
 
         $sorties = $entityManager->getRepository('App:Sortie')->findAll();
+        $participants = $entityManager->getRepository('App:Participant')->findAll();
+
 //        dd($sorties);
 
         return $this->render('sortie/list.html.twig', [
             'sorties' => $sorties,
+            'participants' => $participants,
+
             'formRechercheSortie' =>$formRechercheSortie->createView(),
         ]);
 

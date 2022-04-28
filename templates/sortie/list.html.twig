@@ -3,13 +3,13 @@
 {% block informations%}
 
     <h4>Date du jour : {{ "now"|date('d/m/Y') }}</h4>
-{#    <h4>Participant: {{ app.participant.prenom }}.{{ ap.participant.nom }}</h4>#}
+    <h4>Participant: {{ app.user.prenom }}.{{ app.user.nom }}</h4>
 
 {% endblock %}
 
 {% block main %}
 
-<h1> Je suis le plus fort </h1>
+<h1> </h1>
 
 {{ form(formRechercheSortie) }}
 
@@ -39,10 +39,9 @@
                     <td>{{ sortie.DateLimiteInscription|date('d/m/Y H:i:s') }}</td>
                     <td>/{{ sortie.NbInscriptionMax }}</td>
                     <td>{{ sortie.etat.libelle }}</td>
-{#                    <td>{{ sortie.Participants }}</td>#}
-                    {% for organisateur in sortie.organisateur.organise %}
-                    <td>{{ organisateur.id }}</td>
-                    {% endfor %}
+{#                   <td>{{ sortie.Participants. }}</td>#}
+                    <td>{{ sortie.organisateur.nom }}</td>
+
                     {% if (sortie.etat.libelle == "En cours") or (sortie.etat.libelle == "Fermé") %}
 {#                        AND sortie.participant.participants !=null#}
                         <td><a href="#">Afficher</a></td>
