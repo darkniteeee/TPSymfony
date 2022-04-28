@@ -14,34 +14,29 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProfilType extends AbstractType
+class InscriptionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('pseudo', TextType::class, [
-                'label' => 'Pseudo',
-                'required' => true]);
+                'label' => 'Pseudo',]);
 
         $builder
             ->add('nom', TextType::class, [
-                'label' => 'Nom',
-                'required' => true]);
+                'label' => 'Nom']);
 
         $builder
             ->add('prenom', TextType::class, [
-                'label' => 'Prénom',
-                'required' => true]);
+                'label' => 'Prénom']);
 
         $builder
             ->add('telephone', TextType::class, [
-                'label' => 'Téléphone',
-                'required' => true]);
+                'label' => 'Téléphone']);
 
         $builder
             ->add('email', TextType::class, [
-                'label' => 'Email',
-                'required' => true]);
+                'label' => 'Email']);
 
         $builder->add('password', RepeatedType::class, [
             'type' => PasswordType::class,
@@ -55,7 +50,7 @@ class ProfilType extends AbstractType
         $builder
             ->add('nom_site', EntityType::class, [
                 'label' => 'Site de rattachement',
-                'required' => true,
+                'mapped' =>false,
                 'class' => Site::class,
                 'query_builder' => function (SiteRepository $sr) {
                     return $sr->createQueryBuilder('site')
@@ -77,7 +72,7 @@ class ProfilType extends AbstractType
 
         $builder
             ->add('submit', SubmitType::class, [
-            'label' => 'Enregistrer',]);
+                'label' => 'S\'inscrire']);
 
 
     }
@@ -86,7 +81,7 @@ class ProfilType extends AbstractType
     {
         $resolver->setDefaults([
             'date_class' => Participant::class,
-            'type' => 'modifier',
-            ]);
+            'type' => 'enregistrer',
+        ]);
     }
 }

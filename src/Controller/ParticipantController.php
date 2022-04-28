@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Participant;
+use App\Form\InscriptionType;
 use App\Form\ProfilType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -81,12 +82,12 @@ class ParticipantController extends AbstractController
             //Ajouter un message de confirmation
             $this->addFlash('success', 'Votre profil a bien été créé !');
 
-            // Redirection de l'utilisateur sur la liste
+            // Redirection de l'utilisateur sur l'accueil
             return $this->redirectToRoute('main/index.html.twig');
         }
 
         // Envoi du formulaire à la vue
-        return $this->render('participant/inscrire.html.twig', [
+        return $this->render('participant/inscription.html.twig', [
             'formInscription' => $formInscription->createView(),
         ]);
 
