@@ -63,6 +63,7 @@ class ParticipantController extends AbstractController
 
         // Association de l'entité au formulaire
         $formInscription = $this->createForm(InscriptionType::class, $participant);
+
         $formInscription->handleRequest($request);
 
         //Vérification de la soumission du formulaire

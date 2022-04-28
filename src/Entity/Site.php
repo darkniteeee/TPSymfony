@@ -39,9 +39,17 @@ class Site
      */
     private $sorties;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Participant::class, mappedBy="site_id")
+     */
+    private $participants;
+
+
+
     public function __construct()
     {
         $this->sorties = new ArrayCollection();
+        $this->participants = new ArrayCollection();
     }
 
     #Mise en place en des getters setters
@@ -85,6 +93,36 @@ class Site
             // set the owning side to null (unless already changed)
             if ($sorty->getSiteOrganisateur() === $this) {
                 $sorty->setSiteOrganisateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Participant>
+     */
+    public function getParticipants(): Collection
+    {
+        return $this->participants;
+    }
+
+    public function addParticipant(Participant $participant): self
+    {
+        if (!$this->participants->contains($participant)) {
+            $this->participants[] = $participant;
+            $participant->setSiteId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipant(Participant $participant): self
+    {
+        if ($this->participants->removeElement($participant)) {
+            // set the owning side to null (unless already changed)
+            if ($participant->getSiteId() === $this) {
+                $participant->setSiteId(null);
             }
         }
 

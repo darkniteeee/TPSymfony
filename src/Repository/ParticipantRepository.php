@@ -24,6 +24,7 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Participant::class);
+
     }
 
     /**

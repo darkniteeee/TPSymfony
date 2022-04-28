@@ -120,18 +120,13 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(name="administrateur", type="boolean")
      */
-    private ?Boolean $administrateur = null;
+    private bool $administrateur;
 
     /**
      * @ORM\Column(name="actif", type="boolean")
      */
-    private ?Boolean $actif = null;
+    private bool $actif;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Site::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $site;
 
     /**
      * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="organisateur", orphanRemoval=true)
@@ -143,7 +138,12 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $inscriptions;
 
-    //************************* DECLARATION GETTERS SETTERS ********
+    /**
+     * @ORM\ManyToOne(targetEntity=site::class, inversedBy="participants")
+     */
+    private $site_id;
+
+       //************************* DECLARATION GETTERS SETTERS ********
     /**
      * @return int|null
      */
@@ -381,6 +381,9 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->organise = new ArrayCollection();
         $this->inscriptions = new ArrayCollection();
+        $this->administrateur = false;
+        $this->actif = false;
+
     }
     /**
      * A visual identifier that represents this user.
@@ -465,6 +468,20 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getSiteId(): ?site
+    {
+        return $this->site_id;
+    }
+
+    public function setSiteId(?site $site_id): self
+    {
+        $this->site_id = $site_id;
+
+        return $this;
+    }
+
+
 
 
 }
