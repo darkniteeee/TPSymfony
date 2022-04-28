@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\Types\Boolean;
+use phpDocumentor\Reflection\Types\False_;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -46,9 +47,10 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @var string The hashed password
-     * @ORM\Column(name="password", type="string", length=100)
+     * @ORM\Column(name="password", type="string", length=180)
      */
-    private ?string $password;
+    private string $password;
+
     /**
      * @Assert\NotBlank(message="Le mot de passe est requis !", groups={"registration"})
      * @Assert\Length(
@@ -96,6 +98,8 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      * )
      */
     private ?string $telephone =null;
+
+
     /**
      * @ORM\Column(name="pseudo", type="string", length=30, unique=true)
      * @Assert\NotBlank(message="Le pseudo est requis !")
@@ -116,12 +120,12 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(name="administrateur", type="boolean")
      */
-    private ?Boolean $administrateur =null;
+    private ?Boolean $administrateur = false;
 
     /**
      * @ORM\Column(name="actif", type="boolean")
      */
-    private ?Boolean $actif = null;
+    private ?Boolean $actif = false;
 
     /**
      * @ORM\ManyToOne(targetEntity=Site::class)
@@ -138,6 +142,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\ManyToMany(targetEntity=Sortie::class, inversedBy="inscrits")
      */
     private $inscriptions;
+
     //************************* DECLARATION GETTERS SETTERS ********
     /**
      * @return int|null
@@ -321,6 +326,15 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->password;
     }
+
+    /**
+     * @param string $password
+     */
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
+    }
+
     /**
      * @return string|null
      */
@@ -383,7 +397,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return $this->getUserIdentifier();
     }
 
 
