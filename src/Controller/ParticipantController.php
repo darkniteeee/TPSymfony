@@ -26,6 +26,7 @@ class ParticipantController extends AbstractController
         //Récupération de l'entité
         $participant = $this->getUser();
 
+
         // Association de l'entité au formulaire
         $formProfil = $this->createForm(ProfilType::class, $participant);
         $formProfil->handleRequest($request);
@@ -38,8 +39,7 @@ class ParticipantController extends AbstractController
 //
 //            if($photo_profil_file){}
 
-
-        //Validation de la transaction
+            //Validation de la transaction
             $entityManager->flush();
 
             //Ajouter un message de confirmation

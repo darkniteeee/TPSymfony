@@ -54,6 +54,11 @@
         </section>
 
         <div class="container">
+
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success" role="alert">{{ message }}</div>
+            {% endfor %}
+
             {% block main %}{% endblock %}
         </div>
     </main>

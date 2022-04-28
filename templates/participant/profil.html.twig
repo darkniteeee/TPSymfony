@@ -8,7 +8,46 @@
 
 {% block main %}
     {% form_theme formProfil 'bootstrap_4_layout.html.twig' %}
-    {{ form(formProfil) }}
+
+    {{ form_start(formProfil) }}
+
+    <div class="style_1">
+        {{ form_row(formProfil.pseudo) }}
+    </div>
+
+    <div class="style_1">
+        {{ form_row(formProfil.nom) }}
+    </div>
+
+    <div class="style_1">
+        {{ form_row(formProfil.prenom) }}
+    </div>
+
+    <div class="style_1">
+        {{ form_row(formProfil.telephone) }}
+    </div>
+
+    <div class="style_1">
+        {{ form_row(formProfil.email) }}
+    </div>
+
+    <div class="style_1">
+        {{ form_row(formProfil.password.first) }}
+    </div>
+
+    <div class="style_1">
+        {{ form_row(formProfil.password.second) }}
+    </div>
+
+    <div class="style_1">
+        {{ form_row(formProfil.site_id) }}
+    </div><br>
+
+    <div class="style_1">
+        {{ form_row(formProfil.submit) }}
+    </div>
+
+    {{ form_end(formProfil) }}
 
     <br>
     <a href="{{ path('participant_modifier_profil') }}">

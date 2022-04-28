@@ -86,7 +86,6 @@ class ProfilType extends AbstractType
     {
         $resolver->setDefaults([
             'date_class' => Participant::class,
-            'type' => 'modifier',
-            ]);
+        ]);
     }
 }

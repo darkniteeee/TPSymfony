@@ -32,7 +32,8 @@ class InscriptionType extends AbstractType
 
         $builder
             ->add('telephone', TextType::class, [
-                'label' => 'Téléphone']);
+                'label' => 'Téléphone',
+                'required' =>false]);
 
         $builder
             ->add('email', TextType::class, [
@@ -82,7 +83,6 @@ class InscriptionType extends AbstractType
     {
         $resolver->setDefaults([
             'date_class' => Participant::class,
-            'type' => 'enregistrer',
         ]);
     }
 }
