@@ -102,7 +102,8 @@ class ParticipantController extends AbstractController
     /**
      * @Route(name="modifier_password", path="modifier_password", methods={"GET", "POST"})
      */
-    public function modifierPassword(Request $request, UserPasswordHasherInterface $participantPasswordHasher, EntityManagerInterface $entityManager): Response{
+    public function modifierPassword(Request $request, UserPasswordHasherInterface $participantPasswordHasher, EntityManagerInterface $entityManager): Response
+    {
 
         //Récupération de l'entité
         $participant = $this->getUser();
@@ -118,11 +119,10 @@ class ParticipantController extends AbstractController
 
             $oldPassword = $_POST['modifier_password']['password'];
 
-            // Hashage du mot de passe
-            $participant->setNewPassword($participantPasswordHasher->hashPassword($participant, $participant->getnewPassword()));
-
             if($participantPasswordHasher->isPasswordValid($participant, $oldPassword)){
-
+                dd($participant);
+                // Hashage du mot de passe
+                $participant->setNewPassword($participantPasswordHasher->hashPassword($participant, $participant->getnewPassword()));
 
                 //Validation de la transaction
                 $entityManager->flush();
