@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block main %}
-    {% form_theme formProfil 'bootstrap_4_layout.html.twig' %}
+  {% form_theme formProfil 'bootstrap_4_layout.html.twig' %}
 
     {{ form_start(formProfil) }}
 
@@ -31,7 +31,7 @@
         {{ form_row(formProfil.email) }}
     </div>
 
-    <div class="style_1" disabled="disabled">
+    <div class="style_1">
         {{ form_row(formProfil.password.first) }}
     </div>
 

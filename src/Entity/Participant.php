@@ -347,6 +347,25 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         $this->plainPassword = $plainPassword;
     }
 
+    /**
+     * @return string|null
+     */
+    public function getNewPassword(): ?string
+    {
+        return $this->newPassword;
+    }
+
+    /**
+     * @param string|null $newPassword
+     */
+    public function setNewPassword(?string $newPassword): void
+    {
+        $this->newPassword = $newPassword;
+    }
+
+
+
+
     // ******************* Méthodes pour Role ****************
 
     /**

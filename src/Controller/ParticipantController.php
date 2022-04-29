@@ -108,30 +108,33 @@ class ParticipantController extends AbstractController
         $participant = $this->getUser();
 
         // Association de l'entité au formulaire
-        $formModifierPassword = $this->createForm(ModifierPasswordType::class, $participant);
+
+        $formModifierPassword= $this->createForm(ModifierPasswordType::class, $participant);
+
         $formModifierPassword->handleRequest($request);
-
-        dd($request);
-
-
-
-        $oldPassword = $_POST[" "]["password"];
 
         //Vérification de la soumission du formulaire
         if ($formModifierPassword->isSubmitted() && $formModifierPassword->isValid()){
 
+            $oldPassword = $_POST['modifier_password']['password'];
+
+            // Hashage du mot de passe
+            $participant->setNewPassword($participantPasswordHasher->hashPassword($participant, $participant->getnewPassword()));
+
             if($participantPasswordHasher->isPasswordValid($participant, $oldPassword)){
 
-            }
-            //Validation de la transaction
-            $entityManager->flush();
 
-            //Ajouter un message de confirmation
-            $this->addFlash('success', 'Le mot de passe a bien été modifié !');
+                //Validation de la transaction
+                $entityManager->flush();
+
+                //Ajouter un message de confirmation
+                $this->addFlash('success', 'Le mot de passe a bien été modifié !');
+            }
+
         }
 
         // Envoi du formulaire à la vue
-        return $this->render('participant/profil.html.twig', [
+        return $this->render('participant/modifier_password.html.twig', [
             'formModifierPassword' => $formModifierPassword->createView(),
         ]);
 
