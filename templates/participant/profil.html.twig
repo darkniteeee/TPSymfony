@@ -31,7 +31,7 @@
         {{ form_row(formProfil.email) }}
     </div>
 
-    <div class="style_1">
+    <div class="style_1" disabled="disabled">
         {{ form_row(formProfil.password.first) }}
     </div>
 
@@ -50,7 +50,7 @@
     {{ form_end(formProfil) }}
 
     <br>
-    <a href="{{ path('participant_modifier_profil') }}">
+    <a href="{{ path('participant_modifier_password') }}">
         <input type="button" value="Modifier le mot de passe">
     </a>
 

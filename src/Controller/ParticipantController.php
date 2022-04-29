@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Participant;
 use App\Form\InscriptionType;
+use App\Form\ModifierPasswordType;
 use App\Form\ProfilType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,7 +26,6 @@ class ParticipantController extends AbstractController
 
         //Récupération de l'entité
         $participant = $this->getUser();
-
 
         // Association de l'entité au formulaire
         $formProfil = $this->createForm(ProfilType::class, $participant);
@@ -94,6 +94,45 @@ class ParticipantController extends AbstractController
         // Envoi du formulaire à la vue
         return $this->render('participant/inscription.html.twig', [
             'formInscription' => $formInscription->createView(),
+        ]);
+
+
+    }
+
+    /**
+     * @Route(name="modifier_password", path="modifier_password", methods={"GET", "POST"})
+     */
+    public function modifierPassword(Request $request, UserPasswordHasherInterface $participantPasswordHasher, EntityManagerInterface $entityManager): Response{
+
+        //Récupération de l'entité
+        $participant = $this->getUser();
+
+        // Association de l'entité au formulaire
+        $formModifierPassword = $this->createForm(ModifierPasswordType::class, $participant);
+        $formModifierPassword->handleRequest($request);
+
+        dd($request);
+
+
+
+        $oldPassword = $_POST[" "]["password"];
+
+        //Vérification de la soumission du formulaire
+        if ($formModifierPassword->isSubmitted() && $formModifierPassword->isValid()){
+
+            if($participantPasswordHasher->isPasswordValid($participant, $oldPassword)){
+
+            }
+            //Validation de la transaction
+            $entityManager->flush();
+
+            //Ajouter un message de confirmation
+            $this->addFlash('success', 'Le mot de passe a bien été modifié !');
+        }
+
+        // Envoi du formulaire à la vue
+        return $this->render('participant/profil.html.twig', [
+            'formModifierPassword' => $formModifierPassword->createView(),
         ]);
 
 
