@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}: Création d'une sortie{% endblock %}
+
+{% block informations %}
+    <h1 class="jumbotron-heading">Création d'une sortie</h1><br/>
+{% endblock %}
+
+{% block main %}
+
+    {% form_theme formCreation 'bootstrap_4_layout.html.twig' %}
+    {{ form($formCreation) }}
+
+{% endblock %}
