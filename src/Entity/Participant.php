@@ -62,6 +62,8 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private ?string $plainPassword = null;
 
+    private ?string $newPassword = null;
+
     /**
      * @ORM\Column(name="nom", type="string", length=30)
      * @Assert\NotBlank(message="Le nom est requis !")
