@@ -19,7 +19,7 @@ class SortieController extends AbstractController
     /**
      * @Route(name="list", path="list", methods={"GET"})
      */
-    public function list(Request $request, EntityManagerInterface $entityManager, UserInterface $user){
+    public function list(Request $request, EntityManagerInterface $entityManager){
 
         $sortie = new Sortie();
 
@@ -34,7 +34,7 @@ class SortieController extends AbstractController
             return $this->redirectToRoute('sortie_list');
         }
 
-        $sorties = $entityManager->getRepository('App:Sortie')->findBytruck(1);
+        $sorties = $entityManager->getRepository('App:Sortie')->findByUtilisateurSite($this->getUser()->getSiteId()->getId());
 //        $participants = $entityManager->getRepository('App:Participant')->findAll();
 //        dd($sorties);
 
