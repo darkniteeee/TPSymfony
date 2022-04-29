@@ -54,14 +54,13 @@ class SortieRepository extends ServiceEntityRepository
         return $query->getQuery()->getOneOrNullResult();
     }
 
-    public function findBytruck ($idSite): ?Sortie{
+    public function findBytruck (int $idSite){
         $query = $this->createQueryBuilder('sortie')
             ->innerJoin('sortie.organisateur', 'participant')
 //            ->innerJoin('sortie.inscrits', 'inscription')
             ->addSelect('participant')
 //            ->addSelect('inscription');
             ->where('sortie.lieu = :lieu')->setParameter('lieu', $idSite);
-
 //            ->andWhere()
         return $query->getQuery()->getResult();
 
