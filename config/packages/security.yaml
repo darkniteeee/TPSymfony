@@ -46,9 +46,24 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/profile, roles: ROLE_USER }
-        - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
+        - { path: ^/participant/inscrire, roles: PUBLIC_ACCESS }
+        - { path: ^/security/login, roles: ROLE_VISITEUR }
+        - { path: ^/participant/modifier_profil, roles: ROLE_USER }
+        - { path: ^^/security/logout, roles: ROLE_USER }
+        - { path: ^/lieu, roles: ROLE_ADMIN }
+        - { path: ^/ville, roles: ROLE_ADMIN }
+        - { path: ^/site, roles: ROLE_SUPER_ADMIN }
+        - { path: ^/etat, roles: ROLE_SUPER_ADMIN }
+
+    role_hierarchy:
+
+        ROLE_SUSPENDU: ROLE_SUSPENDU
+        ROLE_USER: ROLE_USER
+        ROLE_PARTICIPANT: [ROLE_PARTICIPANT, ROLE_USER]
+        ROLE_ORGANISATEUR: [ROLE_ORGANISATEUR, ROLE_PARTICIPANT]
+        ROLE_ADMIN: [ROLE_ADMIN, ROLE_ORGANISATEUR]
+        ROLE_SUPER_ADMIN: [ROLE_SUPER_ADMIN, ROLE_ADMIN ,ROLE_ALLOWED_TO_SWITCH]
 
 when@test:
     security:
