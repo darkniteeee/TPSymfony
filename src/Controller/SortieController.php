@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Sortie;
 use App\Form\RechercheType;
+use App\Form\SortieType;
 use App\Repository\EtatRepository;
 use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
@@ -81,6 +82,47 @@ class SortieController extends AbstractController
 //
 //            'formRechercheSortie' =>$formRechercheSortie->createView(),
 //        ]);
+
+    }
+
+    /**
+     * @Route(name="creer", path="creer", methods={"GET", "POST"})
+     */
+    public function creerSortie(Request $request, EntityManagerInterface $entityManager){
+
+        //Création de l'entité
+        $sortie = new Sortie();
+
+        // Association de l'entité au formulaire
+        $formCreation = $this->createForm(SortieType::class, $sortie);
+
+        $formCreation->handleRequest($request);
+
+        //Vérification de la soumission du formulaire
+        if ($formCreation->isSubmitted() && $formCreation->isValid()){
+
+            // Association de l'objet
+            $entityManager->persist($sortie);
+
+            //Validation de la transaction
+            $entityManager->flush();
+
+            //Ajouter un message de confirmation
+            $this->addFlash('success', 'Votre sortie a bien été créée !');
+
+            // Redirection de l'utilisateur sur l'accueil
+            return $this->redirectToRoute('accueil_home');
+        }
+        else{
+            //Ajouter un message de confirmation
+            $this->addFlash('error', 'Votre sortie n"a pas été !');
+        }
+
+        // Envoi du formulaire à la vue
+        return $this->render('participant/inscription.html.twig', [
+            'formCreation' => $formCreation->createView(),
+        ]);
+
 
     }
 
