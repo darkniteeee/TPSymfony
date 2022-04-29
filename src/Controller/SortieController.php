@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Config\Doctrine\Orm\EntityManagerConfig;
 
 /**
@@ -18,7 +19,7 @@ class SortieController extends AbstractController
     /**
      * @Route(name="list", path="list", methods={"GET"})
      */
-    public function list(Request $request, EntityManagerInterface $entityManager){
+    public function list(Request $request, EntityManagerInterface $entityManager, UserInterface $user){
 
         $sortie = new Sortie();
 
@@ -33,15 +34,15 @@ class SortieController extends AbstractController
             return $this->redirectToRoute('sortie_list');
         }
 
-        $sorties = $entityManager->getRepository('App:Sortie')->findAll();
-        $participants = $entityManager->getRepository('App:Participant')->findAll();
-
+        $sorties = $entityManager->getRepository('App:Sortie')->findBytruck(1);
+//        $participants = $entityManager->getRepository('App:Participant')->findAll();
+//        dd($sorties);
 
 
 
         return $this->render('sortie/list.html.twig', [
             'sorties' => $sorties,
-            'participants' => $participants,
+//            'participants' => $participants,
 
             'formRechercheSortie' =>$formRechercheSortie->createView(),
         ]);
