@@ -3,11 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Lieu;
-use App\Entity\Site;
 use App\Entity\Sortie;
 use App\Entity\Ville;
 use App\Repository\LieuRepository;
-use App\Repository\SiteRepository;
 use App\Repository\VilleRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -38,23 +36,17 @@ class SortieType extends AbstractType
         $builder->add('description_sortie', TextType::class, [
             'label' => 'Description et informations'
         ]);
+
 //        $builder->add('motif_annulation');
 //        $builder->add('photo_sortie');
+
         $builder->add('site_organisateur', EntityType::class, [
             'label' => 'Site Organisateur',
-            'class' => Site::class,
-            'query_builder' => function (SiteRepository $sr) {
-                return $sr->createQueryBuilder('site')
-                    ->orderBy('site.nom_site', 'ASC');
-            },
-        ]);
-        $builder->add('ville', EntityType::class, [
-            'label' => 'Ville',
-            'class' => Ville::class,
-            'query_builder' => function (VilleRepository $lr) {
-                return $lr->createQueryBuilder('ville')
-                    ->orderBy('ville.nom_ville', 'ASC');
-            },
+            'class' => Sortie::class,
+//            'query_builder' => function (SortieRepository $sr) {
+//                return $sr->createQueryBuilder('site')
+//                    ->orderBy('site.nom_site', 'ASC');
+//            },
         ]);
 
         $builder->add('lieu', EntityType::class, [
@@ -63,6 +55,16 @@ class SortieType extends AbstractType
             'query_builder' => function (LieuRepository $lr) {
                 return $lr->createQueryBuilder('lieu')
                     ->orderBy('lieu.nom_lieu', 'ASC');
+            },
+        ]);
+
+        $builder->add('ville', EntityType::class, [
+            'label' => 'Ville',
+            'mapped' => false,
+            'class' => Ville::class,
+            'query_builder' => function (VilleRepository $lr) {
+                return $lr->createQueryBuilder('ville')
+                    ->orderBy('ville.nom_ville', 'ASC');
             },
         ]);
 

@@ -88,7 +88,7 @@ class Ville
     /**
      * @return Collection<int, Lieu>
      */
-    public function getLieus(): Collection
+    public function getLieux(): Collection
     {
         return $this->lieux;
     }

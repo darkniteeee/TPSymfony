@@ -153,8 +153,8 @@ class SortieController extends AbstractController
             return $this->redirectToRoute('accueil_home');
         }
         else{
-            //Ajouter un message de confirmation
-            $this->addFlash('error', 'Votre sortie n"a pas été !');
+            //Ajouter un message d'erreur'
+            $this->addFlash('error', 'Votre sortie n"a pas été créée !');
         }
 
         // Envoi du formulaire à la vue

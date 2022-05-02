@@ -114,6 +114,8 @@ class Sortie
      */
     private $inscrits;
 
+
+    ########Constructeur########
     public function __construct()
     {
 
@@ -122,7 +124,7 @@ class Sortie
     }
 
 
-    #Mise en place en des getters setters
+    ########  Mise en place des getters setters ###########
     /**
      * @return int|null
      */
@@ -360,6 +362,7 @@ class Sortie
 
         return $this;
     }
+
 
 
 }
