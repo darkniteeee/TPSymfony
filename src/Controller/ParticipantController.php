@@ -120,7 +120,7 @@ class ParticipantController extends AbstractController
             $oldPassword = $_POST['modifier_password']['password'];
 
             if($participantPasswordHasher->isPasswordValid($participant, $oldPassword)){
-                dd($participant);
+
                 // Hashage du mot de passe
                 $participant->setNewPassword($participantPasswordHasher->hashPassword($participant, $participant->getnewPassword()));
 
