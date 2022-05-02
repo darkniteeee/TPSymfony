@@ -96,9 +96,13 @@
                     <td>{{ sortie.NomSortie }}</td>
                     <td>{{ sortie.DateDebut|date('d/m/Y H:i:s') }}</td>
                     <td>{{ sortie.DateLimiteInscription|date('d/m/Y H:i:s') }}</td>
-                    <td>/{{ sortie.NbInscriptionMax }}</td>
+                    <td>{{ sortie.inscrits|length }}/{{ sortie.NbInscriptionMax }}</td>
                     <td>{{ sortie.etat.libelle }}</td>
-{#                   <td>{{ sortie.Participants. }}</td>#}
+                    {% for inscrit in sortie.inscrits %}
+                        {% if  app.user.id == inscrit.Id %}
+                            <td>inscrit</td>
+                        {% endif %}
+                    {% endfor%}
                     <td>{{ sortie.organisateur.nom }}</td>
 
                     {% if (sortie.etat.libelle == "En cours") or (sortie.etat.libelle == "Fermé") %}

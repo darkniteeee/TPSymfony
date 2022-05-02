@@ -94,7 +94,7 @@ class SortieRepository extends ServiceEntityRepository
 
             $user = $this->getEntityManager()->getRepository(Participant::class)->find($inscrit);
 
-            $query->andWhere(':inscrit MEMBER OF sortie.participants')
+            $query->andWhere(':inscrit MEMBER OF sortie.inscrits')
 
                 ->setParameter('inscrit', $user);
 
@@ -105,7 +105,7 @@ class SortieRepository extends ServiceEntityRepository
 
             $user = $this->getEntityManager()->getRepository(Participant::class)->find($nonInscrit);
 
-            $query->andWhere(':inscrit NOT MEMBER OF sortie.participants')
+            $query->andWhere(':inscrit NOT MEMBER OF sortie.inscrits')
 
                 ->setParameter('inscrit', $user);
 
