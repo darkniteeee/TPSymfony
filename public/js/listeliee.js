@@ -8,10 +8,12 @@ $(document).on('change', '#sortie_ville', function () {
 function chargerListeLieux(){
     $.ajax({
         method: "POST",
-        url: "ajax/rechercheLieuByVille", /* appel de la fonction rechercheLieuByVille du controlleur AjaxController*/
+        url: "/ajax/rechercheLieuByVille", /* appel de la fonction rechercheLieuByVille du controlleur AjaxController*/
         data: {
             'ville_id' : $('#sortie_ville').val() //recupération de la ville dans la data
+
         }
+
     }).done(function (response) {
         $('#sortie_lieu').html(''); //initialisation de la liste des lieux
         //chargement des lieux fournis dans la response, dans la liste deroulante
@@ -21,4 +23,5 @@ function chargerListeLieux(){
             $('#sortie_lieu').append(option);
         }
     })
+
 }

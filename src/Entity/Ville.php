@@ -20,7 +20,7 @@ class Ville
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(name="id", type="integer", options={"unsigned": true})
      */
-    private $id = null;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(name="nom_ville", type="string", length=30)

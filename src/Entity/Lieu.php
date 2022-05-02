@@ -31,7 +31,7 @@ class Lieu
      *     maxMessage = "Le nom du lieu doit contenir au maximum {{ limit }} caractères !"
      * )
      */
-    private ?string $nom_lieu = null;
+    private string $nom_lieu;
 
     /**
      * @ORM\Column(type="string", length=30, nullable=true)

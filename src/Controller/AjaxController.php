@@ -21,8 +21,10 @@ class AjaxController extends AbstractController
         //declaration des variables
         $json_data = array();
         $i = 0;
+        //dd($request->request->get('id'));
         //recherche les lieux correspondant à la ville selectionnée
         $lieux = $lieuRepository->findBy(['ville' => $request->request->get('ville_id')]);
+        //$lieux = $lieuRepository->findBy(['ville' => 1]);
         //dd($lieux);
         //si lieux trouvées ...
         if(sizeof($lieux)> 0){
