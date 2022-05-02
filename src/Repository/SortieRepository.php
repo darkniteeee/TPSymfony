@@ -134,6 +134,18 @@ class SortieRepository extends ServiceEntityRepository
 
         return $query->getQuery()->getResult();
 
+
+    }
+
+    public function findByDateDESC(){
+        $query = $this->createQueryBuilder('sortie')
+            ->innerJoin('sortie.organisateur', 'participant')
+//
+            ->addSelect('participant')
+            ->orderBy('sortie.date_debut', 'DESC');
+
+        return $query->getQuery()->getResult();
+
     }
 
 
