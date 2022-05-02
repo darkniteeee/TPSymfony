@@ -26,23 +26,25 @@
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="{{ path('accueil_home') }}">Accueil</a>
                         </li>
+                        {% if not app.user %}
                         <li class="nav-item">
                             <a class="nav-link" href="{{path('security_login') }}">Se connecter</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('participant_inscrire') }}">S'inscrire</a>
                         </li>
+                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('sortie_list') }}">Les sorties</a>
                         </li>
-{#                        {% if app.user %}#}
+                   {% if app.user %}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('participant_modifier_profil') }}">Mon profil</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('security_logout') }}" onclick="confirmer()">Se déconnecter</a>
                         </li>
-{#                        {% endif %}#}
+                     {% endif %}
 
                     </ul>
                 </div>
