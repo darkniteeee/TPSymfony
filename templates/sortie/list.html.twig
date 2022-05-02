@@ -104,7 +104,7 @@
                         {% endif %}
                     {% endfor%}
                     <td>{{ sortie.organisateur.nom }}</td>
-                        <td><a href="#">Afficher</a></td>
+                        <td><a href="{{path ('sortie_detail', {'id' : sortie.id})}}">Afficher</a></td>
                     {% if sortie.inscrits contain(app.user.id)  %}
                         <td> <a href="#">Se désinscrire</a></td>
                     {% elseif sortie.etat.libelle == "Ouvert" %}
