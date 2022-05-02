@@ -111,7 +111,7 @@ class ParticipantController extends AbstractController
 
         // Association de l'entité au formulaire
 
-        $formModifierPassword= $this->createForm(ModifierPasswordType::class, $participant);
+        $formModifierPassword= $this->createForm(ModifierPasswordType::class);
 
         $formModifierPassword->handleRequest($request);
 
@@ -120,18 +120,22 @@ class ParticipantController extends AbstractController
         if ($formModifierPassword->isSubmitted() && $formModifierPassword->isValid()){
 
            $oldPassword = $_POST['modifier_password']['password'];
-            $participant=$this->getUser();
-            if(!$participantPasswordHasher->isPasswordValid($participant->getUser(), $oldPassword)){
-                $this->addFlash('error', 'Votre mot de passe n a pas été modifier !');
+
+           $participant=$this->getUser();
+            if($participantPasswordHasher->isPasswordValid($participant, $formModifierPassword["password"]->getData())){
+                // Hashage du mot de passe
+                $participant->setPassword($participantPasswordHasher->hashPassword($participant, $formModifierPassword["newPassword"]->getData()));
+
+                //Validation de la transaction
+                $entityManager->flush();
+
+                //Ajouter un message de confirmation
+                $this->addFlash('success', 'Le mot de passe a bien été modifié !');
+                return $this->redirectToRoute('accueil_home');
             }
-             // Hashage du mot de passe
-            $participant->setNewPassword($participantPasswordHasher->hashPassword($participant->getNewPassword(), $participant));
-
-            //Validation de la transaction
-            $entityManager->flush();
-
-            //Ajouter un message de confirmation
-            $this->addFlash('success', 'Le mot de passe a bien été modifié !');
+            else{
+                $this->addFlash('Error', 'mot de passe incorrect !');
+            }
 
         }
 
