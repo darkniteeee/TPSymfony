@@ -48,7 +48,7 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
-    public function recherche ($recherche_mt=null, $idSite=null, $idEtat=null, $dateDeDebut=null, $dateDeFin=null, $organisateurName=null, $inscrit=null, $nonInscrit=null, $passee=null){
+    public function recherche ($recherche_mt=null, $idSite=null, $idEtat=null, $dateDeDebut=null, $dateDeFin=null, $organisateur=null, $inscrit=null, $nonInscrit=null, $passee=null){
         $query =$this->createQueryBuilder('sortie')
             ->innerJoin('sortie.site_organisateur', 'site')
             ->innerJoin('sortie.organisateur', 'participant')
@@ -59,34 +59,35 @@ class SortieRepository extends ServiceEntityRepository
 
         if ($recherche_mt != null){
             $query->andWhere('sortie.nom_sortie LIKE :recherche_mt')
-                  ->setParameter('recherche_mt', '%'.$recherche_mt.'%');
+                ->setParameter('recherche_mt', '%'.$recherche_mt.'%');
         }
 
         if ($idSite > 0){
             $query->andWhere('site.id = :idSite')
-                  ->setParameter('idSite', $idSite);
+                ->setParameter('idSite', $idSite);
         }
 
         if ($idEtat > 0){
-            $query->andWhere('etats.id = :idEtat')
-                  ->setParameter('idEtat', $idEtat);
+            $query->andWhere('etat.id = :idEtat')
+                ->setParameter('idEtat', $idEtat);
         }
+
 
         if ($dateDeDebut !=null){
             $query->andWhere('sortie.date_debut > :dateDeDebut')
-                  ->setParameter('dateDeDedebut', new \DateTime($dateDeDebut));
+                ->setParameter('dateDeDebut', new \DateTime($dateDeDebut));
         }
 
         if ($dateDeFin !=null){
             $query->andWhere('sortie.date_debut < :dateDeFin')
-                  ->setParameter('dateDeFin', new \DateTime($dateDeFin));
+                ->setParameter('dateDeFin', new \DateTime($dateDeFin));
         }
 
-        if ($organisateurName != null){
+        if ($organisateur != null){
 //            = $user
-            $organisateurName = $this->getEntityManager()->getRepository(Participant::class)->find($organisateurName);
-            $query->andWhere('sortie.organisateur.name = :organisateurName')
-                   ->setParameter('organisateurName', $organisateurName);
+            $organisateur = $this->getEntityManager()->getRepository(Participant::class)->find($organisateur);
+            $query->andWhere('sortie.organisateur = :organisateur')
+                ->setParameter('organisateur', $organisateur);
         }
 
         if($inscrit != null){
@@ -120,6 +121,7 @@ class SortieRepository extends ServiceEntityRepository
 
         return $query->getQuery()->getResult();
     }
+
 
     public function findByUtilisateurSite (int $idSite){
         $query = $this->createQueryBuilder('sortie')

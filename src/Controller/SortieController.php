@@ -27,19 +27,9 @@ class SortieController extends AbstractController
 
 //        $sortie = $entityManager->getRepository('App:Sortie')->findByUtilisateurSite($this->getUser()->getSiteId()->getId());
 
+//        dd($sortiesQuery);
 
-        $sortiesQuery = $sortieRepo->recherche(
-            ($request->query->get('recherche_terme') != null ? $request->query->get('recherche_terme') : null),
-            ($request->query->get('recherche_site') != null ? $request->query->get('recherche_site') : null),
-            ($request->query->get('recherche_etat') != null ? $request->query->get('recherche_etat') : null),
-            ($request->query->get('dateDeDebut') != null ? $request->query->get('dateDeDebut') : null),
-            ($request->query->get('dateDeFin') != null ? $request->query->get('dateDeFin') : null),
-            ($request->query->get('organisateur') != null ? $request->query->get('cb_organisateur') : null),
-            ($request->query->get('cb_inscrit') != null ? $request->query->get('cb_inscrit') : null),
-            ($request->query->get('cb_non_inscrit') != null ? $request->query->get('cb_non_inscrit') : null),
-            ($request->query->get('cb_passee') != null ? $request->query->get('cb_passee') : null)
-        );
-
+        $sortie = $sortieRepo->findByUtilisateurSite($this->getUser()->getSiteId()->getId());
 
 
         //recuperation de tous les sites
@@ -47,15 +37,19 @@ class SortieController extends AbstractController
         //recuperation de tous les etats
         $etats = $etatRepo->findAll();
 
+
+
+        //délégation du travail au twig liste.html.twig en y passant en parametre les sorties filtrées, les sites et les etats
+
         //délégation du travail au twig liste.html.twig en y passant en parametre les sorties filtrées, les sites et les etats
         return $this->render("sortie/list.html.twig", [
 
-            'sorties' => $sortiesQuery,
-//            'sorties' => $sortie,
+            'sorties' => $sortie,
             'sites' => $sites,
             'etats' => $etats
         ]);
-
+//
+//        }
 
 
 //        $sortie = new Sortie();
@@ -82,6 +76,51 @@ class SortieController extends AbstractController
 //
 //            'formRechercheSortie' =>$formRechercheSortie->createView(),
 //        ]);
+
+    }
+
+
+
+    /**
+     * @Route(name="listRecherche", path="listRecherche", methods={"GET", "POST"})
+     */
+    public function listRecherche(Request $request, EntityManagerInterface $entityManager, SiteRepository $siteRepo, EtatRepository $etatRepo, SortieRepository $sortieRepo)
+    {
+
+//        $sortie = $entityManager->getRepository('App:Sortie')->findByUtilisateurSite($this->getUser()->getSiteId()->getId());
+
+
+        $sortiesQuery = $sortieRepo->recherche(
+            ($request->query->get('recherche_terme') != null ? $request->query->get('recherche_terme') : null),
+            ($request->query->get('recherche_site') != null ? $request->query->get('recherche_site') : null),
+            ($request->query->get('recherche_etat') != null ? $request->query->get('recherche_etat') : null),
+            ($request->query->get('date_debut') != null ? $request->query->get('date_debut') : null),
+            ($request->query->get('date_fin') != null ? $request->query->get('date_fin') : null),
+            ($request->query->get('cb_organisateur') != null ? $request->query->get('cb_organisateur') : null),
+            ($request->query->get('cb_inscrit') != null ? $request->query->get('cb_inscrit') : null),
+            ($request->query->get('cb_non_inscrit') != null ? $request->query->get('cb_non_inscrit') : null),
+            ($request->query->get('cb_passee') != null ? $request->query->get('cb_passee') : null)
+        );
+//        dd($sortiesQuery);
+
+
+        //recuperation de tous les sites
+        $sites = $siteRepo->findAll();
+        //recuperation de tous les etats
+        $etats = $etatRepo->findAll();
+
+//            if ($sortiesQuery ==null)
+//            {
+//                $sortiesQuery = $sortieRepo->findAll();
+//            }
+
+        return $this->render("sortie/listRecherche.html.twig", [
+
+            'sorties' => $sortiesQuery,
+            'sites' => $sites,
+            'etats' => $etats
+        ]);
+
 
     }
 

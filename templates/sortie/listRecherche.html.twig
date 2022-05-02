@@ -10,7 +10,7 @@
 
 {% block main %}
 
-<h1> </h1>
+    <h1> </h1>
 
     <h3>Filtrer les sorties</h3>
 
@@ -92,39 +92,43 @@
 
             {% for sortie in sorties %}
                 <tr>
+
                     <td> </td>
                     <td>{{ sortie.NomSortie }}</td>
                     <td>{{ sortie.DateDebut|date('d/m/Y H:i:s') }}</td>
                     <td>{{ sortie.DateLimiteInscription|date('d/m/Y H:i:s') }}</td>
                     <td>/{{ sortie.NbInscriptionMax }}</td>
                     <td>{{ sortie.etat.libelle }}</td>
-{#                   <td>{{ sortie.Participants. }}</td>#}
+                    {#                   <td>{{ sortie.Participants. }}</td>#}
                     <td>{{ sortie.organisateur.nom }}</td>
 
                     {% if (sortie.etat.libelle == "En cours") or (sortie.etat.libelle == "Fermé") %}
-{#                        AND sortie.participant.participants !=null#}
+                        {#                        AND sortie.participant.participants !=null#}
                         <td><a href="#">Afficher</a></td>
                     {% endif %}
                     {% if sortie.etat.libelle == "Passée" or sortie.etat.libelle == "Ouverte"  %}
-{#                        AND sortie.participant.participants !=null#}
+                        {#                        AND sortie.participant.participants !=null#}
                         <td><a href="#">Afficher</a> - <a href="#">Se désinscrire</a></td>
                     {% endif%}
-{#                    {% if sortie.etat.libelle == "Ouvert" %}#}
-{#                        AND sortie.participant.participants ==null#}
-{#                        <td><a href="#">Afficher</a> - <a href="#">S'inscrire</a></td>#}
-{#                    {% endif %}#}
+                    {#                    {% if sortie.etat.libelle == "Ouvert" %}#}
+                    {#                        AND sortie.participant.participants ==null#}
+                    {#                        <td><a href="#">Afficher</a> - <a href="#">S'inscrire</a></td>#}
+                    {#                    {% endif %}#}
                     {% if sortie.etat.libelle == "Créée" %}
-{#                        AND sortie.participant.organisateur !=null#}
+                        {#                        AND sortie.participant.organisateur !=null#}
                         <td><a href="#">Modifier</a> - <a href="#">Publier</a></td>
                     {% endif %}
-{#                    {% elseif sortie.etat.libelle == "Ouvert" %}#}
-{#                        AND sortie.participant.organisateur !=null#}
-{#                        <td><a href="#">Afficher</a> - <a href="#">Annuler</a></td>#}
-{#                    {% endif %}#}
+                    {#                    {% elseif sortie.etat.libelle == "Ouvert" %}#}
+                    {#                        AND sortie.participant.organisateur !=null#}
+                    {#                        <td><a href="#">Afficher</a> - <a href="#">Annuler</a></td>#}
+                    {#                    {% endif %}#}
                 </tr>
             {% endfor %}
             </tbody>
         </table>
+        {% if sorties is empty %}
+            <p>Aucun résultat ne correspond à votre requête</p>
+        {% endif %}
         <br>
         <a href="{{ path('sortie_creer') }}">
             <input type="button" value="Créer une sortie">
