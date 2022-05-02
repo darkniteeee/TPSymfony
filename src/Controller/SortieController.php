@@ -165,5 +165,18 @@ class SortieController extends AbstractController
 
     }
 
+    /**
+     * @Route(name="inscription", path="inscription", methods={"GET", "POST"})
+     */
+    public function inscription(Request $request, EntityManagerInterface $entityManager){
 
-}
+        $participant = $entityManager->getRepository('App:Participant')
+            ->findOneBy("id", $this->getUser()->getId());
+        
+
+
+    }
+
+
+
+    }

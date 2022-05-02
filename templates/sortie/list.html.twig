@@ -104,19 +104,12 @@
                         {% endif %}
                     {% endfor%}
                     <td>{{ sortie.organisateur.nom }}</td>
-
-                    {% if (sortie.etat.libelle == "En cours") or (sortie.etat.libelle == "Fermé") %}
-{#                        AND sortie.participant.participants !=null#}
                         <td><a href="#">Afficher</a></td>
-                    {% endif %}
-                    {% if sortie.etat.libelle == "Passée" or sortie.etat.libelle == "Ouverte"  %}
-{#                        AND sortie.participant.participants !=null#}
-                        <td><a href="#">Afficher</a> - <a href="#">Se désinscrire</a></td>
-                    {% endif%}
-{#                    {% if sortie.etat.libelle == "Ouvert" %}#}
-{#                        AND sortie.participant.participants ==null#}
-{#                        <td><a href="#">Afficher</a> - <a href="#">S'inscrire</a></td>#}
-{#                    {% endif %}#}
+                    {% if sortie.inscrits contain(app.user.id)  %}
+                        <td> <a href="#">Se désinscrire</a></td>
+                    {% elseif sortie.etat.libelle == "Ouvert" %}
+                       <td> <a href="{{path ('sortie_inscription', {'id' : sortie.id})}}">S'inscrire</a></td>
+                 {% endif %}
                     {% if sortie.etat.libelle == "Créée" %}
 {#                        AND sortie.participant.organisateur !=null#}
                         <td><a href="#">Modifier</a> - <a href="#">Publier</a></td>
