@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
+
 /**
  * @Route(name="participant_", path="participant/")
  */
@@ -114,22 +115,23 @@ class ParticipantController extends AbstractController
 
         $formModifierPassword->handleRequest($request);
 
+
         //Vérification de la soumission du formulaire
         if ($formModifierPassword->isSubmitted() && $formModifierPassword->isValid()){
 
-            $oldPassword = $_POST['modifier_password']['password'];
-
-            if($participantPasswordHasher->isPasswordValid($participant, $oldPassword)){
-
-                // Hashage du mot de passe
-                $participant->setNewPassword($participantPasswordHasher->hashPassword($participant, $participant->getnewPassword()));
-
-                //Validation de la transaction
-                $entityManager->flush();
-
-                //Ajouter un message de confirmation
-                $this->addFlash('success', 'Le mot de passe a bien été modifié !');
+           $oldPassword = $_POST['modifier_password']['password'];
+            $participant=$this->getUser();
+            if(!$participantPasswordHasher->isPasswordValid($participant->getUser(), $oldPassword)){
+                $this->addFlash('error', 'Votre mot de passe n a pas été modifier !');
             }
+             // Hashage du mot de passe
+            $participant->setNewPassword($participantPasswordHasher->hashPassword($participant->getNewPassword(), $participant));
+
+            //Validation de la transaction
+            $entityManager->flush();
+
+            //Ajouter un message de confirmation
+            $this->addFlash('success', 'Le mot de passe a bien été modifié !');
 
         }
 

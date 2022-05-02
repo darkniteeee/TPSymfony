@@ -17,8 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(fields={"pseudo"}, message="Le pseudo est déjà utilisé !")
  * @UniqueEntity(fields={"email"}, message="L'adresse e-mail est déjà utilisée !")
  */
-class Participant implements UserInterface, PasswordAuthenticatedUserInterface
-{
+class Participant implements UserInterface , PasswordAuthenticatedUserInterface{
     /**
      * @ORM\Id
      * @ORM\GeneratedValue (strategy="AUTO")
@@ -62,6 +61,10 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private ?string $plainPassword = null;
 
+    /**
+     * @var string The hashed password
+     *
+     */
     private ?string $newPassword = null;
 
     /**

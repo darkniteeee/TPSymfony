@@ -2,12 +2,10 @@
 
 namespace App\Security;
 
-use App\Form\ModifierPasswordType;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\ParticipantRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Security;
@@ -26,20 +24,29 @@ class ConnexionAuthenticator extends AbstractLoginFormAuthenticator
     public const LOGIN_ROUTE = 'security_login';
 
     private UrlGeneratorInterface $urlGenerator;
+    private ParticipantRepository $userRepository;
 
-    public function __construct(UrlGeneratorInterface $urlGenerator)
+    public function __construct(UrlGeneratorInterface $urlGenerator, ParticipantRepository $participantRepository)
     {
         $this->urlGenerator = $urlGenerator;
+        $this->ParticipantRepository = $participantRepository;
     }
 
     public function authenticate(Request $request): Passport
     {
-        $email = $request->request->get('email', '');
+        $pseudoOrEmail = $request->request->get('pseudo_or_email', '');
+        $request->getSession()->set(Security::LAST_USERNAME, $pseudoOrEmail);
 
-        $request->getSession()->set(Security::LAST_USERNAME, $email);
+        // Vérification de la connexion par email / pseudo
+        $field = 'pseudo';
+        if (filter_var($pseudoOrEmail, FILTER_VALIDATE_EMAIL)) {
+            $field = 'email';
+        }
 
         return new Passport(
-            new UserBadge($email),
+            new UserBadge ($pseudoOrEmail, function ($userIdentifier) use ($field) {
+                return $this->ParticipantRepository->findOneBy([$field => $userIdentifier]);
+            }),
             new PasswordCredentials($request->request->get('password', '')),
             [
                 new RememberMeBadge(),
