@@ -172,11 +172,22 @@ class SortieController extends AbstractController
 
         $participant = $entityManager->getRepository('App:Participant')
             ->findOneBy("id", $this->getUser()->getId());
-        
+
 
 
     }
 
+    /**
+     * @Route(name="detail", path="detail", methods={"GET", "POST"})
+     */
+    public function detail(Request $request, EntityManagerInterface $entityManager){
+
+        $participant = $entityManager->getRepository('App:Participant')
+            ->findOneBy("id", $this->getUser()->getId());
+
+
+
+    }
 
 
     }
