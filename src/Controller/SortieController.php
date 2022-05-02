@@ -158,7 +158,7 @@ class SortieController extends AbstractController
         }
 
         // Envoi du formulaire à la vue
-        return $this->render('participant/inscription.html.twig', [
+        return $this->render('sortie/creation.html.twig', [
             'formCreation' => $formCreation->createView(),
         ]);
 
