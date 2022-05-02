@@ -83,6 +83,7 @@ class SortieType extends AbstractType
             $builder = $form->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
                 'placeholder' => $ville ? 'Sélectionnez votre lieu' : 'Selectionnez votre ville',
+                'choice_label' => 'nom_lieu',
                 'required' => true,
                 'auto_initialize' => false,
                 'choices' => $ville ? $ville->getLieux() : []
