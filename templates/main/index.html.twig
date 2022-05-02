@@ -2,7 +2,11 @@
 {% block title %}{{ parent() }}: Page d'accueil{% endblock %}
 
 {% block informations %}
+    {% if app.user%}
     <h1 class="jumbotron-heading">Bienvenue: {{ app.user.prenom }} {{ app.user.nom }}</h1><br/>
+    {%else%}
+    <h1 class="jumbotron-heading">Bienvenue</h1><br/>
+    {%endif%}
 {% endblock %}
 
 {% block main %}
