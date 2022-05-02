@@ -23,6 +23,7 @@ class AjaxController extends AbstractController
         $i = 0;
         //recherche les lieux correspondant à la ville selectionnée
         $lieux = $lieuRepository->findBy(['ville' => $request->request->get('ville_id')]);
+        //dd($lieux);
         //si lieux trouvées ...
         if(sizeof($lieux)> 0){
             //pour chaque lieu, hydratation d'un tableau

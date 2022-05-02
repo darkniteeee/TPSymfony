@@ -75,9 +75,6 @@ class SortieType extends AbstractType
                 }
             }
         );
-        $builder
-            ->add('submit', SubmitType::class, [
-                'label' => 'Créer']);
 
     }
 

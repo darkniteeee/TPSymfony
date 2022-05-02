@@ -8,9 +8,18 @@
 
 {% block main %}
 
-    {% form_theme formCreation 'bootstrap_4_layout.html.twig' %}
-    {{ form(formCreation) }}
+{#    {% form_theme formCreation 'bootstrap_4_layout.html.twig' %}#}
 
+{{ form_start(formCreation)}}
+    {{form_widget(formCreation)}}
+
+    <input type="submit" value="Créer">
+
+    {{form_end(formCreation)}}
 
 
 {% endblock %}
+
+{%block script%}
+    <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
+{%endblock%}
