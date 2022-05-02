@@ -6,6 +6,7 @@ use App\Entity\Participant;
 use App\Form\InscriptionType;
 use App\Form\ModifierPasswordType;
 use App\Form\ProfilType;
+use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +24,7 @@ class ParticipantController extends AbstractController
     /**
      * @Route(name="modifier_profil", path="modifier_profil", methods={"GET", "POST"})
      */
-    public function modifierProfil(Request $request, EntityManagerInterface $entityManager): Response{
+    public function modifierProfil(Request $request, ParticipantRepository $participantRepository, UserPasswordHasherInterface $participantPasswordHasher): Response{
 
         //Récupération de l'entité
         $participant = $this->getUser();
@@ -35,16 +36,26 @@ class ParticipantController extends AbstractController
         //Vérification de la soumission du formulaire
         if ($formProfil->isSubmitted() && $formProfil->isValid()){
 
+            //Vérification password BD et entrée utilisateur
+
+            if($participantPasswordHasher->isPasswordValid($participant, $formProfil->getData()->getPlainPassword())){
+
+             $participantRepository->add($participant);
+
+                //Ajouter un message de confirmation
+                $this->addFlash('success', 'Le profil a bien été modifié !');
+                return $this->redirectToRoute('accueil_home');
+            }
+            else{
+                $this->addFlash('Error', 'ERREUR : mot de passe incorrect !');
+            }
+
+
             //Début photo de profil du formulaire
 //            $photo_profil_file = $formProfil->get('photo_profil')->getData();
 //
 //            if($photo_profil_file){}
 
-            //Validation de la transaction
-            $entityManager->flush();
-
-            //Ajouter un message de confirmation
-            $this->addFlash('success', 'Le profil a bien été modifié !');
         }
 
         // Envoi du formulaire à la vue

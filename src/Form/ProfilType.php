@@ -43,13 +43,10 @@ class ProfilType extends AbstractType
                 'label' => 'Email',
                 'required' => true]);
 
-        $builder->add('password', RepeatedType::class, [
-            'type' => PasswordType::class,
+        $builder->add('plainPassword', PasswordType::class, [
             'required' => true,
-            'invalid_message' => 'Les mots de passe ne sont pas identiques !',
-            'options' => ['attr' => ['class' => 'password-field']],
-            'first_options'  => ['label' => 'Mot de passe'],
-            'second_options' => ['label' => 'Mot de passe (Confirmation)'],
+            'label' => 'Entrer mot de passe pour confirmation '
+
         ]);
 
         $builder
