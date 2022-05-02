@@ -104,20 +104,20 @@
                         {% endif %}
                     {% endfor%}
                     <td>{{ sortie.organisateur.nom }}</td>
-                        <td><a href="#">Afficher</a></td>
-                    {% if sortie.inscrits contain(app.user.id)  %}
-                        <td> <a href="#">Se désinscrire</a></td>
-                    {% elseif sortie.etat.libelle == "Ouvert" %}
-                       <td> <a href="{{path ('sortie_inscription', {'id' : sortie.id})}}">S'inscrire</a></td>
-                 {% endif %}
+                    <td><a href="{{path ('sortie_detail', {'id' : sortie.id})}}">Afficher</a></td>
+                    {#                    {% if sortie.inscrits contain(app.user.id)  %}#}
+                    <td> <a href="#">Se désinscrire</a></td>
+                    {#                    {% elseif sortie.etat.libelle == "Ouvert" %}#}
+                    <td> <a href="{{path ('sortie_inscription', {'id' : sortie.id})}}">S'inscrire</a></td>
+                    {#                 {% endif %}#}
                     {% if sortie.etat.libelle == "Créée" %}
-{#                        AND sortie.participant.organisateur !=null#}
+                        {#                        AND sortie.participant.organisateur !=null#}
                         <td><a href="#">Modifier</a> - <a href="#">Publier</a></td>
                     {% endif %}
-{#                    {% elseif sortie.etat.libelle == "Ouvert" %}#}
-{#                        AND sortie.participant.organisateur !=null#}
-{#                        <td><a href="#">Afficher</a> - <a href="#">Annuler</a></td>#}
-{#                    {% endif %}#}
+                    {#               {% elseif sortie.etat.libelle == "Ouvert" %}#}
+                    {#                      AND sortie.participant.organisateur !=null#}
+                    {#                        <td><a href="#">Afficher</a> - <a href="#">Annuler</a></td>#}
+                    {#                    {% endif %}#}
                 </tr>
             {% endfor %}
             </tbody>
