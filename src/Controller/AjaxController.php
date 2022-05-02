@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AjaxController extends AbstractController
 {
     /**
-     * @Route("path="rechercheLieuByVille", name="rechercher_lieu_by_ville")
+     * @Route(path="rechercheLieuByVille", name="rechercher_lieu_by_ville")
      */
     public function rechercheAjaxByVille(Request $request , EntityManagerInterface $entityManager, LieuRepository  $lieuRepository){
         //declaration des variables
