@@ -77,10 +77,13 @@ class SortieController extends AbstractController
     /**
      * @Route(name="creer", path="creer", methods={"GET", "POST"})
      */
-    public function creerSortie(Request $request, EntityManagerInterface $entityManager){
+    public function creerSortie(Request $request, EntityManagerInterface $entityManager, SiteRepository $siteRepo, EtatRepository $etatRepo){
 
         //Création de l'entité
         $sortie = new Sortie();
+        $sortie->setOrganisateur($this->getUser());
+        $sortie->setSiteOrganisateur($siteRepo->find($this->getUser()->getSiteId()->getId()));
+        $sortie->setEtat($etatRepo->find(1));
 
         // Association de l'entité au formulaire
         $formCreation = $this->createForm(SortieType::class, $sortie);
