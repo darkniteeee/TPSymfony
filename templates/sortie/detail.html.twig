@@ -5,3 +5,85 @@
 {% block informations %}
     <h1 class="jumbotron-heading">Détails des Sorties</h1><br/>
 {% endblock %}
+
+{% block main %}
+
+
+    <table class="table">
+        <tr>
+            <th scope="row">Nom de la Sortie</th>
+            <td>{{ sortie.nomSortie }}</td>
+        </tr>
+
+        <tr>
+            <th scope="row">Date et heure de la sortie</th>
+            <td>{{ sortie.dateDebut | date('d/m/Y H:i:s') }}</td>
+        </tr>
+
+    <tr>
+        <th scope="row">Date Limite d'inscription</th>
+        <td>{{ sortie.dateLimiteInscription | date('d/m/Y ') }}</td>
+    </tr>
+
+    <tr>
+        <th scope="row">Nombre de place</th>
+        <td>{{ sortie.nbInscriptionMax }}</td>
+    </tr>
+
+    {% if sortie.duree  is not null%}
+
+    <tr >
+        <th scope="row">Durée</th>
+        <td>{{ sortie.duree}} minutes</td>
+    </tr>
+    {%endif%}
+    <tr>
+        <th scope="row">Description et Informations</th>
+        <td>{{ sortie.descriptionSortie }}</td>
+    </tr>
+    <tr>
+        <th scope="row">Ville organisatrice</th>
+        <td>{{ sortie.siteOrganisateur.nomSite }}</td>
+    </tr>
+    <tr>
+        <th scope="row">Ville</th>
+        <td>{{ sortie.lieu.ville.nomVille }}</td>
+    </tr>
+    <tr>
+        <th scope="row">Lieu</th>
+        <td>{{ sortie.lieu.nomLieu }}</td>
+    </tr>
+
+    <tr>
+        <th scope="row">Rue</th>
+        <td>{{ sortie.lieu.rue }}</td>
+    </tr>
+
+    <tr>
+        <th scope="row">Code Postal</th>
+        <td>{{ sortie.lieu.ville.codePostal }}</td>
+    </tr>
+    </table>
+
+    <!-- Affichage participant -->
+    <h3> Liste des participants </h3>
+
+    {% for participant in sortie.inscrits %}
+        <thead>
+        <th scope="row">Pseudo: </th>
+        <th scope="row">Nom : </th>
+        </thead>
+
+        <tbody>
+
+       <tr>
+           <td>{{ participant.pseudo }}</td><br>
+       </tr>
+       <tr>
+           <td>{{ participant.nom }}</td><br>
+       </tr>
+       </tbody>
+
+    {% endfor%}
+
+{% endblock %}
