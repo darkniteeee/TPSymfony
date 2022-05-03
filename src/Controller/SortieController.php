@@ -72,8 +72,6 @@ class SortieController extends AbstractController
 
     }
 
-
-
     /**
      * @Route(name="creer", path="creer", methods={"GET", "POST"})
      */
@@ -115,6 +113,12 @@ class SortieController extends AbstractController
             'formCreation' => $formCreation->createView(),
         ]);
 
+    }
+
+    /**
+     * @Route(name="supprimer", path="supprimer", methods={"GET", "POST"})
+     */
+    public function suppressionSortie(){
 
     }
 

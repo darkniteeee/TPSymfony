@@ -89,11 +89,11 @@
 </div>
 
     <a href="{{ path('sortie_supprimer') }}">
-        <input type="button" value="Modifier le mot de passe" class="btn btn-outline-primary btn-rounded">
+        <input type="button" value="Annuler la sortie" class="btn btn-outline-primary btn-rounded">
     </a>
 
-    <a href="{{ path('sortie_inscription') }}">
-        <input type="button" value="Modifier le mot de passe" class="btn btn-outline-primary btn-rounded">
+    <a href="{{ path('sortie_inscription', {'id' : sortie.id}) }}">
+        <input type="button" value="S'inscrire" class="btn btn-outline-primary btn-rounded">
     </a>
 {% endblock %}
 
