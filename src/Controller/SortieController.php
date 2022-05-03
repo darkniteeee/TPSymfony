@@ -9,6 +9,7 @@ use App\Repository\EtatRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -116,9 +117,24 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route(name="supprimer", path="supprimer", methods={"GET", "POST"})
+     * @Route(name="supprimer", path="{id}/supprimer", requirements={"id": "\d+"}, methods={"GET", "POST"})
      */
-    public function suppressionSortie(){
+    public function suppressionSortie(Request $request, EntityManagerInterface $em, SortieRepository $sr){
+
+        $sortie = $sr->find((int) $request->get('id'));
+        if (!$sortie == null) {
+        $em->remove($sortie);
+        $em->flush();
+
+        //Ajouter un message de confirmation
+        $this->addFlash('success', 'Votre sortie a bien été annulée!');
+
+        // Redirection de l'utilisateur sur la liste des sorties
+        return $this->redirectToRoute('sortie_list');
+        }else{
+        //Ajouter un message d'erreur'
+        $this->addFlash('error', 'Votre sortie n"a pas été annulée !');
+         }
 
     }
 
@@ -135,19 +151,18 @@ class SortieController extends AbstractController
         return $this->render('sortie/detail.html.twig', [ 'sortie' => $sortie,
         ]);
     }
-//    /**
-//     * @Route("/inscription/{idSortie}/{idParticipant}", name="app_sortie_inscription",methods={"GET", "POST"})
-//     *
-//     */
-//    public function inscription(Request $request, SortieRepository $sortieRepository, ParticipantRepository $participantRepository): Response
-//    {
-//        $sortie = $sortieRepository->find((int)$request->get('idSortie'));
-//        $participant = $participantRepository->find($request->get('idParticipant'));
-//        $sortie->addParticipant($participant);
-//        $sortie->addParticipantNoParticipant($participant);
-//        $sortieRepository->add($sortie);
-//        return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER );
-//    }
+    /**
+     * @Route(name="desinscrire", path="{id}/desinscrire", requirements={"id": "\d+"}, methods={"GET"})
+     */
+    public function desinscrire (Request $request, SortieRepository $sr, ParticipantRepository $pr)
+    {
+        $sortie = $sr->find((int) $request->get('id'));
+        $participant = $pr->find($this->getUser()->getId());
+        $sortie -> removeInscrit($participant);
+        $sortie -> minNbInscrits();
+        $participant -> removeInscription($sortie);
+        return $this->redirectToRoute('sortie/list.html.twig');
+    }
 
     /**
      * @Route(name="detail", path="{id}/detail", requirements={"id": "\d+"}, methods={"GET"})

@@ -78,6 +78,9 @@
                 <tbody>
                 {% for participant in sortie.inscrits %}
                 <tr>
+                    <td> <a href="{{ path('participant_afficher_profil',{'id' : participant.id} )}}">{{ participant.pseudo }} </td>
+                    <td>{{ participant.nom }} {{ participant.prenom }}</td>
+
                 </tr>
                 {% endfor%}
                </tbody>
@@ -85,9 +88,9 @@
         </table>
     </div>
         {% if app.user in sortie.inscrits%}
-{#        <a href="{{ path('sortie_desinscrire') }}">#}
-{#            <input type="submit" value="Se désinscrire" class="btn btn-outline-primary btn-rounded">#}
-{#        </a>#}
+{      <a href="{{ path('sortie_desinscrire', {'id' : sortie.id}) }}">
+          <input type="button" value="Se désinscrire" class="btn btn-outline-primary btn-rounded">
+        </a>
         {% else %}
         <a href="{{ path('sortie_inscription', {'id' : sortie.id}) }}">
             <input type="button" value="S'inscrire" class="btn btn-outline-primary btn-rounded">

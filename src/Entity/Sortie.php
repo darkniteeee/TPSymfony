@@ -365,4 +365,9 @@ class Sortie
         }
     }
 
+    public function minNbInscrits(): void
+    {
+            $this->setNbInscrits($this->getNbInscrits() -1);
+    }
+
 }
