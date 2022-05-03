@@ -329,6 +329,7 @@ class Sortie
         return $this;
     }
 
+
     public function removeInscrit(Participant $inscrit): self
     {
         if ($this->inscrits->removeElement($inscrit)) {
@@ -354,13 +355,14 @@ class Sortie
         $this->nbInscrits = $nbInscrits;
     }
 
+    /**
+     *
+     */
     public function addNbInscrits(): void
     {
-        if (($this->getNbInscrits() + 1)< $this->getNbInscriptionMax()) {
+        if ($this->getNbInscrits() + 1 < $this->getNbInscriptionMax()) {
             $this->setNbInscrits($this->getNbInscrits() + 1);
         }
     }
-
-
 
 }

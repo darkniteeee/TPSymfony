@@ -120,30 +120,27 @@ class SortieController extends AbstractController
      */
     public function inscription(Request $request, EntityManagerInterface $em, ParticipantRepository $pr, SortieRepository $sr){
 
-        $sortie = $sr->find('id');
-        $participant = $pr->findById($this->getUser()->getId());
-        $sortie = $sr->findByID($idSortie);
-        $participant->addInscription($sortie);
-        $sortie->addInscrit($sortie);
-        $sortie->addNbInscrits();
+        $sortie = $sr->find((int) $request->get('id'));
+        $participant = $pr->find($this->getUser()->getId());
+        $sortie ->addInscrit($participant);
+        $sortie ->addNbInscrits();
         $em->flush();
-
         return $this->render('sortie/detail.html.twig', [ 'sortie' => $sortie,
         ]);
     }
-    /**
-     * @Route("/inscription/{idSortie}/{idParticipant}", name="app_sortie_inscription",methods={"GET", "POST"})
-     *
-     */
-    public function inscription(Request $request, SortieRepository $sortieRepository, ParticipantRepository $participantRepository): Response
-    {
-        $sortie = $sortieRepository->find((int)$request->get('idSortie'));
-        $participant = $participantRepository->find($request->get('idParticipant'));
-        $sortie->addParticipant($participant);
-        $sortie->addParticipantNoParticipant($participant);
-        $sortieRepository->add($sortie);
-        return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER );
-    }
+//    /**
+//     * @Route("/inscription/{idSortie}/{idParticipant}", name="app_sortie_inscription",methods={"GET", "POST"})
+//     *
+//     */
+//    public function inscription(Request $request, SortieRepository $sortieRepository, ParticipantRepository $participantRepository): Response
+//    {
+//        $sortie = $sortieRepository->find((int)$request->get('idSortie'));
+//        $participant = $participantRepository->find($request->get('idParticipant'));
+//        $sortie->addParticipant($participant);
+//        $sortie->addParticipantNoParticipant($participant);
+//        $sortieRepository->add($sortie);
+//        return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER );
+//    }
 
     /**
      * @Route(name="detail", path="{id}/detail", requirements={"id": "\d+"}, methods={"GET"})
