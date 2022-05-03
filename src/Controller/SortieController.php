@@ -151,19 +151,18 @@ class SortieController extends AbstractController
         return $this->render('sortie/detail.html.twig', [ 'sortie' => $sortie,
         ]);
     }
-//    /**
-//     * @Route("/inscription/{idSortie}/{idParticipant}", name="app_sortie_inscription",methods={"GET", "POST"})
-//     *
-//     */
-//    public function inscription(Request $request, SortieRepository $sortieRepository, ParticipantRepository $participantRepository): Response
-//    {
-//        $sortie = $sortieRepository->find((int)$request->get('idSortie'));
-//        $participant = $participantRepository->find($request->get('idParticipant'));
-//        $sortie->addParticipant($participant);
-//        $sortie->addParticipantNoParticipant($participant);
-//        $sortieRepository->add($sortie);
-//        return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER );
-//    }
+    /**
+     * @Route(name="desinscrire", path="{id}/desinscrire", requirements={"id": "\d+"}, methods={"GET"})
+     */
+    public function desinscrire (Request $request, SortieRepository $sr, ParticipantRepository $pr)
+    {
+        $sortie = $sr->find((int) $request->get('id'));
+        $participant = $pr->find($this->getUser()->getId());
+        $sortie -> removeInscrit($participant);
+        $sortie -> minNbInscrits();
+        $participant -> removeInscription($sortie);
+        return $this->redirectToRoute('sortie/list.html.twig');
+    }
 
     /**
      * @Route(name="detail", path="{id}/detail", requirements={"id": "\d+"}, methods={"GET"})
