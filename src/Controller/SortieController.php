@@ -9,6 +9,7 @@ use App\Repository\EtatRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -116,9 +117,24 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route(name="supprimer", path="supprimer", methods={"GET", "POST"})
+     * @Route(name="supprimer", path="{id}/supprimer", requirements={"id": "\d+"}, methods={"GET", "POST"})
      */
-    public function suppressionSortie(){
+    public function suppressionSortie(Request $request, EntityManagerInterface $em, SortieRepository $sr){
+
+        $sortie = $sr->find((int) $request->get('id'));
+        if (!$sortie == null) {
+        $em->remove($sortie);
+        $em->flush();
+
+        //Ajouter un message de confirmation
+        $this->addFlash('success', 'Votre sortie a bien été annulée!');
+
+        // Redirection de l'utilisateur sur la liste des sorties
+        return $this->redirectToRoute('sortie_list');
+        }else{
+        //Ajouter un message d'erreur'
+        $this->addFlash('error', 'Votre sortie n"a pas été annulée !');
+         }
 
     }
 
