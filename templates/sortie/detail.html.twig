@@ -66,24 +66,34 @@
     </table>
 
     <!-- Affichage participant -->
+<div class="table-wrapper-scroll-y my-custom-scrollbar">
     <h3> Liste des participants </h3>
 
-    {% for participant in sortie.inscrits %}
+    <table class="table table-bordered table-striped mb-sm-4" >
         <thead>
-        <th scope="row">Pseudo: </th>
-        <th scope="row">Nom : </th>
+        <tr>
+            <th scope="col">Pseudo</th>
+            <th scope="col">Nom et prenom</th>
+        </tr>
         </thead>
+            <tbody>
+            {% for participant in sortie.inscrits %}
+            <tr>
+                <td>{{ participant.pseudo }}</td>
+                <td>{{ participant.nom }} {{ participant.prenom }}</td>
+            </tr>
+            {% endfor%}
+           </tbody>
 
-        <tbody>
+    </table>
+</div>
 
-       <tr>
-           <td>{{ participant.pseudo }}</td><br>
-       </tr>
-       <tr>
-           <td>{{ participant.nom }}</td><br>
-       </tr>
-       </tbody>
+    <a href="{{ path('sortie_supprimer') }}">
+        <input type="button" value="Modifier le mot de passe" class="btn btn-outline-primary btn-rounded">
+    </a>
 
-    {% endfor%}
-
+    <a href="{{ path('sortie_inscription') }}">
+        <input type="button" value="Modifier le mot de passe" class="btn btn-outline-primary btn-rounded">
+    </a>
 {% endblock %}
+
