@@ -87,7 +87,7 @@
         </table>
     </div>
         {% if app.user in sortie.inscrits%}
-        <a href="{{ path('sortie_supprimer') }}">
+        <a href="{{ path('sortie_desinscrire') }}">
             <input type="submit" value="Se désinscrire" class="btn btn-outline-primary btn-rounded">
         </a>
         {% else %}
