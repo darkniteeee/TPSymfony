@@ -8,92 +8,93 @@
 
 {% block main %}
 
-
-    <table class="table">
-        <tr>
-            <th scope="row">Nom de la Sortie</th>
-            <td>{{ sortie.nomSortie }}</td>
-        </tr>
-
-        <tr>
-            <th scope="row">Date et heure de la sortie</th>
-            <td>{{ sortie.dateDebut | date('d/m/Y H:i:s') }}</td>
-        </tr>
-
-    <tr>
-        <th scope="row">Date Limite d'inscription</th>
-        <td>{{ sortie.dateLimiteInscription | date('d/m/Y ') }}</td>
-    </tr>
-
-    <tr>
-        <th scope="row">Nombre de place</th>
-        <td>{{ sortie.nbInscriptionMax }}</td>
-    </tr>
-
-    {% if sortie.duree  is not null%}
-    <tr >
-        <th scope="row">Durée</th>
-        <td>{{ sortie.duree}} minutes</td>
-    </tr>
-    {%endif%}
-    <tr>
-        <th scope="row">Description et Informations</th>
-        <td>{{ sortie.descriptionSortie }}</td>
-    </tr>
-    <tr>
-        <th scope="row">Ville organisatrice</th>
-        <td>{{ sortie.siteOrganisateur.nomSite }}</td>
-    </tr>
-    <tr>
-        <th scope="row">Ville</th>
-        <td>{{ sortie.lieu.ville.nomVille }}</td>
-    </tr>
-    <tr>
-        <th scope="row">Lieu</th>
-        <td>{{ sortie.lieu.nomLieu }}</td>
-    </tr>
-
-    <tr>
-        <th scope="row">Rue</th>
-        <td>{{ sortie.lieu.rue }}</td>
-    </tr>
-
-    <tr>
-        <th scope="row">Code Postal</th>
-        <td>{{ sortie.lieu.ville.codePostal }}</td>
-    </tr>
-    </table>
-
-    <!-- Affichage participant -->
-<div class="table-wrapper-scroll-y my-custom-scrollbar">
-    <h3> Liste des participants </h3>
-
-    <table class="table table-bordered table-striped mb-sm-4 w-auto" >
-        <thead>
-        <tr>
-            <th scope="col">Pseudo</th>
-            <th scope="col">Nom et prenom</th>
-        </tr>
-        </thead>
-            <tbody>
-            {% for participant in sortie.inscrits %}
+<div class="row d-flex justify-content-center">
+        <table class="table w-auto">
             <tr>
-                <td>{{ participant.pseudo }}</td>
-                <td>{{ participant.nom }} {{ participant.prenom }}</td>
+                <th scope="row">Nom de la Sortie</th>
+                <td>{{ sortie.nomSortie }}</td>
             </tr>
-            {% endfor%}
-           </tbody>
 
-    </table>
+            <tr>
+                <th scope="row">Date et heure de la sortie</th>
+                <td>{{ sortie.dateDebut | date('d/m/Y H:i:s') }}</td>
+            </tr>
+
+        <tr>
+            <th scope="row">Date Limite d'inscription</th>
+            <td>{{ sortie.dateLimiteInscription | date('d/m/Y ') }}</td>
+        </tr>
+
+        <tr>
+            <th scope="row">Nombre de place</th>
+            <td>{{ sortie.nbInscriptionMax }}</td>
+        </tr>
+
+        {% if sortie.duree  is not null%}
+        <tr >
+            <th scope="row">Durée</th>
+            <td>{{ sortie.duree}} minutes</td>
+        </tr>
+        {%endif%}
+        <tr>
+            <th scope="row">Description et Informations</th>
+            <td>{{ sortie.descriptionSortie }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Ville organisatrice</th>
+            <td>{{ sortie.siteOrganisateur.nomSite }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Ville</th>
+            <td>{{ sortie.lieu.ville.nomVille }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Lieu</th>
+            <td>{{ sortie.lieu.nomLieu }}</td>
+        </tr>
+
+        <tr>
+            <th scope="row">Rue</th>
+            <td>{{ sortie.lieu.rue }}</td>
+        </tr>
+
+        <tr>
+            <th scope="row">Code Postal</th>
+            <td>{{ sortie.lieu.ville.codePostal }}</td>
+        </tr>
+        </table>
+
+        <!-- Affichage participant -->
+    <div class="table-wrapper-scroll-y my-custom-scrollbar">
+        <h3> Liste des participants inscrits </h3>
+
+        <table class="table table-bordered table-striped mb-sm-4 w-50" >
+            <thead>
+            <tr>
+                <th scope="col">Pseudo</th>
+                <th scope="col">Nom et prenom</th>
+            </tr>
+            </thead>
+                <tbody>
+                {% for participant in sortie.inscrits %}
+                <tr>
+                    <td>{{ participant.pseudo }}</td>
+                    <td>{{ participant.nom }} {{ participant.prenom }}</td>
+                </tr>
+                {% endfor%}
+               </tbody>
+
+        </table>
+    </div>
+        {% if app.user in sortie.inscrits%}
+        <a href="{{ path('sortie_supprimer') }}">
+            <input type="submit" value="Se désinscrire" class="btn btn-outline-primary btn-rounded">
+        </a>
+        {% else %}
+        <a href="{{ path('sortie_inscription', {'id' : sortie.id}) }}">
+            <input type="button" value="S'inscrire" class="btn btn-outline-primary btn-rounded">
+        </a>
+        {%endif%}
 </div>
-    {% if app.user in sortie.inscrits%}
-    <a href="{{ path('sortie_supprimer') }}">
-        <input type="submit" value="Annuler la sortie" class="btn btn-outline-primary btn-rounded">
-    </a>
-    {% else %}
-    <a href="{{ path('sortie_inscription', {'id' : sortie.id}) }}">
-        <input type="button" value="S'inscrire" class="btn btn-outline-primary btn-rounded">
-    </a>
-    {%endif%}
-{% endblock %}
 
+{% endblock %}
