@@ -1,11 +1,6 @@
-/* sur changement de la données dans la liste deroulante de ville ...*/
-$(document).on('change', '#sortie_ville', function () {
-    /* chargement des lieux de la ville concernée */
-    chargerListeLieux();
-})
-
 /* fonction permettant de recuperer les lieux en fonction de la ville selectionnée */
-function chargerListeLieux(){
+function chargerListeLieux()
+{
     $.ajax({
         method: "POST",
         url: "/ajax/rechercheLieuByVille", /* appel de la fonction rechercheLieuByVille du controlleur AjaxController*/
@@ -25,3 +20,10 @@ function chargerListeLieux(){
     })
 
 }
+    /* sur changement de la données dans la liste deroulante de ville ...*/
+    $(document).on('change', '#sortie_ville', function () {
+        /* chargement des lieux de la ville concernée */
+        chargerListeLieux();
+    })
+
+
