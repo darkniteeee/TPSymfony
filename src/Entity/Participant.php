@@ -473,10 +473,9 @@ class Participant implements UserInterface , PasswordAuthenticatedUserInterface{
 
     public function addInscription(Sortie $inscription): self
     {
-        if (!$this->inscriptions->contains($inscription)) {
+              if (!$this->inscriptions->contains($inscription)) {
             $this->inscriptions[] = $inscription;
         }
-
         return $this;
     }
 

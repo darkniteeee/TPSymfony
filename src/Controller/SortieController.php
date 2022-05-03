@@ -120,7 +120,7 @@ class SortieController extends AbstractController
      */
     public function inscription(Request $request, EntityManagerInterface $em, ParticipantRepository $pr, SortieRepository $sr){
 
-        $idSortie = $request->get('id');
+        $sortie = $sr->find('id');
         $participant = $pr->findById($this->getUser()->getId());
         $sortie = $sr->findByID($idSortie);
         $participant->addInscription($sortie);
@@ -130,6 +130,19 @@ class SortieController extends AbstractController
 
         return $this->render('sortie/detail.html.twig', [ 'sortie' => $sortie,
         ]);
+    }
+    /**
+     * @Route("/inscription/{idSortie}/{idParticipant}", name="app_sortie_inscription",methods={"GET", "POST"})
+     *
+     */
+    public function inscription(Request $request, SortieRepository $sortieRepository, ParticipantRepository $participantRepository): Response
+    {
+        $sortie = $sortieRepository->find((int)$request->get('idSortie'));
+        $participant = $participantRepository->find($request->get('idParticipant'));
+        $sortie->addParticipant($participant);
+        $sortie->addParticipantNoParticipant($participant);
+        $sortieRepository->add($sortie);
+        return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER );
     }
 
     /**
