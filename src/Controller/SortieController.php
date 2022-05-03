@@ -154,14 +154,15 @@ class SortieController extends AbstractController
     /**
      * @Route(name="desinscrire", path="{id}/desinscrire", requirements={"id": "\d+"}, methods={"GET"})
      */
-    public function desinscrire (Request $request, SortieRepository $sr, ParticipantRepository $pr)
+    public function desinscrire (Request $request, EntityManagerInterface $em, SortieRepository $sr, ParticipantRepository $pr)
     {
         $sortie = $sr->find((int) $request->get('id'));
         $participant = $pr->find($this->getUser()->getId());
         $sortie -> removeInscrit($participant);
         $sortie -> minNbInscrits();
         $participant -> removeInscription($sortie);
-        return $this->redirectToRoute('sortie/list.html.twig');
+        $em -> flush();
+        return $this->redirectToRoute('sortie_list');
     }
 
     /**

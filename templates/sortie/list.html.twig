@@ -106,7 +106,7 @@
                     <td>{{ sortie.organisateur.nom }}</td>
                     <td><a href="{{path ('sortie_detail', {'id' : sortie.id})}}">Afficher</a></td>
                     {% if app.user in sortie.inscrits  %}
-                    <td> <a href="#">Se désinscrire</a></td>
+                        <td><a href="{{ path('sortie_desinscrire', {'id' : sortie.id}) }}">Se désinscrire </a><td>
                     {% else %}
                     <td> <a href="{{path ('sortie_inscription', {'id' : sortie.id})}}">S'inscrire</a></td>
                     {% endif %}
