@@ -26,70 +26,11 @@ class SortieController extends AbstractController
      */
     public function list(Request $request, EntityManagerInterface $entityManager, SiteRepository $siteRepo, EtatRepository $etatRepo, SortieRepository $sortieRepo){
 
+
 //        $sortie = $entityManager->getRepository('App:Sortie')->findByUtilisateurSite($this->getUser()->getSiteId()->getId());
 
-//        dd($sortiesQuery);
 
         $sortie = $sortieRepo->findByUtilisateurSite($this->getUser()->getSiteId()->getId());
-
-
-        //recuperation de tous les sites
-        $sites = $siteRepo->findAll();
-        //recuperation de tous les etats
-        $etats = $etatRepo->findAll();
-
-
-
-        //délégation du travail au twig liste.html.twig en y passant en parametre les sorties filtrées, les sites et les etats
-
-        //délégation du travail au twig liste.html.twig en y passant en parametre les sorties filtrées, les sites et les etats
-        return $this->render("sortie/list.html.twig", [
-
-            'sorties' => $sortie,
-            'sites' => $sites,
-            'etats' => $etats
-        ]);
-//
-//        }
-
-
-//        $sortie = new Sortie();
-//
-//
-//        $formRechercheSortie = $this->createForm(RechercheType::class, $sortie);
-//        $formRechercheSortie->handleRequest($request);
-//
-//        if($formRechercheSortie->isSubmitted() && $formRechercheSortie->isValid()){
-//            $entityManager->getRepository('App:Sortie');
-//            $entityManager->flush();
-
-
-
-//        $sortie = $entityManager->getRepository('App:Sortie')->findByUtilisateurSite($this->getUser()->getSiteId()->getId());
-////        $participants = $entityManager->getRepository('App:Participant')->findAll();
-////        dd($sorties);
-//
-//
-//
-//        return $this->render('sortie/list.html.twig', [
-//
-////            'participants' => $participants,
-//
-//            'formRechercheSortie' =>$formRechercheSortie->createView(),
-//        ]);
-
-    }
-
-
-
-    /**
-     * @Route(name="listRecherche", path="listRecherche", methods={"GET", "POST"})
-     */
-    public function listRecherche(Request $request, EntityManagerInterface $entityManager, SiteRepository $siteRepo, EtatRepository $etatRepo, SortieRepository $sortieRepo)
-    {
-
-//        $sortie = $entityManager->getRepository('App:Sortie')->findByUtilisateurSite($this->getUser()->getSiteId()->getId());
-
 
         $sortiesQuery = $sortieRepo->recherche(
             ($request->query->get('recherche_terme') != null ? $request->query->get('recherche_terme') : null),
@@ -102,7 +43,6 @@ class SortieController extends AbstractController
             ($request->query->get('cb_non_inscrit') != null ? $request->query->get('cb_non_inscrit') : null),
             ($request->query->get('cb_passee') != null ? $request->query->get('cb_passee') : null)
         );
-//        dd($sortiesQuery);
 
 
         //recuperation de tous les sites
@@ -110,20 +50,29 @@ class SortieController extends AbstractController
         //recuperation de tous les etats
         $etats = $etatRepo->findAll();
 
-//            if ($sortiesQuery ==null)
-//            {
-//                $sortiesQuery = $sortieRepo->findAll();
-//            }
 
-        return $this->render("sortie/listRecherche.html.twig", [
+        if ($_SERVER['REQUEST_URI'] == "/sortie/list"){
+            return $this->render("sortie/list.html.twig", [
 
-            'sorties' => $sortiesQuery,
-            'sites' => $sites,
-            'etats' => $etats
-        ]);
+                'sorties' => $sortie,
+                'sites' => $sites,
+                'etats' => $etats
+            ]);
+        }
+
+        else{
+            return $this->render("sortie/list.html.twig", [
+
+                'sorties' => $sortiesQuery,
+                'sites' => $sites,
+                'etats' => $etats
+            ]);
+        }
 
 
     }
+
+
 
     /**
      * @Route(name="creer", path="creer", methods={"GET", "POST"})

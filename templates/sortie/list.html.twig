@@ -14,7 +14,7 @@
 
     <h3>Filtrer les sorties</h3>
 
-    <form action="{{ path('sortie_listRecherche') }}" method="get" class="row">
+    <form action="{{ path('sortie_list') }}" method="get" class="row">
 
         <div class="col-sm-6">
             <input type="text" class="form-control mb-3" placeholder="Rechercher une sortie par mot-clé" name="recherche_terme" id="recherche_terme" value="{{ app.request.get('recherche_terme') }}">
@@ -122,6 +122,9 @@
             {% endfor %}
             </tbody>
         </table>
+        {% if sorties is empty %}
+            <p>Aucun résultat ne correspond à votre requête</p>
+        {% endif %}
         <br>
         <a href="{{ path('sortie_creer') }}">
             <input type="button" value="Créer une sortie">
