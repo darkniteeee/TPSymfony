@@ -159,21 +159,13 @@ class ParticipantController extends AbstractController
     }
 
     /**
-     * @Route(name="afficher_profil", path="afficher_profil", methods={"GET", "POST"})
+     * @Route(name="afficher_profil", path="{id}/afficher_profil", requirements={"id": "\d+"}, methods={"GET"})
      */
-    public function afficherProfil(Request $request, ParticipantRepository $participantRepository, UserPasswordHasherInterface $participantPasswordHasher): Response{
-
-        //Récupération de l'entité
-        $participant = $this->getUser();
-
-        // Association de l'entité au formulaire
-        $formProfilParticpant = $this->createForm(ProfilType::class, $participant);
-        $formProfilParticpant->handleRequest($request);
+    public function afficherProfil(Request $request, EntityManagerInterface $em, ParticipantRepository $pr){
+        $participant = $pr->find((int) $request->get('id'));
 
         // Envoi du formulaire à la vue
-        return $this->render('participant/profil_participant.html.twig', [
-            'formProfilParticpant' => $formProfilParticpant->createView(),
-        ]);
+        return $this->render('participant/profil_participant.html.twig', ['particpant'=> $participant,]);
 
 
     }
