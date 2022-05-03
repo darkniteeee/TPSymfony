@@ -1,11 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }}:  {% endblock %}
-
+{% block title %}{{ parent() }}: {{ particpant.pseudo }} {% endblock %}
+{{ particpant.pseudo }}
 {% block informations %}
     <h1 class="jumbotron-heading"></h1><br/>
 {% endblock %}
 
 {% block main %}
+    <div class="row d-flex justify-content-center">
+    <table class="table w-auto">
+        <tr>
+            <th scope="row">Nom : </th>
+            <td>{{ particpant.nom }}</td>
+        </tr>
 
+        <tr>
+            <th scope="row">Prenom : </th>
+            <td>{{ particpant.prenom}}</td>
+        </tr>
+        <tr>
+            <th scope="row">Telephone : </th>
+            <td>{{ particpant.telephone}}</td>
+        </tr>
+        <tr>
+            <th scope="row">Email : </th>
+            <td>{{ particpant.email}}</td>
+        </tr>
+        <tr>
+            <th scope="row">Ville de rattachement : </th>
+            <td>{{ particpant.siteId.nomSite}}</td>
+        </tr>
+    </table>
+    </div>
 {%endblock%}
