@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Participant;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -148,6 +149,23 @@ class SortieRepository extends ServiceEntityRepository
 
     }
 
+    /**
+     * SELECT * FROM sorties where id = ?
+     * @param int $id
+     * @return Sortie/null
+     */
+    public function findById(int $id): ?Sortie {
+
+        try {
+            $query = $this->createQueryBuilder('sortie')
+                ->Where('sortie.id = :id')->setParameter('id', $id);
+
+            return $query->getQuery()->getOneOrNullResult();
+
+        } catch (NonUniqueResultException $exception) {
+            return null;
+        }
+    }
 
     // /**
     //  * @return Sortie[] Returns an array of Sortie objects

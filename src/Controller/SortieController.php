@@ -177,16 +177,24 @@ class SortieController extends AbstractController
 
     }
 
-
     /**
-     * @Route(name="detail", path="detail", methods={"GET", "POST"})
+     * @Route(name="detail", path="{id}/detail", requirements={"id": "\d+"}, methods={"GET"})
      */
-    public function detail(Request $request, EntityManagerInterface $entityManager){
+    public function details(Request $request, EntityManagerInterface $entityManager, SortieRepository $sr) {
 
-        $participant = $entityManager->getRepository('App:Participant')
-            ->findOneBy("id", $this->getUser()->getId());
+        // Récupération de l'identifiant de la sortie
+        $id = (int) $request->get('id');
 
+        // Récupération de la sortie souhaité
+        $sortie = $sr->findById($id);
+       // dd($id);
+        if (is_null($sortie)) {
+            throw $this->createNotFoundException('Sortie Non trouvée !');
+        }
 
-
+        return $this->render('sortie/detail.html.twig', [
+            'sortie' => $sortie,
+        ]);
     }
+
     }

@@ -17,7 +17,7 @@
     <form action="{{ path('sortie_listRecherche') }}" method="get" class="row">
 
         <div class="col-sm-6">
-            <input type="text"class="form-control mb-3" placeholder="Rechercher une sortie par mot-clé" name="recherche_terme" id="recherche_terme" value="{{ app.request.get('recherche_terme') }}">
+            <input type="text" class="form-control mb-3" placeholder="Rechercher une sortie par mot-clé" name="recherche_terme" id="recherche_terme" value="{{ app.request.get('recherche_terme') }}">
 
             <select class="custom-select mb-3" name="recherche_site" aria-label="Example select with button addon">
                 <option selected>Choisir un site</option>
@@ -32,7 +32,7 @@
                     <option value="{{ etat.id }}" {{ (etat.id in app.request.get('recherche_etat')) ? 'selected' : '' }}>{{ etat.libelle }}</option>
                 {% endfor %}
             </select>
-
+<!-- Traitement des recherches choix des dates -->
             <div class="mb-3">
                 <label for="debut">Date de début</label>
                 <input class="rounded form-control" type="date" id="debut" name="date_debut" value="{{ app.request.get('date_debut') }}">
@@ -40,24 +40,24 @@
                 <input class="rounded form-control" type="date" id="fin" name="date_fin" value="{{ app.request.get('date_fin') }}">
             </div>
         </div>
-
+<!--Parties des Check Box -->
         <div class="col-xs-12 col-sm-6">
             <div class="row d-flex flex-column ml-1 col-xs-12 d-inline">
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="cb_organisateur" value="{{ app.user.id }}" {% if app.request.get('cb_organisateur') %} checked {% endif %}>
-                    <label class="form-check-label">Sorties dont je suis l'organisateur.trice</label>
+                    <input class="form-check-input" type="checkbox" name="cb_organisateur" id="cb_organisateur" value="{{ app.user.id }}" {% if app.request.get('cb_organisateur') %} checked {% endif %}>
+                    <label for="cb_organisateur"  class="form-check-label">Sorties dont je suis l'organisateur.trice</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="cb_inscrit" value="{{ app.user.id }}" {% if app.request.get('cb_inscrit') %} checked {% endif %}>
-                    <label class="form-check-label" >Sorties auxquelles je suis inscrit.e</label>
+                    <input class="form-check-input" type="checkbox" name="cb_inscrit" id="cb_inscrit" value="{{ app.user.id }}" {% if app.request.get('cb_inscrit') %} checked {% endif %}>
+                    <label for="cb_inscrit" class="form-check-label" >Sorties auxquelles je suis inscrit.e</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="cb_non_inscrit" value="{{ app.user.id }}" {% if app.request.get('cb_non_inscrit') %} checked {% endif %}>
-                    <label class="form-check-label" >Sorties auxquelles je ne suis pas inscrit.e</label>
+                    <input class="form-check-input" type="checkbox" name="cb_non_inscrit" id="cb_non_inscrit"  value="{{ app.user.id }}" {% if app.request.get('cb_non_inscrit') %} checked {% endif %}>
+                    <label for="cb_non_inscrit"  class="form-check-label" >Sorties auxquelles je ne suis pas inscrit.e</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="cb_passee" {% if app.request.get('cb_passee') %} checked {% endif %}>
-                    <label class="form-check-label" >Sorties passées</label>
+                    <input class="form-check-input" type="checkbox" name="cb_passee" id="cb_passee" {% if app.request.get('cb_passee') %} checked {% endif %}>
+                    <label for="cb_passee" class="form-check-label" >Sorties passées</label>
                 </div>
             </div>
 
@@ -72,7 +72,7 @@
     </form>
 
 
-
+<!-- Mise en forme du tableau des sorties -->
     <div class="row">
         <table class="table">
             <thead>
