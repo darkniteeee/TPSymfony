@@ -31,7 +31,6 @@
     </tr>
 
     {% if sortie.duree  is not null%}
-
     <tr >
         <th scope="row">Durée</th>
         <td>{{ sortie.duree}} minutes</td>
@@ -87,13 +86,14 @@
 
     </table>
 </div>
-
+    {% if app.user in sortie.inscrits%}
     <a href="{{ path('sortie_supprimer') }}">
         <input type="submit" value="Annuler la sortie" class="btn btn-outline-primary btn-rounded">
     </a>
-
+    {% else %}
     <a href="{{ path('sortie_inscription', {'id' : sortie.id}) }}">
         <input type="button" value="S'inscrire" class="btn btn-outline-primary btn-rounded">
     </a>
+    {%endif%}
 {% endblock %}
 
