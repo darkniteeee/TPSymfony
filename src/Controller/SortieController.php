@@ -6,6 +6,7 @@ use App\Entity\Sortie;
 use App\Form\RechercheType;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
+use App\Repository\ParticipantRepository;
 use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -166,15 +167,20 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route(name="inscription", path="inscription", methods={"GET", "POST"})
+     * @Route(name="inscription", path="{id}/inscription", requirements={"id": "\d+"}, methods={"GET"})
      */
-    public function inscription(Request $request, EntityManagerInterface $entityManager){
+    public function inscription(Request $request, EntityManagerInterface $em, ParticipantRepository $pr, SortieRepository $sr){
 
-        $participant = $entityManager->getRepository('App:Participant')
-            ->findOneBy("id", $this->getUser()->getId());
-        
+        $idSortie = $request->get('id');
+        $participant = $pr->findById($this->getUser()->getId());
+        $sortie = $sr->findByID($idSortie);
+        $participant->addInscription($sortie);
+        $sortie->addInscrit($sortie);
+        $sortie->addNbInscrits();
+        $em->flush();
 
-
+        return $this->render('sortie/detail.html.twig', [ 'sortie' => $sortie,
+        ]);
     }
 
     /**

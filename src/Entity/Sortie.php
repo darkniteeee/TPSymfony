@@ -48,7 +48,7 @@ class Sortie
     /**
      * @ORM\Column(name="duree", type="integer", nullable=true, options={"unsigned": true})
      */
-    private int $duree;
+    private ?int $duree = null;
 
     /**
      * @Assert\NotBlank(message="La date limite d'inscription est requise !")
@@ -114,6 +114,7 @@ class Sortie
      */
     private $inscrits;
 
+    private $nbInscrits = 0;
 
     ########Constructeur########
     public function __construct()
@@ -361,6 +362,29 @@ class Sortie
         }
 
         return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNbInscrits(): int
+    {
+        return $this->nbInscrits;
+    }
+
+    /**
+     * @param int $nbInscrits
+     */
+    public function setNbInscrits(int $nbInscrits): void
+    {
+        $this->nbInscrits = $nbInscrits;
+    }
+
+    public function addNbInscrits(): void
+    {
+        if (($this->getNbInscrits() + 1)< $this->getNbInscriptionMax()) {
+            $this->setNbInscrits($this->getNbInscrits() + 1);
+        }
     }
 
 
