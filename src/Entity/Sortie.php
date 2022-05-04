@@ -46,7 +46,7 @@ class Sortie
     private Datetime $date_debut;
 
     /**
-     * @ORM\Column(name="duree", type="integer", nullable=true, options={"unsigned": true})
+     * @ORM\Column(name="duree", type="integer", options={"unsigned": true})
      */
     private ?int $duree = null;
 

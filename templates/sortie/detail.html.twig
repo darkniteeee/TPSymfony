@@ -76,9 +76,10 @@
             </tr>
             </thead>
                 <tbody>
-                {% for app.user in sortie.organisateur %}
+                {% for app.user.organise in sortie.inscrits %}
                 <tr>
-                    <td> <a href="{{ path('participant_afficher_profil',{'idp' : participant.id,'ids' : sortie.id})}}">{{ participant.pseudo }} </td>
+                    <td> <a href="{{ path('participant_afficher_profil',{'idp' : participant.id,'ids' : participant.id})}}">{{ participant.pseudo }} </td>
+                   dd(participant);
                     <td>{{ participant.nom }} {{ participant.prenom }}</td>
 
                 </tr>

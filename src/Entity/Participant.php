@@ -404,7 +404,7 @@ class Participant implements UserInterface , PasswordAuthenticatedUserInterface{
         $this->organise = new ArrayCollection();
         $this->inscriptions = new ArrayCollection();
         $this->administrateur = false;
-        $this->actif = false;
+        $this->actif = true;
         if ($this->getPhotoProfil() == null) {
 
             $this->setPhotoProfil("imageProfilDefaut.jpg");
