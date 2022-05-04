@@ -32,7 +32,7 @@ class SortieController extends AbstractController
         //Récupération de toutes les sorties lier au site de rattachement de l'utilisateur
         $sortie = $sortieRepo->findByUtilisateurSite($this->getUser()->getSiteId()->getId());
 
-        //utilisation d'une requête queryBulder qui permet de filtrer les sorties
+        //utilisation d'une requête queryBuilder qui permet de filtrer les sorties
         //en fonction de différent critère de recherche récupéré depuis le twig list.html.twig
 
         $sortiesQuery = $sortieRepo->recherche(

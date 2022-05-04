@@ -49,7 +49,24 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
+
+    /**
+     * @param $recherche_mt
+     * @param $idSite
+     * @param $idEtat
+     * @param $dateDeDebut
+     * @param $dateDeFin
+     * @param $organisateur
+     * @param $inscrit
+     * @param $nonInscrit
+     * @param $passee
+     * @return float|int|mixed|string
+     * @throws \Exception
+     */
     public function recherche ($recherche_mt=null, $idSite=null, $idEtat=null, $dateDeDebut=null, $dateDeFin=null, $organisateur=null, $inscrit=null, $nonInscrit=null, $passee=null){
+
+        //requête queryBuilder qui permet de récupérer des sortie en fonction d'une ou plusieur
+        //proprièter parmis celle si dessous
         $query =$this->createQueryBuilder('sortie')
             ->innerJoin('sortie.site_organisateur', 'site')
             ->innerJoin('sortie.organisateur', 'participant')
@@ -94,7 +111,6 @@ class SortieRepository extends ServiceEntityRepository
         if($inscrit != null){
 
             $user = $this->getEntityManager()->getRepository(Participant::class)->find($inscrit);
-
             $query->andWhere(':inscrit MEMBER OF sortie.inscrits')
 
                 ->setParameter('inscrit', $user);
@@ -105,7 +121,6 @@ class SortieRepository extends ServiceEntityRepository
         if($nonInscrit != null){
 
             $user = $this->getEntityManager()->getRepository(Participant::class)->find($nonInscrit);
-
             $query->andWhere(':inscrit NOT MEMBER OF sortie.inscrits')
 
                 ->setParameter('inscrit', $user);
@@ -115,7 +130,6 @@ class SortieRepository extends ServiceEntityRepository
         if($passee != null){
 
             $query->andWhere('etat.libelle = :etat')
-
                 ->setParameter('etat', 'Passée');
 
         }
@@ -124,24 +138,32 @@ class SortieRepository extends ServiceEntityRepository
     }
 
 
+    /**
+     * @param int $idSite
+     * @return float|int|mixed|string
+     */
     public function findByUtilisateurSite (int $idSite){
+
+        //requête queryBuilder qui permet de récuperer des sortie en fonction de la proprièter site_organisateur
         $query = $this->createQueryBuilder('sortie')
             ->innerJoin('sortie.organisateur', 'participant')
-//            ->innerJoin('sortie.inscrits', 'inscription')
             ->addSelect('participant')
-//            ->addSelect('inscription');
             ->where('sortie.site_organisateur = :site_organisateur')->setParameter('site_organisateur', $idSite);
-//            ->andWhere()
 
         return $query->getQuery()->getResult();
 
 
     }
 
+    /**
+     * @return float|int|mixed|string
+     */
     public function findByDateDESC(){
+
+        //requête queryBuilder qui récupère tout les sortie et les class par ordre décroissant en fonction
+        //de la proprièter date_debut
         $query = $this->createQueryBuilder('sortie')
             ->innerJoin('sortie.organisateur', 'participant')
-//
             ->addSelect('participant')
             ->orderBy('sortie.date_debut', 'DESC');
 
