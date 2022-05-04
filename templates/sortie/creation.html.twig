@@ -13,29 +13,14 @@
 
     <h5> Ville organisatrice : {{ app.user.siteId.nomSite}} </h5>
 
-    {{ form_row(formCreation.nom_sortie) }}
-
-    {{ form_row(formCreation.date_debut) }}
-
-    {{ form_row(formCreation.date_limite_inscription) }}
-
-    {{ form_row(formCreation.nb_inscription_max) }}
-
-    {{ form_row(formCreation.duree) }}
-
-    {{ form_row(formCreation.description_sortie) }}
-
-    {{ form_row(formCreation.ville) }}
-
-    {{ form_row(formCreation.lieu) }}
+    {{ form(formCreation) }}
 
 <br>
     <input type="submit" value="Enregistrer">
-    <input type="submit" value="Publier la sortie">
+{#    <input type="submit" value="Publier la sortie">#}
     <input type="reset" value="Annuler">
 
     {{form_end(formCreation)}}
-
 
 {% endblock %}
 
