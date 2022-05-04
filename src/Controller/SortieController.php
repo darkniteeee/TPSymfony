@@ -22,16 +22,18 @@ use Symfony\Config\Doctrine\Orm\EntityManagerConfig;
  */
 class SortieController extends AbstractController
 {
+
+     //Fonction permettant de d'afficher les sorties repondant aux critères de filtre
     /**
-     * @Route(name="list", path="list", methods={"GET", "POST"})
+     * @Route(name="list", path="list", methods={"GET"})
      */
     public function list(Request $request, EntityManagerInterface $entityManager, SiteRepository $siteRepo, EtatRepository $etatRepo, SortieRepository $sortieRepo){
 
-
-//        $sortie = $entityManager->getRepository('App:Sortie')->findByUtilisateurSite($this->getUser()->getSiteId()->getId());
-
-
+        //Récupération de toutes les sorties lier au site de rattachement de l'utilisateur
         $sortie = $sortieRepo->findByUtilisateurSite($this->getUser()->getSiteId()->getId());
+
+        //utilisation d'une requête queryBulder qui permet de filtrer les sorties
+        //en fonction de différent critère de recherche récupéré depuis le twig list.html.twig
 
         $sortiesQuery = $sortieRepo->recherche(
             ($request->query->get('recherche_terme') != null ? $request->query->get('recherche_terme') : null),
@@ -51,6 +53,11 @@ class SortieController extends AbstractController
         //recuperation de tous les etats
         $etats = $etatRepo->findAll();
 
+
+        //délégation du travail au twig list.html.twig en y passant en paramètre
+        //les sorties lier au site de rattachement de l'utilisateur, les sites et les états
+        //si l'url est égale à /sortie/liste
+        //sinon les sortie filtrées, les sites et les états
 
         if ($_SERVER['REQUEST_URI'] == "/sortie/list"){
             return $this->render("sortie/list.html.twig", [
