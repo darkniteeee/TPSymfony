@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }}: Détail des Sorties {% endblock %}
+{% block title %}{{ parent() }}: Détails de la sortie {% endblock %}
 
 {% block informations %}
-    <h1 class="jumbotron-heading">Détails des Sorties</h1><br/>
+    <h1 class="jumbotron-heading">Détails de la sortie</h1><br/>
 {% endblock %}
 
 {% block main %}
@@ -11,7 +11,7 @@
 <div class="row d-flex justify-content-center">
         <table class="table w-auto">
             <tr>
-                <th scope="row">Nom de la Sortie</th>
+                <th scope="row">Nom de la sortie</th>
                 <td>{{ sortie.nomSortie }}</td>
             </tr>
 
@@ -21,12 +21,12 @@
             </tr>
 
         <tr>
-            <th scope="row">Date Limite d'inscription</th>
+            <th scope="row">Date limite d'inscription</th>
             <td>{{ sortie.dateLimiteInscription | date('d/m/Y ') }}</td>
         </tr>
 
         <tr>
-            <th scope="row">Nombre de place</th>
+            <th scope="row">Nombre de places</th>
             <td>{{ sortie.nbInscriptionMax }}</td>
         </tr>
 
@@ -37,7 +37,7 @@
         </tr>
         {%endif%}
         <tr>
-            <th scope="row">Description et Informations</th>
+            <th scope="row">Description et informations</th>
             <td>{{ sortie.descriptionSortie }}</td>
         </tr>
         <tr>
@@ -72,14 +72,13 @@
             <thead>
             <tr>
                 <th scope="col">Pseudo</th>
-                <th scope="col">Nom et prenom</th>
+                <th scope="col">Nom et prénom</th>
             </tr>
             </thead>
                 <tbody>
                 {% for participant in sortie.inscrits %}
                 <tr>
                     <td> <a href="{{ path('participant_afficher_profil',{'idp' : participant.id,'ids' : participant.id})}}">{{ participant.pseudo }} </td>
-                   dd(participant);
                     <td>{{ participant.nom }} {{ participant.prenom }}</td>
 
                 </tr>

@@ -10,8 +10,6 @@
 
 {% block main %}
 
-<h1> </h1>
-
     <h3>Filtrer les sorties</h3>
 
     <form action="{{ path('sortie_list') }}" method="get" class="row">
@@ -32,6 +30,7 @@
                     <option value="{{ etat.id }}" {{ (etat.id in app.request.get('recherche_etat')) ? 'selected' : '' }}>{{ etat.libelle }}</option>
                 {% endfor %}
             </select>
+
 <!-- Traitement des recherches choix des dates -->
             <div class="mb-3">
                 <label for="debut">Date de début</label>
@@ -40,6 +39,7 @@
                 <input class="rounded form-control" type="date" id="fin" name="date_fin" value="{{ app.request.get('date_fin') }}">
             </div>
         </div>
+
 <!--Parties des Check Box -->
         <div class="col-xs-12 col-sm-6">
             <div class="row d-flex flex-column ml-1 col-xs-12 d-inline">
@@ -81,7 +81,7 @@
                 <th scope="col">Nom de la sortie</th>
                 <th scope="col">Date de sortie</th>
                 <th scope="col">Clôture</th>
-                <th scope="col">inscrits/places</th>
+                <th scope="col">Inscrits/Places</th>
                 <th scope="col">Etat</th>
                 <th scope="col">Inscrit</th>
                 <th scope="col">Organisateur</th>
@@ -98,26 +98,23 @@
                     <td>{{ sortie.DateLimiteInscription|date('d/m/Y H:i:s') }}</td>
                     <td>{{ sortie.inscrits|length }}/{{ sortie.NbInscriptionMax }}</td>
                     <td>{{ sortie.etat.libelle }}</td>
-                    {% for inscrit in sortie.inscrits %}
-                        {% if  app.user.id == inscrit.Id %}
-                            <td>inscrit</td>
+                        {% if  app.user in sortie.inscrits %}
+                            <td>x</td>
+                        {% else %}
+                            <td> </td>
                         {% endif %}
-                    {% endfor%}
                     <td>{{ sortie.organisateur.nom }}</td>
                     <td><a href="{{path ('sortie_detail', {'id' : sortie.id})}}">Afficher</a></td>
                     {% if app.user in sortie.inscrits  %}
                         <td><a href="{{ path('sortie_desinscrire', {'id' : sortie.id}) }}">Se désinscrire </a><td>
                     {% else %}
-                    <td> <a href="{{path ('sortie_inscription', {'id' : sortie.id})}}">S'inscrire</a></td>
+                        {% if app.user != sortie.organisateur %}
+                        <td> <a href="{{path ('sortie_inscription', {'id' : sortie.id})}}">S'inscrire</a></td>
+                        {% endif %}
                     {% endif %}
                     {% if sortie.etat.libelle == "Créée" %}
-                        {#                        AND sortie.participant.organisateur !=null#}
                         <td><a href="#">Modifier</a> - <a href="#">Publier</a></td>
                     {% endif %}
-                    {#               {% elseif sortie.etat.libelle == "Ouvert" %}#}
-                    {#                      AND sortie.participant.organisateur !=null#}
-                    {#                        <td><a href="#">Afficher</a> - <a href="#">Annuler</a></td>#}
-                    {#                    {% endif %}#}
                 </tr>
             {% endfor %}
             </tbody>

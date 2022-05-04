@@ -3,15 +3,18 @@
 
 {% block informations %}
     {% if app.user%}
-    <h1 class="jumbotron-heading">Bienvenue: {{ app.user.prenom }} {{ app.user.nom }}</h1><br/>
+    <h2 class="jumbotron-heading">Bonjour  {{ app.user.prenom }} {{ app.user.nom }}</h2><br/>
         <div class="col mt-3 mb-3 text-center">
         </div>
     {%else%}
-    <h1 class="jumbotron-heading">Bienvenue</h1><br/>
+    <h2 class="jumbotron-heading">Bonjour </h2><br/>
+        <p> Il semblerait que vous ne soyez pas connecté, merci de réessayer. </p><br>
     {%endif%}
 {% endblock %}
 
 {% block main %}
+
+    <h5 class="jumbotron-heading"> Bienvenue sur le site des sorties collectives et participatives de l'ENI ! </h5>
 
     <div class="row">
         <table class="table">
@@ -21,7 +24,7 @@
                 <th scope="col">Nom de la sortie</th>
                 <th scope="col">Date de sortie</th>
                 <th scope="col">Clôture</th>
-                <th scope="col">inscrits/places</th>
+                <th scope="col">Inscrits/Places</th>
 
             </tr>
             </thead>
