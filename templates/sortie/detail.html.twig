@@ -97,7 +97,7 @@
         </a>
         {%endif%}
     {% if app.user is same as(sortie.organisateur) %}
-    <a href="{{ path('sortie_supprimer', {'id' : sortie.id})}}">
+    <a href="{{ path('sortie_annuler', {'id' : sortie.id})}}">
         <input type="submit" value="Annuler la sortie" class="btn btn-outline-primary btn-rounded">
     </a>
     {% endif %}

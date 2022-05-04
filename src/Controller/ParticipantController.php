@@ -36,11 +36,25 @@ class ParticipantController extends AbstractController
         //Vérification de la soumission du formulaire
         if ($formProfil->isSubmitted() && $formProfil->isValid()){
 
+            if($formProfil->get('photo_profil')->getData() != null) {
+                $file = $formProfil->get('photo_profil')->getData();
+
+                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+//                dd($fileName);
+                $file->move($this->getParameter('users_photos_directory'), $fileName);
+                $participant->setPhotoProfil($fileName);
+            }
+
             //Vérification password BD et entrée utilisateur
 
             if($participantPasswordHasher->isPasswordValid($participant, $formProfil->getData()->getPlainPassword())){
 
+
+
              $participantRepository->add($participant);
+
+
+
 
                 //Ajouter un message de confirmation
                 $this->addFlash('success', 'Le profil a bien été modifié !');
@@ -51,10 +65,6 @@ class ParticipantController extends AbstractController
             }
 
 
-            //Début photo de profil du formulaire
-//            $photo_profil_file = $formProfil->get('photo_profil')->getData();
-//
-//            if($photo_profil_file){}
 
         }
 

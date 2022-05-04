@@ -150,6 +150,10 @@ class Participant implements UserInterface , PasswordAuthenticatedUserInterface{
     /**
      * @return int|null
      */
+
+
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -401,6 +405,10 @@ class Participant implements UserInterface , PasswordAuthenticatedUserInterface{
         $this->inscriptions = new ArrayCollection();
         $this->administrateur = false;
         $this->actif = false;
+        if ($this->getPhotoProfil() == null) {
+
+            $this->setPhotoProfil("imageProfilDefaut.jpg");
+        }
 
     }
     /**

@@ -11,7 +11,18 @@
 {#    {% form_theme formCreation 'bootstrap_4_layout.html.twig' %}#}
 
 {{ form_start(formCreation)}}
-    {{form_widget(formCreation)}}
+
+    {{ form_row(formCreation.nom_sortie) }}
+
+    <div class="mb-3">
+        <label for="debut">Date de début</label>
+        <input class="rounded form-control" type="date" id="debut" name="date_debut" value="{{ app.request.get('date_debut') }}">
+        <label for="fin">Date de fin</label>
+        <input class="rounded form-control" type="date" id="fin" name="date_fin" value="{{ app.request.get('date_fin') }}">
+    </div>
+
+
+
 
     <input type="submit" value="Créer">
 
