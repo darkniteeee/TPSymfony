@@ -4,6 +4,8 @@
 {% block informations %}
     {% if app.user%}
     <h1 class="jumbotron-heading">Bienvenue: {{ app.user.prenom }} {{ app.user.nom }}</h1><br/>
+        <div class="col mt-3 mb-3 text-center">
+        </div>
     {%else%}
     <h1 class="jumbotron-heading">Bienvenue</h1><br/>
     {%endif%}

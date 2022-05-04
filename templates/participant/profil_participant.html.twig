@@ -1,8 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}{{ parent() }}: {{ particpant.pseudo }} {% endblock %}
-{{ particpant.pseudo }}
+{#{{ particpant.pseudo }}#}
 {% block informations %}
+    {% if particpant.PhotoProfil %}
+        <img src="{{ asset('uploads/users/photos/' ~ particpant.PhotoProfil) }}" alt="Photo_de_profil" class="img-thumbnail rounded img-fluid">
+    {% endif %}
     <h1 class="jumbotron-heading"></h1><br/>
 {% endblock %}
 
