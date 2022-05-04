@@ -102,7 +102,7 @@ class SortieController extends AbstractController
             $this->addFlash('success', 'Votre sortie a bien été créée !');
 
             // Redirection de l'utilisateur sur l'accueil
-            return $this->redirectToRoute('accueil_home');
+            return $this->redirectToRoute('sortie_list');
         }
         else{
             //Ajouter un message d'erreur'
@@ -117,24 +117,28 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route(name="supprimer", path="{id}/supprimer", requirements={"id": "\d+"}, methods={"GET", "POST"})
+     * @Route(name="annuler", path="{id}/annuler", requirements={"id": "\d+"}, methods={"GET", "POST"})
      */
-    public function suppressionSortie(Request $request, EntityManagerInterface $em, SortieRepository $sr){
-
+    public function annulerSortie(Request $request, EntityManagerInterface $em, SortieRepository $sr, EtatRepository $etatRepo)
+    {
         $sortie = $sr->find((int) $request->get('id'));
+
         if (!$sortie == null) {
-        $em->remove($sortie);
-        $em->flush();
+            $sortie->setEtat($etatRepo->find(6));
+            $em->flush();
 
-        //Ajouter un message de confirmation
-        $this->addFlash('success', 'Votre sortie a bien été annulée!');
+            //Ajouter un message de confirmation
+            $this->addFlash('success', 'Votre sortie a bien été annulée!');
 
-        // Redirection de l'utilisateur sur la liste des sorties
-        return $this->redirectToRoute('sortie_list');
+            // Redirection de l'utilisateur sur la liste des sorties
+            return $this->redirectToRoute('sortie_list');
         }else{
-        //Ajouter un message d'erreur'
-        $this->addFlash('error', 'Votre sortie n"a pas été annulée !');
-         }
+            //Ajouter un message d'erreur'
+            $this->addFlash('error', 'Votre sortie n"a pas pu être annulée... Veuillez contacter l"administrateur.');
+
+		// Redirection de l'utilisateur sur la liste des sorties
+		return $this->redirectToRoute('sortie_detail');
+        }
 
     }
 

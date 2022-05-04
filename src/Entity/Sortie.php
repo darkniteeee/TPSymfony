@@ -65,7 +65,7 @@ class Sortie
     /**
      * @ORM\Column(name="description_sortie", type="string", length=500, nullable=true)
      * @Assert\Length(
-     *     max = 30,
+     *     max = 500,
      *     maxMessage = "La description de la sortie doit contenir au maximum {{ limit }} caractères !")
      */
     private string $description_sortie;
