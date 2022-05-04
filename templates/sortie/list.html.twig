@@ -112,7 +112,7 @@
                         <td> <a href="{{path ('sortie_inscription', {'id' : sortie.id})}}">S'inscrire</a></td>
                         {% endif %}
                     {% endif %}
-                    {% if sortie.etat.libelle == "Créée" %}
+                    {% if sortie.etat.libelle == "Créée" and app.user == sortie.organisateur %}
                         <td><a href="#">Modifier</a> - <a href="#">Publier</a></td>
                     {% endif %}
                 </tr>

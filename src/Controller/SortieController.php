@@ -99,6 +99,9 @@ class SortieController extends AbstractController
         //Vérification de la soumission du formulaire
         if ($formCreation->isSubmitted() && $formCreation->isValid()){
 
+            $sortie->addInscrit($this->getUser());
+            $sortie->addNbInscrits();
+
             // Association de l'objet
             $entityManager->persist($sortie);
 
