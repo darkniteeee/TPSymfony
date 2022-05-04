@@ -80,7 +80,7 @@ class Participant implements UserInterface , PasswordAuthenticatedUserInterface{
     private ?string $nom =null;
 
     /**
-     *  * @ORM\Column(name="prenom", type="string", length=30)
+     * @ORM\Column(name="prenom", type="string", length=30)
      * @Assert\NotBlank(message="Le prénom est requis !")
      * @Assert\Length(
      *     min = 1,

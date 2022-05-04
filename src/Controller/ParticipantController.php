@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Participant;
+use App\Entity\Sortie;
 use App\Form\InscriptionType;
 use App\Form\ModifierPasswordType;
 use App\Form\ProfilType;
 use App\Repository\ParticipantRepository;
+use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -169,15 +171,23 @@ class ParticipantController extends AbstractController
     }
 
     /**
-     * @Route(name="afficher_profil", path="{id}/afficher_profil", requirements={"id": "\d+"}, methods={"GET"})
+     * @Route(name="afficher_profil", path="{idp} {ids}/afficher_profil", requirements={"id": "\d+"}, methods={"GET", "POST"})
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param ParticipantRepository $pr
+     * @return Response
      */
-    public function afficherProfil(Request $request, EntityManagerInterface $em, ParticipantRepository $pr){
-        $participant = $pr->find((int) $request->get('id'));
+    public function afficherProfil(Request $request, EntityManagerInterface $em, ParticipantRepository $pr, SortieRepository $sr ){
+        $participant = $pr->find((int) $request->get('idp'));
+        $sortie = $sr->find((int) $request->get('ids'));
 
         // Envoi du formulaire à la vue
-        return $this->render('participant/profil_participant.html.twig', ['particpant'=> $participant,]);
-
-
+        return $this->render('participant/profil_participant.html.twig',
+            [
+                'participant'=> $participant,
+                'sortie'=>$sortie,
+            ]
+        );
     }
 
 }
