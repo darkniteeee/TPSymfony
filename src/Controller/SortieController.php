@@ -147,10 +147,14 @@ class SortieController extends AbstractController
      */
     public function inscription(Request $request, EntityManagerInterface $em, ParticipantRepository $pr, SortieRepository $sr){
 
-        $sortie = $sr->find((int) $request->get('id'));
-        $participant = $pr->find($this->getUser()->getId());
-        $sortie ->addInscrit($participant);
-        $sortie ->addNbInscrits();
+//        try {
+            $sortie = $sr->find((int)$request->get('id'));
+            $participant = $pr->find($this->getUser()->getId());
+            $sortie->addInscrit($participant);
+            $sortie->addNbInscrits();
+//        }catch (Exception $e) {
+//            $this->addFlash("Error", "Erreur : Inscription annulée".$e->getMessage());
+//        }
         $em->flush();
         return $this->render('sortie/detail.html.twig', [ 'sortie' => $sortie,
         ]);
