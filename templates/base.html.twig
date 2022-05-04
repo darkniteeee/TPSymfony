@@ -60,8 +60,10 @@
 
         <div class="container-fluid">
 
-            {% for message in app.flashes('success') %}
-                <div class="alert alert-success" role="alert">{{ message }}</div>
+            {% for group, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ group }}" role="alert">{{ message }}</div>
+                {% endfor %}
             {% endfor %}
 
             {% block main %}{% endblock %}

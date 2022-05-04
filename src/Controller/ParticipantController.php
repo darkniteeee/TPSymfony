@@ -93,14 +93,23 @@ class ParticipantController extends AbstractController
 
         //Vérification de la soumission du formulaire
         if ($formInscription->isSubmitted() && $formInscription->isValid()){
+            $password = $participant->getPassword();
+
+            // Vérification du mot de passe hors assert
+            $regex = "/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{12,}$/";
+            if(!preg_match($regex, $password)){
+                $error['password'] = "Le mot de passe doit contenir 12 lettres y compris un chiffre !";
+                $this->addFlash('warning', 'Le mot de passe doit contenir 12 lettres y compris un chiffre !');
+                return $this->render('participant/inscription.html.twig',
+                    [
+                        'formInscription' => $formInscription->createView(),
+                        'error'=> $error,
+
+                    ]);
+            }
 
             // Hashage du mot de passe
             $participant->setPassword($participantPasswordHasher->hashPassword($participant, $participant->getPassword()));
-
-            //Début photo de profil du formulaire
-//            $photo_profil_file = $formProfil->get('photo_profil')->getData();
-//
-//            if($photo_profil_file){}
 
             // Association de l'objet
             $entityManager->persist($participant);

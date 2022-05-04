@@ -60,18 +60,6 @@ class InscriptionType extends AbstractType
                         ->orderBy('site.nom_site', 'ASC');},
                 'choice_label' => 'nom_site']);
 
-//        $builder
-//            ->add('photo_profil', FileType::class, [
-//                'label' => 'Ma photo',
-//                'mapped' => false,
-//                'required' => false,
-//                'constraints' => [
-//                    new File([
-//                        'maxSize' => '1024k',
-//                        'mimeTypes' => ['image/jpeg', 'image/png'],
-//                        'mimeTypesMessage' => 'Merci de télécharger un fichier jpeg ou png valide',])
-//                    ]
-//            ]);
 
         $builder
             ->add('submit', SubmitType::class, [
