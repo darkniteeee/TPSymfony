@@ -43,8 +43,16 @@ class Participant implements UserInterface , PasswordAuthenticatedUserInterface{
     private array $roles = [];
 
     /**
-     * @var string The hashed password
      * @ORM\Column(name="password", type="string", length=180)
+     * @Assert\NotBlank(message="Le mot de passe est requis !", groups={"registration"})
+     * @Assert\Length(
+     *     min = 8,
+     *     max = 50,
+     *     minMessage = "Le mot de passe doit contenir au minimum {{ limit }} caractères !",
+     *     maxMessage = "Le mot de passe doit contenir au maximum {{ limit }} caractères !",
+     *     groups={"registration"})
+     * )
+     * @Assert\NotCompromisedPassword(message="Le mot de passe n'est pas assez complexe !", skipOnError=true, groups={"registration"})
      */
     private string $password;
 
@@ -61,11 +69,6 @@ class Participant implements UserInterface , PasswordAuthenticatedUserInterface{
      */
     private ?string $plainPassword = null;
 
-    /**
-     * @var string The hashed password
-     *
-     */
-    private ?string $newPassword = null;
 
     /**
      * @ORM\Column(name="nom", type="string", length=30)
