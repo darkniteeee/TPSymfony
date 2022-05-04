@@ -4,7 +4,7 @@
 {#{{ particpant.pseudo }}#}
 {% block informations %}
     {% if participant.PhotoProfil %}
-        <img src="{{ asset('uploads/users/photos/' ~ participant.PhotoProfil) }}" alt="Photo_de_profil" class="img-thumbnail rounded img-fluid">
+        <img src="{{ asset('uploads/users/photos/' ~ participant.PhotoProfil) }}" alt="Photo_de_profil" class="img-thumbnail rounded img-fluid" width="216" height="200">
     {% endif %}
     <h1 class="jumbotron-heading"></h1><br/>
 {% endblock %}

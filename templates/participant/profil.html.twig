@@ -5,18 +5,25 @@
 
 {% block informations %}
     {% if app.user.PhotoProfil %}
-        <img src="{{ asset('uploads/users/photos/' ~ app.user.PhotoProfil) }}" alt="Photo_de_profil" class="img-thumbnail rounded img-fluid">
+        <img class="img-fluid" src="{{ asset('uploads/users/photos/' ~ app.user.PhotoProfil) }}" alt="Photo_de_profil" class="img-thumbnail rounded img-fluid" width="216" height="200">
     {% endif %}
     <h1 class="jumbotron-heading">Page de profil</h1><br/>
 {% endblock %}
 
 {% block main %}
+
+
+
+
+
   {% form_theme formProfil 'bootstrap_4_layout.html.twig' %}
+{#        <div class="d-flex justify-content-center">#}
 
     {{ form_start(formProfil) }}
-
     <div class="style_1">
+
         {{ form_row(formProfil.pseudo) }}
+
     </div>
 
     <div class="style_1">
@@ -61,5 +68,9 @@
     <a href="{{ path('participant_modifier_password') }}">
         <input type="button" value="Modifier le mot de passe">
     </a>
+    </div>
+
+
+
 
 {% endblock %}
