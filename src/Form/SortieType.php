@@ -31,11 +31,9 @@ class SortieType extends AbstractType
             'label' => 'Date et heure',
             'date_widget' => 'single_text',
             'time_widget' => 'single_text',
-//
         ]);
         $builder->add('duree', IntegerType::class, [
             'label' => 'Durée de la sortie (en minutes)',
-
         ]);
         $builder->add('date_limite_inscription', DateType::class, [
             'label' => 'Date limite d\'inscription',
@@ -49,7 +47,6 @@ class SortieType extends AbstractType
             'label' => 'Description et informations'
         ]);
 
-//        $builder->add('motif_annulation');
 //        $builder->add('photo_sortie');
 
         $builder->add('ville', EntityType::class, [
@@ -58,15 +55,13 @@ class SortieType extends AbstractType
             'class' => Ville::class,
             'placeholder' => 'Sélectionner une ville',
             'choice_label' => 'nom_ville',
-
         ]);
         $builder->get('ville')->addEventListener(
             FormEvents::POST_SUBMIT,
             function (FormEvent $event) {
                 $form = $event->getForm();
                 $this->addLieuField($form->getParent(), $form->getData());
-            }
-        );
+            });
         $builder->addEventListener(
             FormEvents::POST_SET_DATA,
             function (FormEvent $event) {

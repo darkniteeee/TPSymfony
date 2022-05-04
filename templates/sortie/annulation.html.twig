@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}: Annulation d'une sortie{% endblock %}
+
+{% block informations %}
+    <h1 class="jumbotron-heading">Annulation d'une sortie</h1><br/>
+{% endblock %}
+
+{% block main %}
+    {% form_theme formAnnulation 'bootstrap_4_layout.html.twig' %}
+
+{{ form(formAnnulation) }}
+
+{% endblock %}

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Sortie;
+use App\Form\AnnulationType;
 use App\Form\RechercheType;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
@@ -116,7 +117,7 @@ class SortieController extends AbstractController
         }
         else{
             //Ajouter un message d'erreur'
-            $this->addFlash('error', 'Votre sortie n"a pas été créée !');
+            $this->addFlash('error', 'Votre sortie n\'a pas été créée !');
         }
 
         // Envoi du formulaire à la vue
@@ -131,24 +132,37 @@ class SortieController extends AbstractController
      */
     public function annulerSortie(Request $request, EntityManagerInterface $em, SortieRepository $sr, EtatRepository $etatRepo)
     {
-        $sortie = $sr->find((int) $request->get('id'));
+        $sortie = $sr->find((int)$request->get('id'));
 
-        if (!$sortie == null) {
-            $sortie->setEtat($etatRepo->find(6));
-            $em->flush();
+        // Association de l'entité au formulaire
+        $formAnnulation = $this->createForm(AnnulationType::class, $sortie);
 
-            //Ajouter un message de confirmation
-            $this->addFlash('success', 'Votre sortie a bien été annulée!');
+        $formAnnulation->handleRequest($request);
 
-            // Redirection de l'utilisateur sur la liste des sorties
-            return $this->redirectToRoute('sortie_list');
-        }else{
-            //Ajouter un message d'erreur'
-            $this->addFlash('error', 'Votre sortie n"a pas pu être annulée... Veuillez contacter l"administrateur.');
+        //Vérification de la soumission du formulaire
+        if ($formAnnulation->isSubmitted() && $formAnnulation->isValid()) {
 
-		// Redirection de l'utilisateur sur la liste des sorties
-		return $this->redirectToRoute('sortie_detail');
+            if (!$sortie == null) {
+                $sortie->setEtat($etatRepo->find(6));
+                $em->flush();
+
+                //Ajouter un message de confirmation
+                $this->addFlash('success', 'Votre sortie a bien été annulée!');
+
+                // Redirection de l'utilisateur sur la liste des sorties
+                return $this->redirectToRoute('sortie_list');
+
+            } else {
+                //Ajouter un message d'erreur'
+                $this->addFlash('error', 'Votre sortie n\'a pas pu être annulée... Veuillez contacter l\'administrateur.');
+            }
         }
+
+            // Envoi du formulaire à la vue
+            return $this->render('sortie/annulation.html.twig', [
+                'formAnnulation' => $formAnnulation->createView(),
+            ]);
+
 
     }
 
