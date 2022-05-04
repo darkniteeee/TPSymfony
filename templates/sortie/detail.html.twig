@@ -76,7 +76,7 @@
             </tr>
             </thead>
                 <tbody>
-                {% for app.user.organise in sortie.inscrits %}
+                {% for participant in sortie.inscrits %}
                 <tr>
                     <td> <a href="{{ path('participant_afficher_profil',{'idp' : participant.id,'ids' : participant.id})}}">{{ participant.pseudo }} </td>
                    dd(participant);

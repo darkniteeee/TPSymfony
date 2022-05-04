@@ -22,7 +22,7 @@
             <td>{{ participant.prenom}}</td>
         </tr>
 
-        {%if app.user.organise %}
+        {%if sortie.organisateur in app.user.organise %}
         <tr>
             <th scope="row">Telephone : </th>
             <td>{{ participant.telephone}}</td>
