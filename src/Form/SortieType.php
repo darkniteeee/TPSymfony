@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -27,13 +28,19 @@ class SortieType extends AbstractType
             'label' => 'Nom de la sortie'
         ]);
         $builder->add('date_debut', DateTimeType::class, [
-            'label' => 'Date et heure'
+            'label' => 'Date et heure',
+            'date_widget' => 'single_text',
+            'time_widget' => 'single_text',
+//
         ]);
-        $builder->add('duree', NumberType::class, [
-            'label' => 'Durée de la sortie (en minutes)'
+        $builder->add('duree', IntegerType::class, [
+            'label' => 'Durée de la sortie (en minutes)',
+
         ]);
         $builder->add('date_limite_inscription', DateType::class, [
-            'label' => 'Date limite d"inscription'
+            'label' => 'Date limite d\'inscription',
+            'widget' => 'single_text',
+            'format' => 'yyyy-MM-dd',
         ]);
         $builder->add('nb_inscription_max', NumberType::class, [
             'label' => 'Nombre de places'

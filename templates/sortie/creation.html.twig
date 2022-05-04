@@ -7,24 +7,32 @@
 {% endblock %}
 
 {% block main %}
-
-{#    {% form_theme formCreation 'bootstrap_4_layout.html.twig' %}#}
+    {% form_theme formCreation 'bootstrap_4_layout.html.twig' %}
 
 {{ form_start(formCreation)}}
 
+    <h5> Ville organisatrice : {{ app.user.siteId.nomSite}} </h5>
+
     {{ form_row(formCreation.nom_sortie) }}
 
-    <div class="mb-3">
-        <label for="debut">Date de début</label>
-        <input class="rounded form-control" type="date" id="debut" name="date_debut" value="{{ app.request.get('date_debut') }}">
-        <label for="fin">Date de fin</label>
-        <input class="rounded form-control" type="date" id="fin" name="date_fin" value="{{ app.request.get('date_fin') }}">
-    </div>
+    {{ form_row(formCreation.date_debut) }}
 
+    {{ form_row(formCreation.date_limite_inscription) }}
 
+    {{ form_row(formCreation.nb_inscription_max) }}
 
+    {{ form_row(formCreation.duree) }}
 
-    <input type="submit" value="Créer">
+    {{ form_row(formCreation.description_sortie) }}
+
+    {{ form_row(formCreation.ville) }}
+
+    {{ form_row(formCreation.lieu) }}
+
+<br>
+    <input type="submit" value="Enregistrer">
+    <input type="submit" value="Publier la sortie">
+    <input type="reset" value="Annuler">
 
     {{form_end(formCreation)}}
 
