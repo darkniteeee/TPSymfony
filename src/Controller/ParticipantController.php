@@ -63,7 +63,7 @@ class ParticipantController extends AbstractController
                 return $this->redirectToRoute('accueil_home');
             }
             else{
-                $this->addFlash('Error', 'ERREUR : mot de passe incorrect !');
+                $this->addFlash('alert alert-danger', 'ERREUR : mot de passe incorrect !');
             }
 
 
@@ -179,7 +179,7 @@ class ParticipantController extends AbstractController
                     return $this->redirectToRoute('accueil_home');
                 }
                 else{
-                    $this->addFlash('Error', 'mot de passe incorrect !');
+                    $this->addFlash('alert alert-danger', 'mot de passe incorrect !');
                 }
         }
 
