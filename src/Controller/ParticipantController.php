@@ -150,32 +150,43 @@ class ParticipantController extends AbstractController
 
         //Vérification de la soumission du formulaire
         if ($formModifierPassword->isSubmitted() && $formModifierPassword->isValid()){
+            $participant=$this->getUser();
+            $newPassword = $formModifierPassword->get('newPassword')->getData();
 
-           $oldPassword = $_POST['modifier_password']['password'];
+            // Vérification du mot de passe hors assert
+            $regex = "/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{12,}$/";
+            if(!preg_match($regex, $newPassword)){
 
-           $participant=$this->getUser();
-            if($participantPasswordHasher->isPasswordValid($participant, $formModifierPassword["password"]->getData())){
-                // Hashage du mot de passe
-                $participant->setPassword($participantPasswordHasher->hashPassword($participant, $formModifierPassword["newPassword"]->getData()));
+                // $error['password'] = "Le mot de passe doit contenir 12 lettres y compris un chiffre !";
+                $this->addFlash('warning', 'Le mot de passe doit contenir 12 lettres y compris un chiffre !');
 
-                //Validation de la transaction
-                $entityManager->flush();
+                return $this->render('participant/modifier_password.html.twig', [
+                    'formModifierPassword' => $formModifierPassword->createView(),
+                    //'error'=> $error
 
-                //Ajouter un message de confirmation
-                $this->addFlash('success', 'Le mot de passe a bien été modifié !');
-                return $this->redirectToRoute('accueil_home');
-            }
-            else{
-                $this->addFlash('Error', 'mot de passe incorrect !');
+                ]);
             }
 
+                if($participantPasswordHasher->isPasswordValid($participant, $formModifierPassword["password"]->getData())){
+                    // Hashage du mot de passe
+                    $participant->setPassword($participantPasswordHasher->hashPassword($participant, $formModifierPassword["newPassword"]->getData()));
+
+                    //Validation de la transaction
+                    $entityManager->flush();
+
+                    //Ajouter un message de confirmation
+                    $this->addFlash('success', 'Le mot de passe a bien été modifié !');
+                    return $this->redirectToRoute('accueil_home');
+                }
+                else{
+                    $this->addFlash('Error', 'mot de passe incorrect !');
+                }
         }
 
         // Envoi du formulaire à la vue
         return $this->render('participant/modifier_password.html.twig', [
             'formModifierPassword' => $formModifierPassword->createView(),
         ]);
-
 
     }
 
