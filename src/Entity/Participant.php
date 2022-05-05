@@ -149,6 +149,7 @@ class Participant implements UserInterface , PasswordAuthenticatedUserInterface{
      */
     private $site_id;
 
+
        //************************* DECLARATION GETTERS SETTERS ********
     /**
      * @return int|null

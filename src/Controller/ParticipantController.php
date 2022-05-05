@@ -8,6 +8,7 @@ use App\Form\InscriptionType;
 use App\Form\ModifierPasswordType;
 use App\Form\ProfilType;
 use App\Repository\ParticipantRepository;
+use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -81,11 +82,11 @@ class ParticipantController extends AbstractController
     /**
      * @Route(name="inscrire", path="inscrire", methods={"GET", "POST"})
      */
-    public function inscrire(Request $request, UserPasswordHasherInterface $participantPasswordHasher, EntityManagerInterface $entityManager){
+    public function inscrire(Request $request, UserPasswordHasherInterface $participantPasswordHasher, EntityManagerInterface $entityManager, SiteRepository $siteRepository ){
 
         //Création de l'entité
         $participant = new Participant();
-
+       // $participant->setSiteId($siteRepository->find())
         // Association de l'entité au formulaire
         $formInscription = $this->createForm(InscriptionType::class, $participant);
 
