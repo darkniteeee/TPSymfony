@@ -55,6 +55,7 @@ class Sortie
      * @Assert\NotBlank(message="La date limite d'inscription est requise !")
      * @ORM\Column(name="date_limite_inscription", type="datetime")
      * @Assert\LessThan(propertyPath="date_debut", message="la Date limite d'inscription doit être inferieur à la date de la sortie")
+     * @Assert\GreaterThan("today", message="la Date de la sortie ne doit pas être inferieure à la date du jour")
      */
     private Datetime $date_limite_inscription;
 
