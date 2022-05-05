@@ -98,26 +98,29 @@ class SortieController extends AbstractController
         $formCreation->handleRequest($request);
 
         //Vérification de la soumission du formulaire
-        if ($formCreation->isSubmitted() && $formCreation->isValid()){
+        if ($formCreation->isSubmitted()) {
 
-            $sortie->addInscrit($this->getUser());
-            $sortie->addNbInscrits();
 
-            // Association de l'objet
-            $entityManager->persist($sortie);
+            if ($formCreation->isValid()) {
 
-            //Validation de la transaction
-            $entityManager->flush();
+                $sortie->addInscrit($this->getUser());
+                $sortie->addNbInscrits();
 
-            //Ajouter un message de confirmation
-            $this->addFlash('success', 'Votre sortie a bien été créée !');
+                // Association de l'objet
+                $entityManager->persist($sortie);
 
-            // Redirection de l'utilisateur sur l'accueil
-            return $this->redirectToRoute('sortie_list');
-        }
-        else{
-            //Ajouter un message d'erreur'
-            $this->addFlash('alert alert-danger', 'Votre sortie n\'a pas été créée !');
+                //Validation de la transaction
+                $entityManager->flush();
+
+                //Ajouter un message de confirmation
+                $this->addFlash('success', 'Votre sortie a bien été créée !');
+
+                // Redirection de l'utilisateur sur l'accueil
+                return $this->redirectToRoute('sortie_list');
+            } else {
+                //Ajouter un message d'erreur'
+                $this->addFlash('danger', 'Votre sortie n\'a pas été créée !');
+            }
         }
 
         // Envoi du formulaire à la vue
