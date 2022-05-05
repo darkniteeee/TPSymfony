@@ -146,6 +146,9 @@ class SortieController extends AbstractController
         if ($formAnnulation->isSubmitted() && $formAnnulation->isValid()) {
 
             if (!$sortie == null) {
+                foreach ($sortie->getInscrits() as $participant) {
+                    $sortie->removeInscrit($participant);
+                }
                 $sortie->setEtat($etatRepo->find(6));
                 $em->flush();
 
