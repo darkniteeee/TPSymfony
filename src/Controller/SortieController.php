@@ -24,11 +24,12 @@ use Symfony\Config\Doctrine\Orm\EntityManagerConfig;
 class SortieController extends AbstractController
 {
 
-     //Fonction permettant de d'afficher les sorties repondant aux critères de filtre
+    //Fonction permettant de d'afficher les sorties repondant aux critères de filtre
     /**
      * @Route(name="list", path="list", methods={"GET"})
      */
-    public function list(Request $request, EntityManagerInterface $entityManager, SiteRepository $siteRepo, EtatRepository $etatRepo, SortieRepository $sortieRepo){
+    public function list(Request $request, EntityManagerInterface $entityManager, SiteRepository $siteRepo, EtatRepository $etatRepo, SortieRepository $sortieRepo)
+    {
 
         //Récupération de toutes les sorties lier au site de rattachement de l'utilisateur
         $sortie = $sortieRepo->findByUtilisateurSite($this->getUser()->getSiteId()->getId());
@@ -60,16 +61,14 @@ class SortieController extends AbstractController
         //si l'url est égale à /sortie/liste
         //sinon les sortie filtrées, les sites et les états
 
-        if ($_SERVER['REQUEST_URI'] == "/sortie/list"){
+        if ($_SERVER['REQUEST_URI'] == "/sortie/list") {
             return $this->render("sortie/list.html.twig", [
 
                 'sorties' => $sortie,
                 'sites' => $sites,
                 'etats' => $etats
             ]);
-        }
-
-        else{
+        } else {
             return $this->render("sortie/list.html.twig", [
 
                 'sorties' => $sortiesQuery,
@@ -84,7 +83,8 @@ class SortieController extends AbstractController
     /**
      * @Route(name="creer", path="creer", methods={"GET", "POST"})
      */
-    public function creerSortie(Request $request, EntityManagerInterface $entityManager, SiteRepository $siteRepo, EtatRepository $etatRepo){
+    public function creerSortie(Request $request, EntityManagerInterface $entityManager, SiteRepository $siteRepo, EtatRepository $etatRepo)
+    {
 
         //Création de l'entité
         $sortie = new Sortie();
@@ -161,56 +161,57 @@ class SortieController extends AbstractController
             }
         }
 
-            // Envoi du formulaire à la vue
-            return $this->render('sortie/annulation.html.twig', [
-                'formAnnulation' => $formAnnulation->createView(),
-            ]);
-
-
+        // Envoi du formulaire à la vue
+        return $this->render('sortie/annulation.html.twig', [
+            'formAnnulation' => $formAnnulation->createView(),
+        ]);
     }
 
     /**
      * @Route(name="inscription", path="{id}/inscription", requirements={"id": "\d+"}, methods={"GET"})
      */
-    public function inscription(Request $request, EntityManagerInterface $em, ParticipantRepository $pr, SortieRepository $sr){
+    public function inscription(Request $request, EntityManagerInterface $em, ParticipantRepository $pr, SortieRepository $sr)
+    {
 
 //        try {
-            $sortie = $sr->find((int)$request->get('id'));
-            $participant = $pr->find($this->getUser()->getId());
-            $sortie->addInscrit($participant);
-            $sortie->addNbInscrits();
+        $sortie = $sr->find((int)$request->get('id'));
+        $participant = $pr->find($this->getUser()->getId());
+        $sortie->addInscrit($participant);
+        $sortie->addNbInscrits();
 //        }catch (Exception $e) {
 //            $this->addFlash("Error", "Erreur : Inscription annulée".$e->getMessage());
 //        }
         $em->flush();
-        return $this->render('sortie/detail.html.twig', [ 'sortie' => $sortie,
+        return $this->render('sortie/detail.html.twig', ['sortie' => $sortie,
         ]);
     }
+
     /**
      * @Route(name="desinscrire", path="{id}/desinscrire", requirements={"id": "\d+"}, methods={"GET"})
      */
-    public function desinscrire (Request $request, EntityManagerInterface $em, SortieRepository $sr, ParticipantRepository $pr)
+    public function desinscrire(Request $request, EntityManagerInterface $em, SortieRepository $sr, ParticipantRepository $pr)
     {
-        $sortie = $sr->find((int) $request->get('id'));
+        $sortie = $sr->find((int)$request->get('id'));
         $participant = $pr->find($this->getUser()->getId());
-        $sortie -> removeInscrit($participant);
-        $sortie -> minNbInscrits();
-        $participant -> removeInscription($sortie);
-        $em -> flush();
+        $sortie->removeInscrit($participant);
+        $sortie->minNbInscrits();
+        $participant->removeInscription($sortie);
+        $em->flush();
         return $this->redirectToRoute('sortie_list');
     }
 
     /**
      * @Route(name="detail", path="{id}/detail", requirements={"id": "\d+"}, methods={"GET"})
      */
-    public function details(Request $request, EntityManagerInterface $entityManager, SortieRepository $sr) {
+    public function details(Request $request, EntityManagerInterface $entityManager, SortieRepository $sr)
+    {
 
         // Récupération de l'identifiant de la sortie
-        $id = (int) $request->get('id');
+        $id = (int)$request->get('id');
 
         // Récupération de la sortie souhaité
         $sortie = $sr->findById($id);
-       // dd($id);
+
         if (is_null($sortie)) {
             throw $this->createNotFoundException('Sortie Non trouvée !');
         }
@@ -220,4 +221,48 @@ class SortieController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route(name="modifier", path="{id}/modifier", requirements={"id": "\d+"}, methods={"GET", "POST"})
+     */
+    public function modifier(Request $request, EntityManagerInterface $entityManager, SortieRepository $sr)
+    {
+
+        // Récupération de l'identifiant de la sortie
+        $id = (int)$request->get('id');
+
+
+        // Récupération de la sortie souhaité
+        $sortie = $sr->findById($id);
+        //dd($sortie);
+        // Association de l'entité au formulaire
+        $formCreation = $this->createForm(SortieType::class, $sortie);
+
+        $formCreation->handleRequest($request);
+
+        //Vérification de la soumission du formulaire
+        if ($formCreation->isSubmitted()) {
+
+
+            if ($formCreation->isValid()) {
+
+                //Validation de la transaction
+                $entityManager->flush();
+
+                //Ajouter un message de confirmation
+                $this->addFlash('success', 'Votre sortie a bien été modifiée !');
+
+                // Redirection de l'utilisateur sur l'accueil
+                return $this->redirectToRoute('sortie_list');
+            } else {
+                //Ajouter un message d'erreur'
+                $this->addFlash('alert alert-danger', 'Votre sortie n\'a pas été créée !');
+            }
+        }
+
+        // Envoi du formulaire à la vue
+        return $this->render('sortie/modifier_sortie.html.twig', [
+            'formCreation' => $formCreation->createView(),
+        ]);
+
     }
+}

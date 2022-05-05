@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}: Modifier la sortie{% endblock %}
+
+{% block informations %}
+<h1 class="jumbotron-heading"> Modifier la sortie </h1><br/>
+{% endblock %}
+
+{% block main %}
+    {% form_theme formCreation 'bootstrap_4_layout.html.twig' %}
+
+    {{ form_start(formCreation)}}
+
+    <h5> Ville organisatrice : {{ app.user.siteId.nomSite }} </h5>
+
+    {{ form_widget(formCreation) }}
+
+    <br>
+    <input type="submit" value="Modifier">
+
+    {{form_end(formCreation)}}
+
+{% endblock %}
