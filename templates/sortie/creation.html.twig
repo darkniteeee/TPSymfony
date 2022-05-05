@@ -16,9 +16,11 @@
     {{ form_widget(formCreation) }}
 
 <br>
-    <input type="submit" value="Enregistrer">
+    <input type="submit" class="btn btn-outline-primary btn-rounded" value="Enregistrer">
 {#    <input type="submit" value="Publier la sortie">#}
-    <input type="reset" value="Annuler">
+    <a href="{{ path('sortie_list') }}">
+        <input type="button" value="Annuler" class="btn btn-outline-primary btn-rounded">
+    </a>
 
     {{form_end(formCreation)}}
 

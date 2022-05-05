@@ -233,7 +233,7 @@ class SortieController extends AbstractController
 
         // Récupération de la sortie souhaité
         $sortie = $sr->findById($id);
-        //dd($sortie);
+
         // Association de l'entité au formulaire
         $formCreation = $this->createForm(SortieType::class, $sortie);
 
@@ -265,4 +265,36 @@ class SortieController extends AbstractController
         ]);
 
     }
+
+    /**
+     * @Route(name="publier", path="{id}/publier", requirements={"id": "\d+"}, methods={"GET", "POST"})
+     */
+    public function publier(Request $request, EntityManagerInterface $entityManager, SortieRepository $sr, EtatRepository $etatRepo)
+    {
+        // Récupération de l'identifiant de la sortie
+        $id = (int)$request->get('id');
+
+        // Récupération de la sortie souhaité
+        $sortie = $sr->findById($id);
+
+        if ($sortie != null){
+
+            //Modification ed l'état de la sortie
+            $sortie->setEtat($etatRepo->find(2));
+
+            //Validation de la transaction
+            $entityManager->flush();
+
+            //Ajouter un message de confirmation
+            $this->addFlash('success', 'Votre sortie a bien été publiée !');
+
+            // Redirection de l'utilisateur sur l'accueil
+            return $this->redirectToRoute('sortie_list');
+        } else {
+            //Ajouter un message d'erreur'
+            $this->addFlash('alert alert-danger', 'Votre sortie n\'a pas été publiée !');
+        }
+    }
+
+
 }
