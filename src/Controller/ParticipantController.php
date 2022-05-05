@@ -107,6 +107,7 @@ class ParticipantController extends AbstractController
 
                     ]);
             }
+            //pour gwendo
 
             // Hashage du mot de passe
             $participant->setPassword($participantPasswordHasher->hashPassword($participant, $participant->getPassword()));
