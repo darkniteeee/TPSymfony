@@ -104,17 +104,17 @@
     {% if sortie.etat.id != 6 %}
 
 {#Gestion des boutons s'inscrire/se désinscrire #}
-        {% if app.user in sortie.inscrits and sortie.etat.id != 3 and sortie.etat.id != 5 and sortie.etat.id != 1 and app.user == sortie.organisateur%}
+        {% if app.user in sortie.inscrits and sortie.etat.id != 3 and sortie.etat.id != 5 and sortie.etat.id != 1 and app.user != sortie.organisateur%}
           <a href="{{ path('sortie_desinscrire', {'id' : sortie.id}) }}">
               <input type="button" value="Se désinscrire" class="btn btn-outline-primary btn-rounded">
           </a>
-        {% else %}
-            {% if sortie.etat.id != 3 and sortie.etat.id != 5 and sortie.etat.id != 1 %}
+        {%endif%}
+        {% if sortie.etat.id != 3 and sortie.etat.id != 5 and sortie.etat.id != 1 and app.user not in sortie.inscrits%}
                 <a href="{{ path('sortie_inscription', {'id' : sortie.id}) }}">
                     <input type="button" value="S'inscrire" class="btn btn-outline-primary btn-rounded">
                 </a>
+
             {%endif%}
-        {%endif%}
 
 {#        Affichage du bouton annuler si l'utilisateur est l'organisateur de la sortie#}
         {% if app.user is same as(sortie.organisateur) %}
