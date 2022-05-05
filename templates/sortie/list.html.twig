@@ -2,9 +2,8 @@
 
 {% block informations%}
 
-    <h4>Date du jour : {{ "now"|date('d/m/Y') }}</h4>
-    <h4>Participant: {{ app.user.prenom }}.{{ app.user.nom }}</h4>
-    <h4>Nom du Site: {{ app.user.SiteId.NomSite }}</h4>
+    <h5>Date du jour : {{ "now"|date('d/m/Y') }}</h5>
+    <h5>Participant: {{ app.user.prenom }}.{{ app.user.nom }}</h5>
 
 {% endblock %}
 

@@ -233,7 +233,7 @@ class Sortie
     /**
      * @return string
      */
-    public function getMotifAnnulation(): string
+    public function getMotifAnnulation(): ?string
     {
         return $this->motif_annulation;
     }
