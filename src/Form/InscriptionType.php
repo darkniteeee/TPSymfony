@@ -70,7 +70,7 @@ class InscriptionType extends AbstractType
 
         $builder
             ->add('submit', SubmitType::class, [
-                'label' => 'S\'inscrire']);
+                'label' => 'Inscrire']);
 
 
     }
