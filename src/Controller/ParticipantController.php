@@ -115,6 +115,9 @@ class ParticipantController extends AbstractController
             if($participant->getAdministrateur() == true ){
                 $participant->addRole("ROLE_ADMIN");
             }
+            else{
+                $participant->addRole("ROLE_USER");
+            }
             // Association de l'objet
             $entityManager->persist($participant);
 
