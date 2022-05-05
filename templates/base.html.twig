@@ -31,8 +31,10 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{path('security_login') }}">Se connecter</a>
                         </li>
+                        {% endif %}
+                        {% if is_granted("ROLE_ADMIN") %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('participant_inscrire') }}">S'inscrire</a>
+                            <a class="nav-link" href="{{ path('participant_inscrire') }}">Inscrire</a>
                         </li>
                         {% endif %}
                         <li class="nav-item">

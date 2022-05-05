@@ -122,7 +122,7 @@ class ParticipantController extends AbstractController
             $entityManager->flush();
 
             //Ajouter un message de confirmation
-            $this->addFlash('success', 'Votre profil a bien été créé !');
+            $this->addFlash('success', 'Le profil a bien été créé !');
 
             // Redirection de l'utilisateur sur l'accueil
             return $this->redirectToRoute('accueil_home');
