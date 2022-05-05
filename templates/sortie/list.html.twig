@@ -99,7 +99,7 @@
                         {% else %}
                             <td> </td>
                         {% endif %}
-                    <td>{{ sortie.organisateur.nom }}</td>
+                    <td><a href="{{ path('participant_afficher_profil',{'idp' : sortie.organisateur.id,'ids' : sortie.id})}}">{{ sortie.organisateur.nom }}</a></td>
                     <td><a href="{{path ('sortie_detail', {'id' : sortie.id})}}">Afficher</a></td>
                     {% if app.user in sortie.inscrits and sortie.etat.id != 3 and sortie.etat.id != 5 and app.user != sortie.organisateur and sortie.etat.id != 6 %}
                         <td><a href="{{ path('sortie_desinscrire', {'id' : sortie.id}) }}">Se désinscrire </a><td>
