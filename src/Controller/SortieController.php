@@ -117,7 +117,7 @@ class SortieController extends AbstractController
         }
         else{
             //Ajouter un message d'erreur'
-            $this->addFlash('error', 'Votre sortie n\'a pas été créée !');
+            $this->addFlash('alert alert-danger', 'Votre sortie n\'a pas été créée !');
         }
 
         // Envoi du formulaire à la vue
@@ -154,7 +154,7 @@ class SortieController extends AbstractController
 
             } else {
                 //Ajouter un message d'erreur'
-                $this->addFlash('error', 'Votre sortie n\'a pas pu être annulée... Veuillez contacter l\'administrateur.');
+                $this->addFlash('alert alert-danger', 'Votre sortie n\'a pas pu être annulée... Veuillez contacter l\'administrateur.');
             }
         }
 
