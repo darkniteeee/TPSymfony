@@ -19,7 +19,7 @@ class AnnulationType extends AbstractType
 
         $builder
             ->add('submit', SubmitType::class, [
-                'label' => 'Annuler la sortie']);
+                'label' => 'Confirmer']);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

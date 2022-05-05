@@ -76,7 +76,7 @@
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">#</th>
+                <th scope="col"> </th>
                 <th scope="col">Nom de la sortie</th>
                 <th scope="col">Date de sortie</th>
                 <th scope="col">Clôture</th>
@@ -104,14 +104,15 @@
                         {% endif %}
                     <td>{{ sortie.organisateur.nom }}</td>
                     <td><a href="{{path ('sortie_detail', {'id' : sortie.id})}}">Afficher</a></td>
-                    {% if app.user in sortie.inscrits  %}
+                    {% if app.user in sortie.inscrits and sortie.etat.id != 3 and sortie.etat.id != 5 and app.user != sortie.organisateur and sortie.etat.id != 6 %}
                         <td><a href="{{ path('sortie_desinscrire', {'id' : sortie.id}) }}">Se désinscrire </a><td>
                     {% else %}
-                        {% if app.user != sortie.organisateur %}
+                        {% if app.user != sortie.organisateur and sortie.etat.id != 3 and sortie.etat.id != 5 and sortie.etat.id != 1 and sortie.etat.id != 6 %}
                         <td> <a href="{{path ('sortie_inscription', {'id' : sortie.id})}}">S'inscrire</a></td>
                         {% endif %}
                     {% endif %}
-                    {% if sortie.etat.libelle == "Créée" and app.user == sortie.organisateur %}
+
+                    {% if sortie.etat.id == 1 and app.user == sortie.organisateur %}
                         <td><a href="#">Modifier</a> - <a href="#">Publier</a></td>
                     {% endif %}
                 </tr>
