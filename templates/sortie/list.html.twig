@@ -1,9 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block informations%}
-
+<div class="d-flex justify-content-end">
     <h5>Date du jour : {{ "now"|date('d/m/Y') }}</h5>
+</div>
+<div class="d-flex justify-content-end">
     <h5>Participant: {{ app.user.prenom }}.{{ app.user.nom }}</h5>
+</div>
 
 {% endblock %}
 
@@ -23,12 +26,6 @@
                 {% endfor %}
             </select>
 
-            <select class="custom-select mb-3" name="recherche_etat" aria-label="Example select with button addon">
-                <option selected>Choisir le statut</option>
-                {% for etat in etats %}
-                    <option value="{{ etat.id }}" {{ (etat.id in app.request.get('recherche_etat')) ? 'selected' : '' }}>{{ etat.libelle }}</option>
-                {% endfor %}
-            </select>
 
 <!-- Traitement des recherches choix des dates -->
             <div class="mb-3">
