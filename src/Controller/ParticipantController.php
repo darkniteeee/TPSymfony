@@ -111,6 +111,9 @@ class ParticipantController extends AbstractController
             // Hashage du mot de passe
             $participant->setPassword($participantPasswordHasher->hashPassword($participant, $participant->getPassword()));
 
+            if($participant->getAdministrateur() == true ){
+                $participant->addRole("ROLE_ADMIN");
+            }
             // Association de l'objet
             $entityManager->persist($participant);
 

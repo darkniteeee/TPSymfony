@@ -7,6 +7,7 @@ use App\Entity\Site;
 use App\Repository\SiteRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -59,6 +60,12 @@ class InscriptionType extends AbstractType
                     return $sr->createQueryBuilder('site')
                         ->orderBy('site.nom_site', 'ASC');},
                 'choice_label' => 'nom_site']);
+
+        $builder
+            ->add('administrateur', CheckboxType::class ,[
+               'label' => 'administrateur',
+                'required' => false,
+            ]);
 
 
         $builder
