@@ -94,11 +94,11 @@ class ParticipantController extends AbstractController
         //Vérification de la soumission du formulaire
         if ($formInscription->isSubmitted() && $formInscription->isValid()){
             $password = $participant->getPassword();
-
+            $participant -> setSiteId($formInscription->get('site')->getData());
             // Vérification du mot de passe hors assert
             $regex = "/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{12,}$/";
             if(!preg_match($regex, $password)){
-                $error['password'] = "Le mot de passe doit contenir 12 lettres y compris un chiffre !";
+                $error['password'] = "Le mot de passe doit contenir au moins 12 caractères dont au moins un chiffre !";
                 $this->addFlash('warning', 'Le mot de passe doit contenir 12 lettres y compris un chiffre !');
                 return $this->render('participant/inscription.html.twig',
                     [
@@ -107,12 +107,11 @@ class ParticipantController extends AbstractController
 
                     ]);
             }
-            //pour gwendo
 
             // Hashage du mot de passe
             $participant->setPassword($participantPasswordHasher->hashPassword($participant, $participant->getPassword()));
 
-            if($participant->getAdministrateur() == true ){
+            if($participant->getAdministrateur()){
                 $participant->addRole("ROLE_ADMIN");
             }
             else{
@@ -165,7 +164,7 @@ class ParticipantController extends AbstractController
             if(!preg_match($regex, $newPassword)){
 
                 // $error['password'] = "Le mot de passe doit contenir 12 lettres y compris un chiffre !";
-                $this->addFlash('warning', 'Le mot de passe doit contenir 12 lettres y compris un chiffre !');
+                $this->addFlash('warning', 'Le mot de passe doit contenir au moins 12 caractères dont au moins un chiffre !');
 
                 return $this->render('participant/modifier_password.html.twig', [
                     'formModifierPassword' => $formModifierPassword->createView(),

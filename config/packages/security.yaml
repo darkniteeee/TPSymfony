@@ -45,10 +45,12 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
 
-        - { path: ^/participant/inscrire, roles: PUBLIC_ACCESS }
-        - { path: ^/security/login, roles: ROLE_VISITEUR }
+
+        - { path: ^/security/login, roles: PUBLIC_ACCESS }
         - { path: ^/participant/modifier_profil, roles: ROLE_USER }
-        - { path: ^^/security/logout, roles: ROLE_USER }
+        - { path: ^/sortie, roles: ROLE_USER }
+        - { path: ^/security/logout, roles: ROLE_USER }
+        - { path: ^/participant/inscrire, roles: ROLE_ADMIN }
         - { path: ^/lieu, roles: ROLE_ADMIN }
         - { path: ^/ville, roles: ROLE_ADMIN }
         - { path: ^/site, roles: ROLE_SUPER_ADMIN }
@@ -58,9 +60,7 @@ security:
 
         ROLE_SUSPENDU: ROLE_SUSPENDU
         ROLE_USER: ROLE_USER
-        ROLE_PARTICIPANT: [ROLE_PARTICIPANT, ROLE_USER]
-        ROLE_ORGANISATEUR: [ROLE_ORGANISATEUR, ROLE_PARTICIPANT]
-        ROLE_ADMIN: [ROLE_ADMIN, ROLE_ORGANISATEUR]
+        ROLE_ADMIN: [ROLE_ADMIN, ROLE_USER]
         ROLE_SUPER_ADMIN: [ROLE_SUPER_ADMIN, ROLE_ADMIN ,ROLE_ALLOWED_TO_SWITCH]
 
 when@test:
